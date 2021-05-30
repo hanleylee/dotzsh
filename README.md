@@ -1,2 +1,3 @@
 # dotsh
-my shell config
+
+my shell(zsh) configuration

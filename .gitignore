@@ -1,0 +1,7 @@
+.zsh_sessions/
+.zinit/
+.zsh_history
+.z
+.zcompdump
+
+.DS_Store
