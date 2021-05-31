@@ -56,28 +56,33 @@ OBJC_INCLUDE_PATH=''
 export OBJC_INCLUDE_PATH
 
 # 添加自定义的pkg-config路径, 默认的路径为 /usr/local/lib/pkgconfig
-PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/lib/pkgconfig
-PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig
-PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig
-PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig
+[[ -d "$HOMEBREW_PREFIX/lib/pkgconfig" ]]                 && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/lib/pkgconfig
+[[ -d "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig" ]]        && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig
+[[ -d "$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig" ]]        && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig
+[[ -d "$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig" ]] && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig
 export PKG_CONFIG_PATH
 
 export VIMCONFIG="$HOME/.vim"
 export XDG_CACHE_HOME="$HOME/.cache"
 
 #███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
-CPPFLAGS=$(pkg-config --cflags glib-2.0 zlib)
+
+pkg_contain glib-2.0 && PKG+="glib-2.0 "
+pkg_contain zlib && PKG+="zlib "
+pkg_contain openssl && PKG+="openssl"
+
+CPPFLAGS=$(pkg-config --cflags $PKG)
 export CPPFLAGS
 
-CXXFLAGS=$(pkg-config --cflags glib-2.0 zlib)
+CXXFLAGS=$(pkg-config --cflags $PKG)
 export CXXFLAGS
 
-CFLAGS=$(pkg-config --cflags glib-2.0 zlib openssl)
+CFLAGS=$(pkg-config --cflags $PKG)
 export CFLAGS
 
 # export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
 # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
-LDFLAGS=$(pkg-config --libs glib-2.0 zlib openssl)
+LDFLAGS=$(pkg-config --libs $PKG)
 export LDFLAGS
 
 # export LDFLAGS="-L/$HOMEBREW_PREFIX/opt/openssl/lib"
