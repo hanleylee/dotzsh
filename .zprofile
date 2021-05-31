@@ -18,6 +18,12 @@ setopt HIST_IGNORE_SPACE
 #███████████████████████   PATH Variables   ██████████████████████████
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
+[[ -d "/bin" ]] && PATH="/bin:$PATH"
+[[ -d "/sbin" ]] && PATH="/sbin:$PATH"
+[[ -d "/usr/bin" ]] && PATH="/usr/bin:$PATH"
+[[ -d "/usr/sbin" ]] && PATH="/usr/sbin:$PATH"
+[[ -d "/usr/local/bin" ]] && PATH="/usr/local/bin:$PATH"
+[[ -d "/usr/local/sbin" ]] && PATH="/usr/local/sbin:$PATH"
 [[ -d "/opt/MonkeyDev/bin" ]] && PATH="/opt/MonkeyDev/bin:$PATH"
 [[ -d "$HOMEBREW_PREFIX/bin" ]] && PATH="$HOMEBREW_PREFIX/bin:$PATH"
 [[ -d "$HOMEBREW_PREFIX/sbin" ]] && PATH="$HOMEBREW_PREFIX/sbin:$PATH"
