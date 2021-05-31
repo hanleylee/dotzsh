@@ -33,9 +33,3 @@ function source_if_exists() {
         [[ -f $file ]] && source $file
     done
 }
-
-# pkg-config contain this package or not
-# -> Bool
-function pkg_contain() {
-    pkg-config --list-all | grep $1 &> /dev/null
-}

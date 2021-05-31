@@ -60,6 +60,7 @@ export OBJC_INCLUDE_PATH
 [[ -d "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig" ]]        && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig
 [[ -d "$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig" ]]        && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig
 [[ -d "$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig" ]] && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig
+# export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
 export PKG_CONFIG_PATH
 
 export VIMCONFIG="$HOME/.vim"
@@ -67,22 +68,21 @@ export XDG_CACHE_HOME="$HOME/.cache"
 
 #███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
 
-pkg_contain glib-2.0 && PKG+="glib-2.0 "
-pkg_contain zlib && PKG+="zlib "
-pkg_contain openssl && PKG+="openssl"
+pkg-config --exists glib-2.0 && PKGS+="glib-2.0 "
+pkg-config --exists zlib && PKGS+="zlib "
+pkg-config --exists openssl && PKGS+="openssl"
 
-CPPFLAGS=$(pkg-config --cflags $PKG)
+CPPFLAGS=$(pkg-config --cflags $PKGS)
 export CPPFLAGS
 
-CXXFLAGS=$(pkg-config --cflags $PKG)
+CXXFLAGS=$(pkg-config --cflags $PKGS)
 export CXXFLAGS
 
-CFLAGS=$(pkg-config --cflags $PKG)
+CFLAGS=$(pkg-config --cflags $PKGS)
 export CFLAGS
 
-# export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
 # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
-LDFLAGS=$(pkg-config --libs $PKG)
+LDFLAGS=$(pkg-config --libs $PKGS)
 export LDFLAGS
 
 # export LDFLAGS="-L/$HOMEBREW_PREFIX/opt/openssl/lib"
