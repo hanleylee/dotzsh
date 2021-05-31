@@ -1,4 +1,4 @@
-[ -f "$HOME/.sh/base/preinit.sh" ] && . "$HOME/.sh/base/preinit.sh"
+[[ -f "$HOME/.sh/base/preinit.sh" ]] && . "$HOME/.sh/base/preinit.sh"
 
 #███████████████████████   MAIN   ██████████████████████████
 export LC_CTYPE="en_US.UTF-8"
@@ -181,20 +181,20 @@ export _ZL_FZF=$FZF_HIDDEN_PREVIEW
 #███████████████████████   ALIAS   ██████████████████████████
 alias reignore='git rm -r --cached . && git add .'
 alias whyignore='git check-ignore -v'
-command_exists trash             && alias rm='trash'
-command_exists nvim              && alias nv="nvim"
-command_exists exa               && alias l='exa -laghHimU --git --group-directories-first --icons -F' || alias l='ls -lhia'
-command_exists ranger            && alias r='source ranger'
-[[ -d "$HOME/.hlconfig.git" ]]   && alias hlconfig="git --git-dir=$HOME/.hlconfig.git/ --work-tree=$HOME"
+command_exists trash              && alias rm='trash'
+command_exists nvim               && alias nv="nvim"
+command_exists exa                && alias l='exa -laghHimU --git --group-directories-first --icons -F' || alias l='ls -lhia'
+command_exists ranger             && alias r='source ranger'
+[[ -d "$HOME/.hlconfig.git" ]]    && alias hlconfig="git --git-dir=$HOME/.hlconfig.git/ --work-tree=$HOME"
 [[ -f "/opt/homebrew/bin/brew" ]] && alias abrew='arch -arm64 /opt/homebrew/bin/brew'
-[[ -f "/usr/local/bin/brew" ]]   && alias ibrew='arch -x86_64 /usr/local/bin/brew'
+[[ -f "/usr/local/bin/brew" ]]    && alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
 if command_exists vim; then
     alias vim0='vim -u NONE -U NONE -N -i NONE'
-    alias vim1='vim --cmd "let g:vim_weight=0"'
-    alias vim2='vim --cmd "let g:vim_weight=1"'
-    alias vim3='vim --cmd "let g:vim_weight=2"'
-    alias vim4='vim --cmd "let g:vim_weight=3"'
+    alias vim1='vim --cmd "let g:vim_weight=1"'
+    alias vim2='vim --cmd "let g:vim_weight=2"'
+    alias vim3='vim --cmd "let g:vim_weight=3"'
+    alias vim4='vim --cmd "let g:vim_weight=4"'
 fi
 
 # alias Z='z -I .'

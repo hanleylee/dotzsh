@@ -16,11 +16,14 @@ else
     echo "Unknown architecture: ${arch_name}"
 fi
 
-# one command exist or not
+# all command passed exist or not
 # -> Bool
 function command_exists() {
+    for cmd in $@; do
+        command -v $cmd &> /dev/null || return 1
+    done
     # command -v $1 &> /dev/null
-    [[ -x "$(command -v $1)" ]]
+    # [[ -x "$(command -v $1)" ]]
 }
 
 # source if file exists, can pass many file

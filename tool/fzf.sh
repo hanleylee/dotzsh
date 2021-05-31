@@ -2,6 +2,10 @@
 
 # Setup fzf
 # ---------
+if ! command_exists fzf brew ; then
+    return
+fi
+
 fzf_path=$(brew --prefix fzf)
 if [[ ! "$PATH" == *${fzf_path}/bin* ]]; then
     export PATH="${PATH:+${PATH}:}${fzf_path}/bin"

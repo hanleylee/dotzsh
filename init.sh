@@ -138,7 +138,7 @@ zstyle ':completion:*:exa' sort false
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245,underline" # 提示样式, 可设置前景, 背景, 加粗, 下划线
 
 #***************   scmpuff   *****************
-eval "$(scmpuff init -s)"
+command_exists scmpuff && eval "$(scmpuff init -s)"
 
 #███████████████████████   BINDKEYS   ██████████████████████████
 zle -N _zfzf
@@ -149,7 +149,7 @@ bindkey -s "^o" 'r^M'
 bindkey "^u" backward-kill-line
 bindkey '^h' _zfzf
 
-#***************   Variable   *****************
+#***************   source   *****************
 source_if_exists "$HOME/.sh/base/variable.sh" \
     "$HOME/.sh/tool/fzf.sh" \
     "$HOME/.config/lf/lfcd.sh" \
