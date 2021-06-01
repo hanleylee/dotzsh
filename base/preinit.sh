@@ -2,14 +2,14 @@
 
 arch_name=$(uname -m)
 
-if [[ ${arch_name} =~ "x86_64" ]]; then
+if [[ ${arch_name} = "x86_64" ]]; then
     export HOMEBREW_PREFIX='/usr/local'
     if [ $(sysctl -in sysctl.proc_translated) = "1" ]; then
         echo "Running on Rosetta 2"
     else
         echo "Running on native Intel"
     fi 
-elif [[ ${arch_name} =~ "arm64" ]]; then
+elif [[ ${arch_name} = "arm64" ]]; then
     export HOMEBREW_PREFIX='/opt/homebrew'
     echo "Running on ARM"
 # elif [[ $arch_name =~ "iPhone" ]]; then
