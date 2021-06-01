@@ -154,11 +154,3 @@ source_if_exists "$HOME/.sh/base/variable.sh" \
     "$HOME/.sh/tool/fzf.sh" \
     "$HOME/.config/lf/lfcd.sh" \
     "$HOME/.sh/tool/custom_func.sh"
-
-#***************   FZF   *****************
-# source_if_exists "$HOME/.config/sh/fzf.sh"
-
-#***************   LF   *****************
-# source_if_exists 
-#***************   Custom Method   *****************
-# source_if_exists 
