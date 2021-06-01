@@ -199,11 +199,11 @@ command_exists ranger             && alias r='source ranger'
 [[ -f "/usr/local/bin/brew" ]]    && alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
 if command_exists vim; then
-    alias vim0='vim -u NONE -U NONE -N -i NONE'
-    alias vim1='vim --cmd "let g:vim_weight=1"'
-    alias vim2='vim --cmd "let g:vim_weight=2"'
-    alias vim3='vim --cmd "let g:vim_weight=3"'
-    alias vim4='vim --cmd "let g:vim_weight=4"'
+    alias v0='vim -u NONE -U NONE -N -i NONE'
+    alias v1='vim --cmd "let g:vim_weight=1"'
+    alias v2='vim --cmd "let g:vim_weight=2"'
+    alias v3='vim --cmd "let g:vim_weight=3"'
+    alias v4='vim --cmd "let g:vim_weight=4"'
 fi
 
 # alias Z='z -I .'
