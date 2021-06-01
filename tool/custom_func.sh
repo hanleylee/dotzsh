@@ -18,27 +18,6 @@ ta() {
     fi
 }
 
-# 用于简化 commit -> git push
-function hpp() {
-    echo -e "\n${GREEN}==> Add All Changes${NC}"
-    hlconfig add -u
-
-    echo -e "\n${GREEN}==> Commit${NC}"
-    hlconfig commit -m "daily $(date "+%Y-%m-%d")"
-
-    echo -e "\n${GREEN}==> Pull Rebase${NC}"
-    hlconfig pull --rebase || (
-        echo -e "${RED}Can't Rebase!!!${NC}"
-        exit 1
-    )
-
-    echo -e "\n${GREEN}==> Push${NC}"
-    hlconfig push || (
-        echo -e "${RED}Can't Push!!! ${NC}"
-        exit 1
-    )
-}
-
 function gdf() {
     params="$@"
     if brew ls --versions scmpuff > /dev/null; then

@@ -31,8 +31,6 @@ typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 [[ -d "$HOME/.rbenv/shims" ]] && PATH="$HOME/.rbenv/shims:$PATH"
 [[ -d "$HOME/.pyenv/shims" ]] && PATH="$HOME/.pyenv/shims:$PATH"
 [[ -d "$HOME/.local/bin" ]] && PATH="$HOME/.local/bin:$PATH"
-[[ -d "$HOME/.local/bin/sh" ]] && PATH="$HOME/.local/bin/sh:$PATH"
-[[ -d "$HOME/.local/bin/py" ]] && PATH="$HOME/.local/bin/py:$PATH"
 [[ -d "$HOMEBREW_PREFIX/opt/openssl@1.1/bin" ]] && PATH="$HOMEBREW_PREFIX/opt/openssl@1.1/bin:$PATH"
 # export PATH="$HOMEBREW_PREFIX/opt/llvm/bin:$PATH"
 # export PATH="$GEM_HOME/bin:$PATH"
