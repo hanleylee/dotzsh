@@ -1,4 +1,4 @@
-[[ -f "$HOME/.sh/init.sh" ]] && source "$HOME/.sh/init.sh"
+[[ -f "$HOME/.sh/init.zsh" ]] && source "$HOME/.sh/init.zsh"
 
 #███████████████████████   MAIN   ██████████████████████████
 export LC_CTYPE="en_US.UTF-8"

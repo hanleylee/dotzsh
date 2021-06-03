@@ -1,1 +1,1 @@
-[[ -f "$HOME/.sh/init.sh" ]] && source "$HOME/.sh/init.sh"
+[[ -f "$HOME/.sh/init.zsh" ]] && source "$HOME/.sh/init.zsh"

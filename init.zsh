@@ -1,5 +1,5 @@
-if [ -z "$_INIT_SH_LOADED" ]; then
-    _INIT_SH_LOADED=1
+if [ -z "$_INIT_ZSH_LOADED" ]; then
+    _INIT_ZSH_LOADED=1
 else
     return
 fi
