@@ -11,7 +11,7 @@ fi
 #     *) return
 # esac
 
-[[ -f "$HOME/.sh/base/preinit.sh" ]] && . "$HOME/.sh/base/preinit.sh"
+[[ -f "$HOME/.sh/base/preinit.zsh" ]] && . "$HOME/.sh/base/preinit.zsh"
 
 #███████████████████████   PATH Variables   ██████████████████████████
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
