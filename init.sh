@@ -1,5 +1,3 @@
-# 交互式模式的初始化脚本
-# 防止被加载两次
 if [ -z "$_INIT_SH_LOADED" ]; then
     _INIT_SH_LOADED=1
 else
@@ -8,149 +6,207 @@ fi
 
 # 如果是非交互式则退出, 比如 bash test.sh 这种调用 bash 运行脚本时就不是交互式
 # 只有直接敲 bash 进入的等待用户输入命令的那种模式才成为交互式, 才往下初始化
-case "$-" in
-    *i*) ;;
-    *) return
-esac
+# case "$-" in
+#     *i*) ;;
+#     *) return
+# esac
 
-HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
+[[ -f "$HOME/.sh/base/preinit.sh" ]] && . "$HOME/.sh/base/preinit.sh"
 
-##███████████████████████   PLUGINS   ██████████████████████████
+#███████████████████████   PATH Variables   ██████████████████████████
+typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
-### Added by Zinit's installer
-if [[ ! -f $HOME/.sh/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.sh/.zinit" && command chmod g-rwX "$HOME/.sh/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.sh/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+[[ -d "/bin" ]]                                       && PATH="/bin:$PATH"
+[[ -d "/sbin" ]]                                      && PATH="/sbin:$PATH"
+[[ -d "/usr/bin" ]]                                   && PATH="/usr/bin:$PATH"
+[[ -d "/usr/sbin" ]]                                  && PATH="/usr/sbin:$PATH"
+[[ -d "/opt/MonkeyDev/bin" ]]                         && PATH="/opt/MonkeyDev/bin:$PATH"
+[[ -d "$HOMEBREW_PREFIX/bin" ]]                       && PATH="$HOMEBREW_PREFIX/bin:$PATH"
+[[ -d "$HOMEBREW_PREFIX/sbin" ]]                      && PATH="$HOMEBREW_PREFIX/sbin:$PATH"
+[[ -d "$HOMEBREW_PREFIX/opt/make/libexec/gnubin" ]]   && PATH="$HOMEBREW_PREFIX/opt/make/libexec/gnubin:$PATH"
+[[ -d "$HOMEBREW_PREFIX/opt/openssl@1.1/bin" ]]       && PATH="$HOMEBREW_PREFIX/opt/openssl@1.1/bin:$PATH"
+[[ -d "$HOME/.cargo/bin" ]]                           && PATH="$HOME/.cargo/bin:$PATH"
+[[ -d "$HOME/.rbenv/shims" ]]                         && PATH="$HOME/.rbenv/shims:$PATH"
+[[ -d "$HOME/.pyenv/shims" ]]                         && PATH="$HOME/.pyenv/shims:$PATH"
+[[ -d "$HOME/.local/bin" ]]                           && PATH="$HOME/.local/bin:$PATH"
+[[ -d "$HOME/.local/bin/sh" ]]                        && PATH="$HOME/.local/bin/sh:$PATH"
+[[ -d "$HOME/.local/bin/py" ]]                        && PATH="$HOME/.local/bin/py:$PATH"
+# export PATH="$HOMEBREW_PREFIX/opt/llvm/bin:$PATH"
+# export PATH="$GEM_HOME/bin:$PATH"
+# export PATH="/usr/local/opt/ruby/bin:$PATH"
+# export PATH="/usr/local/opt/openjdk/bin:$PATH"
+export PATH
+
+# 为 system 范围添加 header 路径, 会影响到 vim 的 ycm 与 ale.
+[[ -d "$HOMEBREW_PREFIX/include" ]] && HL_HEADER="$HOMEBREW_PREFIX/include:$HL_HEADER"
+[[ -d "$HOME/.local/share/header" ]] && HL_HEADER="$HOME/.local/share/header:$HL_HEADER"
+export HL_HEADER
+
+# refer to <https://gcc.gnu.org/onlinedocs/cpp/Environment-Variables.html>
+# CPATH 会对 c, c++, objc 这三种语言的搜索路径起作用
+# 而 C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, OBJC_INCLUDE_PATH 只对其对应语言的编译起作用
+# 其作用类似于使用 `-I path`, 在此处进行了变量的定义后方便全局都起作用
+CPATH=$HL_HEADER
+export CPATH
+
+C_INCLUDE_PATH=''
+export C_INCLUDE_PATH
+
+CPLUS_INCLUDE_PATH=''
+export CPLUS_INCLUDE_PATH
+
+OBJC_INCLUDE_PATH=''
+export OBJC_INCLUDE_PATH
+
+export VIMCONFIG="$HOME/.vim"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+# 添加自定义的pkg-config路径, 默认的路径为 /usr/local/lib/pkgconfig
+[[ -d "$HOMEBREW_PREFIX/lib/pkgconfig" ]]                 && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/lib/pkgconfig
+[[ -d "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig" ]]        && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig
+[[ -d "$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig" ]]        && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig
+[[ -d "$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig" ]] && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig
+# export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+export PKG_CONFIG_PATH
+
+#███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
+if command_exists pkg-config; then
+    pkg-config --exists glib-2.0 && PKGS+="glib-2.0 "
+    pkg-config --exists zlib && PKGS+="zlib "
+    pkg-config --exists openssl && PKGS+="openssl"
+
+    CPPFLAGS=$(pkg-config --cflags $PKGS)
+    export CPPFLAGS
+
+    CXXFLAGS=$(pkg-config --cflags $PKGS)
+    export CXXFLAGS
+
+    CFLAGS=$(pkg-config --cflags $PKGS)
+    export CFLAGS
+
+    # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
+    LDFLAGS=$(pkg-config --libs $PKGS)
+    export LDFLAGS
 fi
 
-source "$HOME/.sh/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+# export LDFLAGS="-L/$HOMEBREW_PREFIX/opt/openssl/lib"
+# export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl/include"
 
-# Common ICE modifiers
-@zi_lucid() {
-    zinit ice lucid "$@"
-}
+#***************   GPG   *****************
+export GPG_TTY=$(tty)
 
-@zi_w0() {
-    @zi_lucid wait'0' "$@"
-}
+#***************   Homebrew   *****************
+export HOMEBREW_NO_AUTO_UPDATE=true # 禁用 Homebrew 每次安装软件时的更新
 
-@zi_w1() {
-    @zi_lucid wait'1' "$@"
-}
+#***************   MonkeyDev   *****************
+[[ -d "/opt/MonkeyDev" ]] && export MonkeyDevPath="/opt/MonkeyDev"
+export MonkeyDevDeviceIP=
 
-@zi_completion() {
-    @zi_w1 as'completion' blockf "$@"
-}
+#***************   PYTHON   *****************
+export PYTHON_CONFIGURE_OPTS="--enable-framework"
 
-@zi_w0 atload'_zsh_autosuggest_start'
-zinit light zsh-users/zsh-autosuggestions
+#***************   RUBY   *****************
+# export RUBY_CONFIGURE_OPTS=--with-openssl-dir=$HOMEBREW_PREFIX/opt/openssl@1.1
+# export GEM_HOME="$HOME/.gem"
 
-# 语法高亮
-@zi_w0 atinit='zpcompinit'
-zinit light zdharma/fast-syntax-highlighting
+#***************   GTAGS   *****************
+export GTAGSLABEL='native-pygments'
+[[ -f "$HOME/.config/global/.globalrc" ]] && export GTAGSCONF="$HOME/.config/global/.globalrc"
 
-@zi_w0
-zinit light zsh-users/zsh-completions
+#***************   fzf   *****************
+# --color fg:242,bg:236,hl:196,fg+:232,bg+:142,hl+:196:
+# --color info:108,prompt:109,spinner:108,pointer:168,marker:168
+# 默认 fzf 配置, 使用 fd 而不是系统的 find
+# --color fg:#ebdbb2,bg:#282828,hl:#fabd2f,fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f
+# --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#83a598,marker:#fe8019,header:#665c54
+# one dark
+FZF_HIDDEN_PREVIEW="\
+fzf-tmux \
+-p 90%,80% \
+--layout=reverse \
+--no-sort \
+--exact \
+--preview-window down:3:hidden:wrap \
+--bind '?:toggle-preview' \
+--border \
+--cycle \
+"
 
-@zi_w0
-zinit light urbainvaes/fzf-marks
+# -I 不忽略 .gitignore 列表内容(fd 默认是忽略的)
+export FZF_DEFAULT_COMMAND="\
+fd \
+--hidden \
+--follow \
+--exclude={Pods,.git,.idea,.sass-cache,node_modules,build} \
+--type f \
+"
 
-@zi_w0
-zinit light skywind3000/z.lua
+# --sort \, 默认是 --no-sort, 就是根据你原有的结果顺序为以后所有的顺序基础
+export FZF_DEFAULT_OPTS="\
+--history-size=50000 \
+--color=dark \
+--color=fg:#707a8c,bg:-1,hl:#3e9831,fg+:#cbccc6,bg+:#434c5e,hl+:#5fff87 \
+--color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7 \
+--layout=reverse \
+--no-sort \
+--exact \
+--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -N -C {}) 2> /dev/null | head -500' \
+--preview-window right:50%:hidden:wrap \
+--bind '?:toggle-preview' \
+--border \
+--cycle \
+"
+# --preview-window down:3:hidden:wrap
+# --preview-window 'right:60%'
+export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+export FZF_CTRL_T_OPTS=$FZF_DEFAULT_OPTS
+export FZF_CTRL_R_OPTS="\
+--layout=reverse \
+--no-sort \
+--exact \
+--preview 'echo {}' \
+--preview-window down:3:hidden:wrap \
+--bind '?:toggle-preview' \
+--border \
+--cycle \
+"
 
-@zi_w0 has'fzf'
-zinit light Aloxaf/fzf-tab
+export FZF_ALT_C_OPTS="--preview 'tree -N -C {} | head -500'"
+export FZF_TMUX_OPTS="-p 90%,80%" # 控制着fzf的window 是 popup 的还是 split panel 的
+export FZF_COMPLETION_TRIGGER='**'
 
-# ========
+[[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="${HOME}/.fzf-marks"
+export FZF_MARKS_COMMAND=$FZF_HIDDEN_PREVIEW
+export FZF_MARKS_JUMP="^g"
+export FZF_MARKS_NO_COLORS=0
+export FZF_MARKS_KEEP_ORDER=1
 
-zinit snippet OMZL::git.zsh
-zinit snippet OMZL::functions.zsh
-zinit snippet OMZL::completion.zsh
-zinit snippet OMZL::history.zsh
-zinit snippet OMZL::key-bindings.zsh
-zinit snippet OMZL::theme-and-appearance.zsh
+# z.lua 使用的 fzf 参数
+export _ZL_FZF=$FZF_HIDDEN_PREVIEW
 
-# ========
-zinit snippet OMZP::last-working-dir
+#███████████████████████   ALIAS   ██████████████████████████
+alias reignore='git rm -r --cached . && git add .'
+alias whyignore='git check-ignore -v'
+command_exists trash              && alias rm='trash'
+command_exists nvim               && alias nv="nvim"
+command_exists exa                && alias l='exa -laghHimU --git --group-directories-first --icons -F' || alias l='ls -lhia'
+command_exists ranger             && alias r='source ranger'
+[[ -d "$HOME/.hlconfig.git" ]]    && alias hlconfig="git --git-dir=$HOME/.hlconfig.git/ --work-tree=$HOME"
+[[ -f "/opt/homebrew/bin/brew" ]] && alias abrew='arch -arm64 /opt/homebrew/bin/brew'
+[[ -f "/usr/local/bin/brew" ]]    && alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
-@zi_w1
-zinit snippet OMZP::sudo
+if command_exists vim; then
+    alias v0='vim -u NONE -U NONE -N -i NONE'
+    alias v1='vim --cmd "let g:vim_weight=1"'
+    alias v2='vim --cmd "let g:vim_weight=2"'
+    alias v3='vim --cmd "let g:vim_weight=3"'
+    alias v4='vim --cmd "let g:vim_weight=4"'
+fi
 
-@zi_w1
-zinit snippet OMZP::colored-man-pages
+if command_exists vim; then
+    alias iproxy_iphone7='iproxy 2222 22'
+    alias iproxy_ipadpro='iproxy 2223 22'
+    alias iproxy_iphone12='iproxy 2224 22'
+fi
 
-@zi_w1
-zinit snippet OMZP::git
-
-@zi_completion
-zinit snippet OMZP::docker/_docker
-
-@zi_completion
-zinit snippet OMZP::cargo/_cargo
-
-@zi_completion
-zinit snippet OMZP::fd/_fd
-
-@zi_completion
-zinit snippet OMZP::pip/_pip
-
-zinit ice svn silent wait'1'
-zinit snippet OMZP::osx
-
-@zi_w1
-zinit snippet OMZP::command-not-found
-
-@zi_w1
-zinit snippet OMZP::git-auto-fetch
-
-zinit light HanleyLee/Handy
-
-# 为了使用 GitHub 项目的子目录作为 snippet，需要在 URL中添加 /trunk/{path-to-dir}
-# zinit ice svn
-# zinit snippet https://github.com/zsh-users/zsh-completions/trunk/src
-
-# @zi_w1
-# zinit snippet OMZP::zsh-interactive-cd
-
-# zinit ice svn
-# zinit snippet OMZP::gitfast
-
-#███████████████████████   zstyle   ██████████████████████████
-zstyle ':fzf-tab:complete:_zlua:*' query-string input
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-# zstyle ':fzf-tab:*' fzf-preview 'exa -1 --color=always $realpath'
-zstyle ':fzf-tab:*' popup-pad 30 10 # 宽内缩值, 高内缩值, 也可认为是扩展区域值
-zstyle ':fzf-tab:*' fzf-flags --preview-window=down:3:hidden:wrap
-zstyle ':fzf-tab:*' fzf-pad 4
-zstyle ":completion:*:git-checkout:*" sort false
-zstyle ':completion:*:exa' file-sort modification
-zstyle ':completion:*:exa' sort false
-# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-# zstyle ':fzf-tab:complete:cd:*' popup-pad 80 0
-
-#███████████████████████   Utilities Settings   ██████████████████████████
-#***************   autosuggest   *****************
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245,underline" # 提示样式, 可设置前景, 背景, 加粗, 下划线
-
-#***************   scmpuff   *****************
-command_exists scmpuff && eval "$(scmpuff init -s)"
-
-#███████████████████████   BINDKEYS   ██████████████████████████
-zle -N _zfzf
-
-bindkey -e # 使用 Emacs 键位
-bindkey ',' autosuggest-accept
-bindkey -s "^o" 'r^M'
-bindkey "^u" backward-kill-line
-bindkey '^h' _zfzf
-
-#***************   source   *****************
-source_if_exists "$HOME/.sh/base/variable.sh" \
-    "$HOME/.sh/tool/fzf.sh" \
-    "$HOME/.config/lf/lfcd.sh" \
-    "$HOME/.sh/tool/custom_func.sh"
+# alias Z='z -I .'
