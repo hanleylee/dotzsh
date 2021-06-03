@@ -156,7 +156,3 @@ source_if_exists "$HOME/.sh/base/variable.sh" \
     "$HOME/.config/lf/lfcd.sh" \
     "$HOME/.sh/tool/custom_func.sh" \
     "$HOME/.cargo/env"
-
-if [[ -n $SSH_CLIENT ]] || [[ -n $SSH_TTY ]]; then
-    neofetch
-fi
