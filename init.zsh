@@ -31,6 +31,7 @@ insert_path_if_exists "$HOME/.pyenv/shims"
 insert_path_if_exists "$HOME/.local/bin"
 insert_path_if_exists "$HOME/.local/bin/sh"
 insert_path_if_exists "$HOME/.local/bin/py"
+insert_path_if_exists "$HOME/.pyenv/bin"
 # export PATH="$HOMEBREW_PREFIX/opt/llvm/bin:$PATH"
 # export PATH="$GEM_HOME/bin:$PATH"
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
@@ -91,6 +92,11 @@ fi
 
 # export LDFLAGS="-L/$HOMEBREW_PREFIX/opt/openssl/lib"
 # export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl/include"
+
+#***************   pyenv   *****************
+if command_exists pyenv; then
+    eval "$(pyenv init --path)"
+fi
 
 #***************   GPG   *****************
 export GPG_TTY=$(tty)
