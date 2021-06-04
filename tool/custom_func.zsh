@@ -46,13 +46,13 @@ function whichd() {
 
 # ***************   zlua   *****************
 function _zfzf {
-     _zlua -I .
+    _zlua -I .
 
-     if [[ -z "$lines" ]]; then
-         zle && zle redraw-prompt
-         return 1
-     fi
- }
+    if [[ -z "$lines" ]]; then
+        zle && zle redraw-prompt
+        return 1
+    fi
+}
 
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"

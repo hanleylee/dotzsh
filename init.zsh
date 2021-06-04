@@ -11,26 +11,26 @@ fi
 #     *) return
 # esac
 
-[[ -f "$HOME/.sh/base/preinit.zsh" ]] && . "$HOME/.sh/base/preinit.zsh"
+[[ -f "$ZDOTDIR/base/preinit.zsh" ]] && . "$ZDOTDIR/base/preinit.zsh"
 
 #███████████████████████   PATH Variables   ██████████████████████████
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
-[[ -d "/bin" ]]                                       && PATH="/bin:$PATH"
-[[ -d "/sbin" ]]                                      && PATH="/sbin:$PATH"
-[[ -d "/usr/bin" ]]                                   && PATH="/usr/bin:$PATH"
-[[ -d "/usr/sbin" ]]                                  && PATH="/usr/sbin:$PATH"
-[[ -d "/opt/MonkeyDev/bin" ]]                         && PATH="/opt/MonkeyDev/bin:$PATH"
-[[ -d "$HOMEBREW_PREFIX/bin" ]]                       && PATH="$HOMEBREW_PREFIX/bin:$PATH"
-[[ -d "$HOMEBREW_PREFIX/sbin" ]]                      && PATH="$HOMEBREW_PREFIX/sbin:$PATH"
-[[ -d "$HOMEBREW_PREFIX/opt/make/libexec/gnubin" ]]   && PATH="$HOMEBREW_PREFIX/opt/make/libexec/gnubin:$PATH"
-[[ -d "$HOMEBREW_PREFIX/opt/openssl@1.1/bin" ]]       && PATH="$HOMEBREW_PREFIX/opt/openssl@1.1/bin:$PATH"
-[[ -d "$HOME/.cargo/bin" ]]                           && PATH="$HOME/.cargo/bin:$PATH"
-[[ -d "$HOME/.rbenv/shims" ]]                         && PATH="$HOME/.rbenv/shims:$PATH"
-[[ -d "$HOME/.pyenv/shims" ]]                         && PATH="$HOME/.pyenv/shims:$PATH"
-[[ -d "$HOME/.local/bin" ]]                           && PATH="$HOME/.local/bin:$PATH"
-[[ -d "$HOME/.local/bin/sh" ]]                        && PATH="$HOME/.local/bin/sh:$PATH"
-[[ -d "$HOME/.local/bin/py" ]]                        && PATH="$HOME/.local/bin/py:$PATH"
+insert_path_if_exists "/bin"
+insert_path_if_exists "/sbin"
+insert_path_if_exists "/usr/bin"
+insert_path_if_exists "/usr/sbin"
+insert_path_if_exists "/opt/MonkeyDev/bin"
+insert_path_if_exists "$HOMEBREW_PREFIX/bin"
+insert_path_if_exists "$HOMEBREW_PREFIX/sbin"
+insert_path_if_exists "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
+insert_path_if_exists "$HOMEBREW_PREFIX/opt/openssl@1.1/bin"
+insert_path_if_exists "$HOME/.cargo/bin"
+insert_path_if_exists "$HOME/.rbenv/shims"
+insert_path_if_exists "$HOME/.pyenv/shims"
+insert_path_if_exists "$HOME/.local/bin"
+insert_path_if_exists "$HOME/.local/bin/sh"
+insert_path_if_exists "$HOME/.local/bin/py"
 # export PATH="$HOMEBREW_PREFIX/opt/llvm/bin:$PATH"
 # export PATH="$GEM_HOME/bin:$PATH"
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
@@ -94,6 +94,26 @@ fi
 
 #***************   GPG   *****************
 export GPG_TTY=$(tty)
+
+#***************   LESS   *****************
+# Default pager
+export PAGER='less'
+
+# less options
+less_opts=(
+    # Quit if entire file fits on first screen.
+    -+F
+    -+X
+    # Ignore case in searches that do not contain uppercase.
+    --ignore-case
+    # Allow ANSI colour escapes, but no other escapes.
+    --RAW-CONTROL-CHARS
+    # Quiet the terminal bell. (when trying to scroll past the end of the buffer)
+    --quiet
+    # Do not complain when we are on a dumb terminal.
+    --dumb
+)
+export LESS="${less_opts[*]}"
 
 #***************   Homebrew   *****************
 export HOMEBREW_NO_AUTO_UPDATE=true # 禁用 Homebrew 每次安装软件时的更新
@@ -183,30 +203,3 @@ export FZF_MARKS_KEEP_ORDER=1
 
 # z.lua 使用的 fzf 参数
 export _ZL_FZF=$FZF_HIDDEN_PREVIEW
-
-#███████████████████████   ALIAS   ██████████████████████████
-alias reignore='git rm -r --cached . && git add .'
-alias whyignore='git check-ignore -v'
-command_exists trash              && alias rm='trash'
-command_exists nvim               && alias nv="nvim"
-command_exists exa                && alias l='exa -laghHimU --git --group-directories-first --icons -F' || alias l='ls -lhia'
-command_exists ranger             && alias r='source ranger'
-[[ -d "$HOME/.hlconfig.git" ]]    && alias hlconfig="git --git-dir=$HOME/.hlconfig.git/ --work-tree=$HOME"
-[[ -f "/opt/homebrew/bin/brew" ]] && alias abrew='arch -arm64 /opt/homebrew/bin/brew'
-[[ -f "/usr/local/bin/brew" ]]    && alias ibrew='arch -x86_64 /usr/local/bin/brew'
-
-if command_exists vim; then
-    alias v0='vim -u NONE -U NONE -N -i NONE'
-    alias v1='vim --cmd "let g:vim_weight=1"'
-    alias v2='vim --cmd "let g:vim_weight=2"'
-    alias v3='vim --cmd "let g:vim_weight=3"'
-    alias v4='vim --cmd "let g:vim_weight=4"'
-fi
-
-if command_exists vim; then
-    alias iproxy_iphone7='iproxy 2222 22'
-    alias iproxy_ipadpro='iproxy 2223 22'
-    alias iproxy_iphone12='iproxy 2224 22'
-fi
-
-# alias Z='z -I .'

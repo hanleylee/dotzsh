@@ -88,19 +88,19 @@ zinit snippet OMZP::colored-man-pages
 @zi_w1
 zinit snippet OMZP::git
 
-@zi_completion
+@zi_completion has'docker'
 zinit snippet OMZP::docker/_docker
 
-@zi_completion
+@zi_completion has'cargo'
 zinit snippet OMZP::cargo/_cargo
 
-@zi_completion
+@zi_completion has'fd'
 zinit snippet OMZP::fd/_fd
 
-@zi_completion
+@zi_completion has'pip'
 zinit snippet OMZP::pip/_pip
 
-zinit ice svn silent wait'1'
+zinit ice has'svn' svn silent wait'1'
 zinit snippet OMZP::osx
 
 @zi_w1
@@ -108,6 +108,9 @@ zinit snippet OMZP::command-not-found
 
 @zi_w1
 zinit snippet OMZP::git-auto-fetch
+
+zinit ice multisrc'*.{sh,zsh}'
+zinit load "$ZDOTDIR/tool"
 
 zinit light HanleyLee/Handy
 
@@ -151,8 +154,5 @@ bindkey "^u" backward-kill-line
 bindkey '^h' _zfzf
 
 #***************   source   *****************
-source_if_exists "$HOME/.sh/base/variable.sh" \
-    "$HOME/.sh/tool/fzf.sh" \
-    "$HOME/.config/lf/lfcd.sh" \
-    "$HOME/.sh/tool/custom_func.sh" \
+source_if_exists "$HOME/.config/lf/lfcd.sh" \
     "$HOME/.cargo/env"
