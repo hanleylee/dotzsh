@@ -109,8 +109,11 @@ zinit snippet OMZP::command-not-found
 @zi_w1
 zinit snippet OMZP::git-auto-fetch
 
-zinit ice multisrc'*.{sh,zsh}'
+zinit ice multisrc'*.zsh'
 zinit load "$ZDOTDIR/tool"
+
+zinit ice has'fzf' multisrc'*.zsh'
+zinit load "$ZDOTDIR/fzf"
 
 zinit light HanleyLee/Handy
 
@@ -156,3 +159,5 @@ bindkey '^h' _zfzf
 #***************   source   *****************
 source_if_exists "$HOME/.config/lf/lfcd.sh" \
     "$HOME/.cargo/env"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
