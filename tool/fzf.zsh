@@ -1,3 +1,15 @@
+# Setup fzf↩
+# ---------↩
+insert_path_if_exists "$HOME/.fzf/bin"
+
+# Auto-completion↩
+# ---------------↩
+[[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
+
+# Key bindings↩
+# ------------↩
+source "$HOME/.fzf/shell/key-bindings.zsh"
+
 fzf-history-widget-accept() {
     fzf-history-widget
     zle accept-line

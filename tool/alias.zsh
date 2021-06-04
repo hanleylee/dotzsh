@@ -4,7 +4,6 @@ alias whyignore='git check-ignore -v'
 command_exists trash              && alias rm='trash'
 command_exists nvim               && alias nv="nvim"
 command_exists exa                && alias l='exa -laghHimU --git --group-directories-first --icons -F' || alias l='ls -lhia'
-command_exists ranger             && alias r='source ranger'
 [[ -d "$HOME/.hlconfig.git" ]]    && alias hlconfig="git --git-dir=$HOME/.hlconfig.git/ --work-tree=$HOME"
 [[ -f "/opt/homebrew/bin/brew" ]] && alias abrew='arch -arm64 /opt/homebrew/bin/brew'
 [[ -f "/usr/local/bin/brew" ]]    && alias ibrew='arch -x86_64 /usr/local/bin/brew'

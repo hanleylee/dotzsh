@@ -112,9 +112,6 @@ zinit snippet OMZP::git-auto-fetch
 zinit ice multisrc'*.zsh'
 zinit load "$ZDOTDIR/tool"
 
-zinit ice has'fzf' multisrc'*.zsh'
-zinit load "$ZDOTDIR/fzf"
-
 zinit light HanleyLee/Handy
 
 # 为了使用 GitHub 项目的子目录作为 snippet，需要在 URL中添加 /trunk/{path-to-dir}
