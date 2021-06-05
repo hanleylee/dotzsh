@@ -1,6 +1,4 @@
-# Setup fzf↩
-# ---------↩
-insert_path_if_exists "$HOME/.fzf/bin"
+# MARK: fzf 必须通过源码安装
 
 # Auto-completion↩
 # ---------------↩
