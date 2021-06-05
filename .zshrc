@@ -157,4 +157,3 @@ bindkey '^h' _zfzf
 source_if_exists "$HOME/.config/lf/lfcd.sh" \
     "$HOME/.cargo/env"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

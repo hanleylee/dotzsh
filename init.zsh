@@ -29,15 +29,12 @@ insert_path_if_exists "$HOME/.cargo/bin"
 insert_path_if_exists "$HOME/.rbenv/shims"
 insert_path_if_exists "$HOME/.pyenv/shims"
 insert_path_if_exists "$HOME/.local/bin"
-insert_path_if_exists "$HOME/.local/bin/sh"
-insert_path_if_exists "$HOME/.local/bin/py"
 insert_path_if_exists "$HOME/.pyenv/bin"
 insert_path_if_exists "$HOME/.fzf/bin"
 # export PATH="$HOMEBREW_PREFIX/opt/llvm/bin:$PATH"
 # export PATH="$GEM_HOME/bin:$PATH"
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
 # export PATH="/usr/local/opt/openjdk/bin:$PATH"
-export PATH
 
 # 为 system 范围添加 header 路径, 会影响到 vim 的 ycm 与 ale.
 [[ -d "$HOMEBREW_PREFIX/include" ]] && HL_HEADER="$HOMEBREW_PREFIX/include:$HL_HEADER"
@@ -62,6 +59,8 @@ export OBJC_INCLUDE_PATH
 
 export VIMCONFIG="$HOME/.vim"
 export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local"
 
 # 添加自定义的pkg-config路径, 默认的路径为 /usr/local/lib/pkgconfig
 [[ -d "$HOMEBREW_PREFIX/lib/pkgconfig" ]]                 && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/lib/pkgconfig
@@ -138,7 +137,7 @@ export PYTHON_CONFIGURE_OPTS="--enable-framework"
 
 #***************   GTAGS   *****************
 export GTAGSLABEL='native-pygments'
-[[ -f "$HOME/.config/global/.globalrc" ]] && export GTAGSCONF="$HOME/.config/global/.globalrc"
+[[ -f "$XDG_CONFIG_HOME/global/.globalrc" ]] && export GTAGSCONF="$XDG_CONFIG_HOME/global/.globalrc"
 
 #***************   fzf   *****************
 # --color fg:242,bg:236,hl:196,fg+:232,bg+:142,hl+:196:

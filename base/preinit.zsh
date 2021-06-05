@@ -44,7 +44,7 @@ function source_if_exists() {
 # Extend $PATH without duplicates
 function insert_path_if_exists() {
     [[ -d $1 ]] || return # detect if it is a directory, return if not
-    if ! $( echo "$PATH" | tr ":" "\n" | grep -qx "$1" ) ; then
-        export PATH="$1:$PATH"
-    fi
+    # if ! $( echo "$PATH" | tr ":" "\n" | grep -qx "$1" ) ; then
+    export PATH="$1:$PATH"
+    # fi
 }
