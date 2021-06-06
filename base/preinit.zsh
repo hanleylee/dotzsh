@@ -1,25 +1,31 @@
 # MARK: 仅用于添加一些需要在初始化开始时就需要的公共变量或方法
 
+system_name=$(uname)
 arch_name=$(uname -m)
 
-if [[ ${arch_name} = "x86_64" ]]; then
-    export HOMEBREW_PREFIX='/usr/local'
-    if [ $(sysctl -in sysctl.proc_translated) = "1" ]; then
-        ARCH_MSG="Running on Rosetta 2"
+if [[ $system_name == "Darwin" ]]; then
+    if [[ ${arch_name} = "x86_64" ]]; then
+        export HOMEBREW_PREFIX='/usr/local'
+        if [ $(sysctl -in sysctl.proc_translated) = "1" ]; then
+            ARCH_MSG="Running on Darwin(Rosetta 2)"
+        else
+            ARCH_MSG="Running on Darwin(native Intel)"
+        fi 
+    elif [[ ${arch_name} = "arm64" ]]; then
+        export HOMEBREW_PREFIX='/opt/homebrew'
+        ARCH_MSG="Running on Darwin(ARM)"
+        # elif [[ $arch_name =~ "iPhone" ]]; then
+        #     export HOMEBREW_PREFIX='/usr/local'
+        #     echo "Running on iPhone"
+        # elif [[ $arch_name =~ "iPad" ]]; then
+        #     export HOMEBREW_PREFIX='/usr/local'
+        #     echo "Running on iPad"
     else
-        ARCH_MSG="Running on native Intel"
-    fi 
-elif [[ ${arch_name} = "arm64" ]]; then
-    export HOMEBREW_PREFIX='/opt/homebrew'
-    ARCH_MSG="Running on ARM"
-# elif [[ $arch_name =~ "iPhone" ]]; then
-#     export HOMEBREW_PREFIX='/usr/local'
-#     echo "Running on iPhone"
-# elif [[ $arch_name =~ "iPad" ]]; then
-#     export HOMEBREW_PREFIX='/usr/local'
-#     echo "Running on iPad"
+        ARCH_MSG="Running on ${system_name}(${arch_name})"
+    fi
 else
-    ARCH_MSG="Unknown architecture: ${arch_name}"
+    ARCH_MSG="Running on ${system_name}(${arch_name})"
+
 fi
 export ARCH_MSG
 
