@@ -4,15 +4,15 @@ system_name=$(uname)
 arch_name=$(uname -m)
 
 if [[ $system_name == "Darwin" ]]; then
-    if [[ ${arch_name} = "x86_64" ]]; then
+    if [[ "${arch_name}" = "x86_64" ]]; then
         export HOMEBREW_PREFIX='/usr/local'
-        if [ $(sysctl -in sysctl.proc_translated) = "1" ]; then
+        if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
             ARCH_MSG="Running on Darwin(Rosetta 2)"
         else
             ARCH_MSG="Running on Darwin(native Intel)"
         fi 
-    elif [[ ${arch_name} = "arm64" ]]; then
-        export HOMEBREW_PREFIX='/opt/homebrew'
+    elif [[ "${arch_name}" = "arm64" ]]; then
+        export HOMEBREW_PREFIX="/opt/homebrew"
         ARCH_MSG="Running on Darwin(ARM)"
         # elif [[ $arch_name =~ "iPhone" ]]; then
         #     export HOMEBREW_PREFIX='/usr/local'
