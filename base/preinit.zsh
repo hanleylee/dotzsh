@@ -54,3 +54,9 @@ function insert_path_if_exists() {
     export PATH="$1:$PATH"
     # fi
 }
+
+function mkdir_if_not_exists() {
+    for dir in $@; do
+    [[ -d $dir ]] || mdkir -pv $dir
+    done
+}
