@@ -57,6 +57,6 @@ function insert_path_if_exists() {
 
 function mkdir_if_not_exists() {
     for dir in $@; do
-    [[ -d $dir ]] || mdkir -pv $dir
+    [[ -d $dir ]] || mkdir -pv $dir
     done
 }
