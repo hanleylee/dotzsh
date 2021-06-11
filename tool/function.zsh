@@ -130,6 +130,15 @@ glog() {
         --bind="enter:execute:$view_commit | less -R" \
         --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
 }
+
+git_keep_one() {
+    git pull --depth 1
+    git reflog expire --expire=all --all
+    git tag -l | xargs git tag -d
+    git stash drop
+    git gc --prune=all
+}
+
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"
 #     local home="$HOME"
