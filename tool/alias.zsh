@@ -1,12 +1,12 @@
 #███████████████████████   ALIAS   ██████████████████████████
 alias reignore='git rm -r --cached . && git add .'
 alias whyignore='git check-ignore -v'
-command_exists trash              && alias rm='trash'
-command_exists nvim               && alias nv="nvim"
-command_exists exa                && alias l='exa -laghHimU --git --group-directories-first --icons -F' || alias l='ls -lhia'
-[[ -d "$HOME/.hlconfig.git" ]]    && alias hlconfig="git --git-dir=$HOME/.hlconfig.git/ --work-tree=$HOME"
+command_exists trash && alias rm='trash'
+command_exists nvim && alias nv="nvim"
+if command_exists exa; then alias l='exa -laghHimU --git --group-directories-first --icons -F'; else alias l='ls -lhia'; fi
+[[ -d "$HOME/.hlconfig.git" ]] && alias hlconfig='git --git-dir=$HOME/.hlconfig.git/ --work-tree=$HOME'
 [[ -f "/opt/homebrew/bin/brew" ]] && alias abrew='arch -arm64 /opt/homebrew/bin/brew'
-[[ -f "/usr/local/bin/brew" ]]    && alias ibrew='arch -x86_64 /usr/local/bin/brew'
+[[ -f "/usr/local/bin/brew" ]] && alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
 if command_exists vim; then
     alias v0='vim -u NONE -U NONE -N -i NONE'
@@ -32,7 +32,9 @@ alias myip='ifconfig | sed -En "s/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-
 # Password generator
 # Gemnerate random password, copies it into clipboard and outputs it to terminal
 if command_exists pbcopy; then
-  alias password='openssl rand -base64 ${1:-9} | pbcopy ; echo "$(pbpaste)"'
+    function password() {
+        openssl rand -base64 "${1:-9}" | pbcopy; pbpaste
+    }
 fi
 
 # Download web page with all assets

@@ -9,7 +9,7 @@ ofx() {
 if command_exists code; then
     # 在 vscode 中打开当前 finder 的文件夹
     codef() {
-        code $(pfd)
+        code "$(pfd)"
     }
 fi
 
@@ -24,9 +24,9 @@ fi
 
 if command_exists scmpuff; then
     function gdf() {
-        params="$@"
+        params="$*"
         if brew ls --versions scmpuff > /dev/null; then
-            params=`scmpuff expand "$@" 2>/dev/null`
+            params=$(scmpuff expand "$@" 2>/dev/null)
         fi
 
         if [ $# -eq 0 ]; then
@@ -40,13 +40,13 @@ if command_exists scmpuff; then
 fi
 
 function whichd() {
-    if `type $1 | grep -q 'is a shell function'`; then
-        type $1
-        which $1
-    elif `type $1 | grep -q 'is an alias'`; then
+    if type "$1" | grep -q 'is a shell function'; then
+        type "$1"
+        which "$1"
+    elif type "$1" | grep -q 'is an alias'; then
         PS4='+%x:%I>' zsh -i -x -c '' |& grep '>alias ' | grep "${1}="
     else
-        type $1
+        type "$1"
     fi
 }
 

@@ -10,7 +10,6 @@ fi
 #     *i*) ;;
 #     *) return
 # esac
-
 [[ -f "$ZDOTDIR/base/preinit.zsh" ]] && . "$ZDOTDIR/base/preinit.zsh"
 
 #███████████████████████   PATH Variables   ██████████████████████████
@@ -77,17 +76,17 @@ if command_exists pkg-config; then
     pkg-config --exists zlib && PKGS+="zlib "
     pkg-config --exists openssl && PKGS+="openssl"
 
-    CPPFLAGS=$(pkg-config --cflags $PKGS)
+    CPPFLAGS=$(pkg-config --cflags "$PKGS")
     export CPPFLAGS
 
-    CXXFLAGS=$(pkg-config --cflags $PKGS)
+    CXXFLAGS=$(pkg-config --cflags "$PKGS")
     export CXXFLAGS
 
-    CFLAGS=$(pkg-config --cflags $PKGS)
+    CFLAGS=$(pkg-config --cflags "$PKGS")
     export CFLAGS
 
     # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
-    LDFLAGS=$(pkg-config --libs $PKGS)
+    LDFLAGS=$(pkg-config --libs "$PKGS")
     export LDFLAGS
 fi
 
@@ -100,7 +99,8 @@ if command_exists pyenv; then
 fi
 
 #***************   GPG   *****************
-export GPG_TTY=$(tty)
+GPG_TTY=$(tty)
+export GPG_TTY
 
 #***************   LESS   *****************
 # Default pager

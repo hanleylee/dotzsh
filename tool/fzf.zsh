@@ -37,7 +37,7 @@ if command_exists fd; then
     # go into directory
     fdc() {
         local dir
-        dir=$(fd ${1:-.} --hidden --follow -I --exclude={Pods,.git,.idea,.sass-cache,node_modules,build} --type d 2>/dev/null | fzf +m) && cd "$dir"
+        dir=$(fd "${1:-.}" --hidden --follow -I --exclude={Pods,.git,.idea,.sass-cache,node_modules,build} --type d 2>/dev/null | fzf +m) && cd "$dir" || return
         #dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
     }
 
@@ -45,17 +45,18 @@ fi
 
 # fdr - cd to selected parent directory
 fdp() {
-    local declare dirs=()
+    local dirs=()
     get_parent_dirs() {
         if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
         if [[ "${1}" == '/' ]]; then
-            for _dir in "${dirs[@]}"; do echo $_dir; done
+            for _dir in "${dirs[@]}"; do echo "$_dir"; done
         else
-            get_parent_dirs $(dirname "$1")
+            get_parent_dirs "$(dirname "$1")"
         fi
     }
-    local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
-    cd "$DIR"
+    local DIR
+    DIR="$(get_parent_dirs "$(realpath "${1:-$PWD}")" | fzf-tmux --tac)"
+    cd "$DIR" || return
 }
 
 # kill process
@@ -63,7 +64,7 @@ fkill() {
     local pid
     pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
     if [ "x$pid" != "x" ]; then
-        echo $pid | xargs kill -${1:-9}
+        echo "$pid" | xargs kill -"${1:-9}"
     fi
 }
 
@@ -78,12 +79,12 @@ if command_exists brew ; then
     
         if [ "x$token" != "x" ]; then
             echo "(I)nstall or open the (h)omepage of $token"
-            read input
-            if [ $input = "i" ] || [ $input = "I" ]; then
-                brew install $token
+            read -r input
+            if [ "$input" = "i" ] || [ "$input" = "I" ]; then
+                brew install "$token"
             fi
-            if [ $input = "h" ] || [ $input = "H" ]; then
-                brew home $token
+            if [ "$input" = "h" ] || [ "$input" = "H" ]; then
+                brew home "$token"
             fi
         fi
     }
@@ -97,12 +98,12 @@ if command_exists brew ; then
     
         if [ "x$token" != "x" ]; then
             echo "(U)ninstall or open the (h)omepage of $token"
-            read input
-            if [ $input = "u" ] || [ $input = "U" ]; then
-                brew uninstall $token
+            read -r input
+            if [ "$input" = "u" ] || [ "$input" = "U" ]; then
+                brew uninstall "$token"
             fi
-            if [ $input = "h" ] || [ $token = "h" ]; then
-                brew home $token
+            if [ "$input" = "h" ] || [ "$token" = "h" ]; then
+                brew home "$token"
             fi
         fi
     }
@@ -113,9 +114,9 @@ if command_exists ag; then
     # fuzzy grep open via ag
     fa() {
         local file
-        file="$(ag --nobreak --noheading $@ | fzf -0 -1 | awk -F: '{print $1}')"
+        file="$(ag --nobreak --noheading "$@" | fzf -0 -1 | awk -F: '{print $1}')"
         if [[ -n $file ]]; then
-            vim $file
+            vim "$file"
         fi
     }
 fi
@@ -136,24 +137,10 @@ if command_exists tmux; then
     # # `tm irc` will attach to the irc session (if it exists), else it will create it.
     tm() {
         [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
-        if [ $1 ]; then
-            tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1")
+        if [ "$1" ]; then
+            tmux "$change" -t "$1" 2>/dev/null || (tmux new-session -d -s "$1" && tmux "$change" -t "$1")
             return
         fi
-        session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) && tmux $change -t "$session" || echo "No sessions found."
-    }
-    
-    # tmux kill with fzf
-    tk() {
-        local sessions
-        sessions="$(tmux ls|fzf --exit-0 --multi)"  || return $?
-        local i
-        for i in "${(f@)sessions}"
-        do
-            [[ $i =~ '([^:]*):.*' ]] && {
-                echo "Killing $match[1]"
-                tmux kill-session -t "$match[1]"
-            }
-        done
+        session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) && tmux "$change" -t "$session" || echo "No sessions found."
     }
 fi

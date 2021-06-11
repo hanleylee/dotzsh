@@ -6,7 +6,7 @@ export LC_ALL="en_US.UTF-8"
 
 setopt globdots # 使所有的ls显示 . 与 ..
 EDITOR=vim # zsh 默认的编辑器为 vi, 比较难用, 因此设置为 vim
-HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
+export HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
 export EDITOR
 export VISUAL="$EDITOR"
 export HISTSIZE=100000
@@ -139,7 +139,7 @@ zstyle ':completion:*:exa' sort false
 
 #███████████████████████   Utilities Settings   ██████████████████████████
 #***************   autosuggest   *****************
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245,underline" # 提示样式, 可设置前景, 背景, 加粗, 下划线
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245,underline" # 提示样式, 可设置前景, 背景, 加粗, 下划线
 
 #***************   scmpuff   *****************
 command_exists scmpuff && eval "$(scmpuff init -s)"

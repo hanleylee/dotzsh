@@ -32,8 +32,8 @@ export ARCH_MSG
 # all command passed exist or not
 # -> Bool
 function command_exists() {
-    for cmd in $@; do
-        command -v $cmd &> /dev/null || return 1
+    for cmd in "$@"; do
+        command -v "$cmd" &> /dev/null || return 1
     done
     # command -v $1 &> /dev/null
     # [[ -x "$(command -v $1)" ]]
@@ -43,20 +43,20 @@ function command_exists() {
 # -> Void
 function source_if_exists() {
     for file in "$@"; do
-        [[ -f $file ]] && source $file
+        [[ -f "$file" ]] && source "$file"
     done
 }
 
 # Extend $PATH without duplicates
 function insert_path_if_exists() {
-    [[ -d $1 ]] || return # detect if it is a directory, return if not
+    [[ -d "$1" ]] || return # detect if it is a directory, return if not
     # if ! $( echo "$PATH" | tr ":" "\n" | grep -qx "$1" ) ; then
     export PATH="$1:$PATH"
     # fi
 }
 
 function mkdir_if_not_exists() {
-    for dir in $@; do
-    [[ -d $dir ]] || mkdir -pv $dir
+    for dir in "$@"; do
+    [[ -d "$dir" ]] || mkdir -pv "$dir"
     done
 }
