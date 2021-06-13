@@ -154,6 +154,5 @@ bindkey "^u" backward-kill-line
 bindkey '^h' _zfzf
 
 #***************   source   *****************
-source_if_exists "$HOME/.config/lf/lfcd.sh" \
-    "$HOME/.cargo/env"
-
+source_if_exists "$HOME/.cargo/env"
+# "$HOME/.config/lf/lfcd.sh" \

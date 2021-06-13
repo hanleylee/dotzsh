@@ -9,17 +9,21 @@ if command_exists exa; then alias l='exa -laghHimU --git --group-directories-fir
 [[ -f "/usr/local/bin/brew" ]] && alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
 if command_exists vim; then
-    alias v0='vim -u NONE -U NONE -N -i NONE'
+    alias vn='vim -u NONE -U NONE -N -i NONE'
+    alias v0='vim --cmd "let g:vim_weight=0"'
     alias v1='vim --cmd "let g:vim_weight=1"'
     alias v2='vim --cmd "let g:vim_weight=2"'
     alias v3='vim --cmd "let g:vim_weight=3"'
-    alias v4='vim --cmd "let g:vim_weight=4"'
 fi
 
 if command_exists vim; then
     alias iproxy_iphone7='iproxy 2222 22'
     alias iproxy_ipadpro='iproxy 2223 22'
     alias iproxy_iphone12='iproxy 2224 22'
+fi
+
+if command_exists ranger; then
+    alias r='source ranger'
 fi
 
 # Go to the /home/$USER (~) directory and clears window of your terminal

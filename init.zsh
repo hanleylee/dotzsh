@@ -111,6 +111,8 @@ less_opts=(
     # Quit if entire file fits on first screen.
     -+F
     -+X
+    # show number
+    -N
     # Ignore case in searches that do not contain uppercase.
     --ignore-case
     # Allow ANSI colour escapes, but no other escapes.
