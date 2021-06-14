@@ -31,7 +31,6 @@ insert_path_if_exists "$HOME/.local/bin"
 insert_path_if_exists "$HOME/.pyenv/bin"
 insert_path_if_exists "$HOME/.fzf/bin"
 insert_path_if_exists "$HOMEBREW_PREFIX/opt/llvm/bin"
-# export PATH="$HOMEBREW_PREFIX/opt/llvm/bin:$PATH"
 # export PATH="$GEM_HOME/bin:$PATH"
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
 # export PATH="/usr/local/opt/openjdk/bin:$PATH"
@@ -65,16 +64,18 @@ export XDG_DATA_HOME="$HOME/.local"
 # 添加自定义的pkg-config路径, 默认的路径为 /usr/local/lib/pkgconfig
 [[ -d "$HOMEBREW_PREFIX/lib/pkgconfig" ]]                 && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/lib/pkgconfig
 [[ -d "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig" ]]        && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig
-[[ -d "$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig" ]]        && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig
 [[ -d "$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig" ]] && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig
-# export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+[[ -d "$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig" ]]    && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig
+[[ -d "$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig" ]]      && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig
 export PKG_CONFIG_PATH
 
 #███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
 if command_exists pkg-config; then
     pkg-config --exists glib-2.0 && PKGS+="glib-2.0 "
     pkg-config --exists zlib && PKGS+="zlib "
-    pkg-config --exists openssl && PKGS+="openssl"
+    pkg-config --exists openssl && PKGS+="openssl "
+    pkg-config --exists openssl && PKGS+="readline "
+    pkg-config --exists openssl && PKGS+="libffi "
 
     CPPFLAGS=$(pkg-config --cflags "$PKGS")
     export CPPFLAGS
@@ -89,9 +90,6 @@ if command_exists pkg-config; then
     LDFLAGS=$(pkg-config --libs "$PKGS")
     export LDFLAGS
 fi
-
-# export LDFLAGS="-L/$HOMEBREW_PREFIX/opt/openssl/lib"
-# export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl/include"
 
 #***************   pyenv   *****************
 if command_exists pyenv; then
