@@ -114,9 +114,9 @@ function pdiff() {
 }
 
 # Print command cheatsheet
-cheat() {
-    curl -s "cheat.sh/$1"
-}
+# cheat() {
+#     curl -s "cheat.sh/$1"
+# }
 
 # Browse git commits
 glog() {

@@ -61,7 +61,10 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local"
 
-# 添加自定义的pkg-config路径, 默认的路径为 /usr/local/lib/pkgconfig
+export CHEAT_CONFIG_PATH="$XDG_CONFIG_HOME/cheat/conf.yml"
+export CHEAT_USE_FZF=true
+
+# 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
 [[ -d "$HOMEBREW_PREFIX/lib/pkgconfig" ]]                 && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/lib/pkgconfig
 [[ -d "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig" ]]        && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig
 [[ -d "$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig" ]] && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig
