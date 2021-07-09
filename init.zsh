@@ -126,6 +126,9 @@ less_opts=(
 )
 export LESS="${less_opts[*]}"
 
+#***************   BAT   *****************
+export BAT_CONFIG_PATH="$HOME/.config/bat/config"
+
 #***************   Homebrew   *****************
 export HOMEBREW_NO_AUTO_UPDATE=true # 禁用 Homebrew 每次安装软件时的更新
 

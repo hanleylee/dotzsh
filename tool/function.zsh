@@ -139,6 +139,17 @@ git_keep_one() {
     git gc --prune=all
 }
 
+function ccat() {
+    local style="monokai"
+    if [ $# -eq 0 ]; then
+        pygmentize -P style="$style" -P tabsize=4 -f terminal256 -g
+    else
+        for NAME in "$@"; do
+            pygmentize -P style="$style" -P tabsize=4 -f terminal256 -g "$NAME"
+        done
+    fi
+}
+
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"
 #     local home="$HOME"
