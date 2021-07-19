@@ -10,7 +10,7 @@ if [[ $system_name == "Darwin" ]]; then
             ARCH_MSG="Running on Darwin(Rosetta 2)"
         else
             ARCH_MSG="Running on Darwin(native Intel)"
-        fi 
+        fi
     elif [[ "${arch_name}" = "arm64" ]]; then
         export HOMEBREW_PREFIX="/opt/homebrew"
         ARCH_MSG="Running on Darwin(ARM)"
@@ -33,7 +33,7 @@ export ARCH_MSG
 # -> Bool
 function command_exists() {
     for cmd in "$@"; do
-        command -v "$cmd" &> /dev/null || return 1
+        command -v "$cmd" &>/dev/null || return 1
     done
     # command -v $1 &> /dev/null
     # [[ -x "$(command -v $1)" ]]
@@ -55,8 +55,24 @@ function insert_path_if_exists() {
     # fi
 }
 
+function insert_path_to_variable() {
+    env_var_name="$1" # just the variable name, such as 'PATH'
+    # env_var_content="${!env_var_name}" # real content under the variable name, such as '/Users/hanley/.pyenv/shims'
+    eval "env_var_content=\"\${$env_var_name}\"" # zsh doesn't support indirect expansion, so we have to use eval!
+    local_path="$2"
+    [ -d "$local_path" ] || return     # exit if path isn't exist
+    if [ -z "$env_var_content" ]; then # don't add ':' if this variable is empty
+        env_var_content="$local_path"
+    else
+        env_var_content="${local_path}:${env_var_content}"
+    fi
+
+    eval "${env_var_name}=$env_var_content" # use eval to set value for variable, such as 'PATH=/Users/hanley/...'
+    export "${env_var_name?}"               # export, such as 'export PATH'
+}
+
 function mkdir_if_not_exists() {
     for dir in "$@"; do
-    [[ -d "$dir" ]] || mkdir -pv "$dir"
+        [[ -d "$dir" ]] || mkdir -pv "$dir"
     done
 }

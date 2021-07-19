@@ -2,7 +2,7 @@
 
 # Auto-completion↩
 # ---------------↩
-[[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
+[[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2>/dev/null
 
 # Key bindings↩
 # ------------↩
@@ -68,7 +68,7 @@ fkill() {
     fi
 }
 
-if command_exists brew ; then
+if command_exists brew; then
 
     # Install or open the webpage for the selected application
     # using brew cask search as input source
@@ -76,7 +76,7 @@ if command_exists brew ; then
     brewi() {
         local token
         token=$(brew search --casks | fzf-tmux --query="$1" +m --preview 'brew info {}')
-    
+
         if [ "x$token" != "x" ]; then
             echo "(I)nstall or open the (h)omepage of $token"
             read -r input
@@ -88,14 +88,14 @@ if command_exists brew ; then
             fi
         fi
     }
-    
+
     # Uninstall or open the webpage for the selected application
     # using brew list as input source (all brew cask installed applications)
     # and display a info quickview window for the currently marked application
     brewu() {
         local token
         token=$(brew list --formula | fzf-tmux --query="$1" +m --preview 'brew info {}')
-    
+
         if [ "x$token" != "x" ]; then
             echo "(U)ninstall or open the (h)omepage of $token"
             read -r input
@@ -131,7 +131,7 @@ if command_exists tmux; then
             fzf --query="$1" --select-1 --exit-0) &&
             tmux switch-client -t "$session"
     }
-    
+
     # tm - create new tmux session, or switch to existing one. Works from within tmux too
     # # `tm` will allow you to select your tmux session via fzf.
     # # `tm irc` will attach to the irc session (if it exists), else it will create it.

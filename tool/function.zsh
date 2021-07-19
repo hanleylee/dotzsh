@@ -25,7 +25,7 @@ fi
 if command_exists scmpuff; then
     function gdf() {
         params="$*"
-        if brew ls --versions scmpuff > /dev/null; then
+        if brew ls --versions scmpuff >/dev/null; then
             params=$(scmpuff expand "$@" 2>/dev/null)
         fi
 
@@ -63,23 +63,26 @@ function _zfzf {
 if command_exists apt; then
     # Update and upgrade packages
     apt-update() {
-    sudo apt update
-    sudo apt -y upgrade
-}
+        sudo apt update
+        sudo apt -y upgrade
+    }
 
     # Clean packages
     apt-clean() {
-    sudo apt -y autoremove
-    sudo apt-get -y autoclean
-    sudo apt-get -y clean
-}
+        sudo apt -y autoremove
+        sudo apt-get -y autoclean
+        sudo apt-get -y clean
+    }
 
     # List intentionally installed packages
     apt-list() {
-    (zcat "$(ls -tr /var/log/apt/history.log*.gz)"; cat /var/log/apt/history.log) 2> /dev/null |
-        grep -E '^Commandline' |
-        sed -e 's/Commandline: \(.*\)/\1/' |
-        grep -E -v '^/usr/bin/unattended-upgrade$'
+        (
+            zcat "$(ls -tr /var/log/apt/history.log*.gz)"
+            cat /var/log/apt/history.log
+        ) 2>/dev/null |
+            grep -E '^Commandline' |
+            sed -e 's/Commandline: \(.*\)/\1/' |
+            grep -E -v '^/usr/bin/unattended-upgrade$'
     }
 fi
 
@@ -124,11 +127,11 @@ glog() {
     local commit_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
     local view_commit="$commit_hash | xargs -I hash sh -c \"git i --color=always hash | delta\""
 
-    git log --color=always --format="$log_fmt" "$@" | \
+    git log --color=always --format="$log_fmt" "$@" |
         fzf --no-sort --tiebreak=index --no-multi --reverse --ansi \
-        --header="enter to view, alt-y to copy hash" --preview="$view_commit" \
-        --bind="enter:execute:$view_commit | less -R" \
-        --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
+            --header="enter to view, alt-y to copy hash" --preview="$view_commit" \
+            --bind="enter:execute:$view_commit | less -R" \
+            --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
 }
 
 git_keep_one() {

@@ -114,7 +114,7 @@ zinit load "$ZDOTDIR/tool"
 
 zinit light HanleyLee/Handy
 
-# 为了使用 GitHub 项目的子目录作为 snippet，需要在 URL中添加 /trunk/{path-to-dir}
+# 为了使用 GitHub 项目的子目录作为 snippet, 需要在 URL中添加 /trunk/{path-to-dir}
 # zinit ice svn
 # zinit snippet https://github.com/zsh-users/zsh-completions/trunk/src
 

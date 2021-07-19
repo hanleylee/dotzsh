@@ -37,7 +37,8 @@ alias myip='ifconfig | sed -En "s/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-
 # Gemnerate random password, copies it into clipboard and outputs it to terminal
 if command_exists pbcopy; then
     function password() {
-        openssl rand -base64 "${1:-9}" | pbcopy; pbpaste
+        openssl rand -base64 "${1:-9}" | pbcopy
+        pbpaste
     }
 fi
 

@@ -13,65 +13,56 @@ fi
 [[ -f "$ZDOTDIR/base/preinit.zsh" ]] && . "$ZDOTDIR/base/preinit.zsh"
 
 #███████████████████████   PATH Variables   ██████████████████████████
+export VIM_CONFIG="$HOME/.vim"
+export HL_REPO="$HOME/data/00_repo"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local"
+
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
-insert_path_if_exists "/bin"
-insert_path_if_exists "/sbin"
-insert_path_if_exists "/usr/bin"
-insert_path_if_exists "/usr/sbin"
-insert_path_if_exists "/opt/MonkeyDev/bin"
-insert_path_if_exists "$HOMEBREW_PREFIX/bin"
-insert_path_if_exists "$HOMEBREW_PREFIX/sbin"
-insert_path_if_exists "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
-insert_path_if_exists "$HOMEBREW_PREFIX/opt/openssl@1.1/bin"
-insert_path_if_exists "$HOMEBREW_PREFIX/opt/llvm/bin"
-insert_path_if_exists "$HOME/.cargo/bin"
-insert_path_if_exists "$HOME/.rbenv/shims"
-insert_path_if_exists "$HOME/.pyenv/shims"
-insert_path_if_exists "$HOME/.local/bin"
-insert_path_if_exists "$HOME/.pyenv/bin"
-insert_path_if_exists "$HOME/.fzf/bin"
-insert_path_if_exists "$HOME/.emacs.d/bin"
+insert_path_to_variable "PATH" "/bin"
+insert_path_to_variable "PATH" "/sbin"
+insert_path_to_variable "PATH" "/usr/bin"
+insert_path_to_variable "PATH" "/usr/sbin"
+insert_path_to_variable "PATH" "/opt/MonkeyDev/bin"
+insert_path_to_variable "PATH" "$HOMEBREW_PREFIX/bin"
+insert_path_to_variable "PATH" "$HOMEBREW_PREFIX/sbin"
+insert_path_to_variable "PATH" "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
+insert_path_to_variable "PATH" "$HOMEBREW_PREFIX/opt/openssl@1.1/bin"
+insert_path_to_variable "PATH" "$HOMEBREW_PREFIX/opt/llvm/bin"
+insert_path_to_variable "PATH" "$HOME/.cargo/bin"
+insert_path_to_variable "PATH" "$HOME/.rbenv/shims"
+insert_path_to_variable "PATH" "$HOME/.pyenv/shims"
+insert_path_to_variable "PATH" "$HOME/.local/bin"
+insert_path_to_variable "PATH" "$HOME/.pyenv/bin"
+insert_path_to_variable "PATH" "$HOME/.fzf/bin"
+insert_path_to_variable "PATH" "$HOME/.emacs.d/bin"
 # export PATH="$GEM_HOME/bin:$PATH"
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
 # export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # 为 system 范围添加 header 路径, 会影响到 vim 的 ycm 与 ale.
-[[ -d "$HOMEBREW_PREFIX/include" ]] && HL_HEADER="$HOMEBREW_PREFIX/include:$HL_HEADER"
-[[ -d "$HOME/.local/share/header" ]] && HL_HEADER="$HOME/.local/share/header:$HL_HEADER"
-export HL_HEADER
-
 # refer to <https://gcc.gnu.org/onlinedocs/cpp/Environment-Variables.html>
 # CPATH 会对 c, c++, objc 这三种语言的搜索路径起作用
 # 而 C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, OBJC_INCLUDE_PATH 只对其对应语言的编译起作用
 # 其作用类似于使用 `-I path`, 在此处进行了变量的定义后方便全局都起作用
-CPATH=$HL_HEADER
-export CPATH
+insert_path_to_variable "C_INCLUDE_PATH" "$HL_REPO/00_hkms/01_dev/lang_c/src/data_structure"
+insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HL_REPO/00_hkms/01_dev/lang_cpp/src/data_structure"
+insert_path_to_variable "OBJC_INCLUDE_PATH" "$HL_REPO/00_hkms/01_dev/lang_objective-c/src/data_structure"
+insert_path_to_variable "CPATH" "$HOMEBREW_PREFIX/include"
+insert_path_to_variable "CPATH" "$C_INCLUDE_PATH"
 
-C_INCLUDE_PATH=''
-export C_INCLUDE_PATH
+insert_path_to_variable "PYTHONPATH" "$HL_REPO/00_hkms/01_dev/lang_python/src/data_structure"
 
-CPLUS_INCLUDE_PATH=''
-export CPLUS_INCLUDE_PATH
-
-OBJC_INCLUDE_PATH=''
-export OBJC_INCLUDE_PATH
-
-export VIMCONFIG="$HOME/.vim"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local"
-
-export CHEAT_CONFIG_PATH="$XDG_CONFIG_HOME/cheat/conf.yml"
-export CHEAT_USE_FZF=true
-
-# 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
-[[ -d "$HOMEBREW_PREFIX/lib/pkgconfig" ]]                 && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/lib/pkgconfig
-[[ -d "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig" ]]        && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig
-[[ -d "$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig" ]] && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig
-[[ -d "$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig" ]]    && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig
-[[ -d "$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig" ]]      && PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig
-export PKG_CONFIG_PATH
+if command_exists pkg-config; then
+    # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
+    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/lib/pkgconfig"
+    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig"
+    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig"
+    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig"
+    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig"
+fi
 
 #███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
 if command_exists pkg-config; then
@@ -146,6 +137,10 @@ export PYTHON_CONFIGURE_OPTS="--enable-framework"
 #***************   GTAGS   *****************
 export GTAGSLABEL='native-pygments'
 [[ -f "$XDG_CONFIG_HOME/global/.globalrc" ]] && export GTAGSCONF="$XDG_CONFIG_HOME/global/.globalrc"
+
+#***************   CHEAT   *****************
+[[ -f "$XDG_CONFIG_HOME/cheat/conf.yml" ]] && export CHEAT_CONFIG_PATH="$XDG_CONFIG_HOME/cheat/conf.yml"
+export CHEAT_USE_FZF=true
 
 #***************   fzf   *****************
 # --color fg:242,bg:236,hl:196,fg+:232,bg+:142,hl+:196:
