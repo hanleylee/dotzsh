@@ -14,30 +14,32 @@ fi
 
 #███████████████████████   PATH Variables   ██████████████████████████
 export VIM_CONFIG="$HOME/.vim"
-export HL_REPO="$HOME/data/00_repo"
+export HL_REPO="$HOME/data/repo"
+export HKMS="$HL_REPO/hkms"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local"
 
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
-insert_path_to_variable "PATH" "/bin"
-insert_path_to_variable "PATH" "/sbin"
-insert_path_to_variable "PATH" "/usr/bin"
-insert_path_to_variable "PATH" "/usr/sbin"
-insert_path_to_variable "PATH" "/opt/MonkeyDev/bin"
-insert_path_to_variable "PATH" "$HOMEBREW_PREFIX/bin"
-insert_path_to_variable "PATH" "$HOMEBREW_PREFIX/sbin"
-insert_path_to_variable "PATH" "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
-insert_path_to_variable "PATH" "$HOMEBREW_PREFIX/opt/openssl@1.1/bin"
-insert_path_to_variable "PATH" "$HOMEBREW_PREFIX/opt/llvm/bin"
-insert_path_to_variable "PATH" "$HOME/.cargo/bin"
-insert_path_to_variable "PATH" "$HOME/.rbenv/shims"
-insert_path_to_variable "PATH" "$HOME/.pyenv/shims"
-insert_path_to_variable "PATH" "$HOME/.local/bin"
-insert_path_to_variable "PATH" "$HOME/.pyenv/bin"
-insert_path_to_variable "PATH" "$HOME/.fzf/bin"
-insert_path_to_variable "PATH" "$HOME/.emacs.d/bin"
+insert_path_to_variable "PATH" \
+    "/bin" \
+    "/sbin" \
+    "/usr/bin" \
+    "/usr/sbin" \
+    "/opt/MonkeyDev/bin" \
+    "$HOMEBREW_PREFIX/bin" \
+    "$HOMEBREW_PREFIX/sbin" \
+    "$HOMEBREW_PREFIX/opt/make/libexec/gnubin" \
+    "$HOMEBREW_PREFIX/opt/openssl@1.1/bin" \
+    "$HOMEBREW_PREFIX/opt/llvm/bin" \
+    "$HOME/.cargo/bin" \
+    "$HOME/.rbenv/shims" \
+    "$HOME/.pyenv/shims" \
+    "$HOME/.local/bin" \
+    "$HOME/.pyenv/bin" \
+    "$HOME/.fzf/bin" \
+    "$HOME/.emacs.d/bin"
 # export PATH="$GEM_HOME/bin:$PATH"
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
 # export PATH="/usr/local/opt/openjdk/bin:$PATH"
@@ -47,13 +49,14 @@ insert_path_to_variable "PATH" "$HOME/.emacs.d/bin"
 # CPATH 会对 c, c++, objc 这三种语言的搜索路径起作用
 # 而 C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, OBJC_INCLUDE_PATH 只对其对应语言的编译起作用
 # 其作用类似于使用 `-I path`, 在此处进行了变量的定义后方便全局都起作用
-insert_path_to_variable "C_INCLUDE_PATH" "$HL_REPO/00_hkms/01_dev/lang_c/src/data_structure"
-insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HL_REPO/00_hkms/01_dev/lang_cpp/src/data_structure"
-insert_path_to_variable "OBJC_INCLUDE_PATH" "$HL_REPO/00_hkms/01_dev/lang_objective-c/src/data_structure"
-insert_path_to_variable "CPATH" "$HOMEBREW_PREFIX/include"
-insert_path_to_variable "CPATH" "$C_INCLUDE_PATH"
+insert_path_to_variable "C_INCLUDE_PATH" "$HKMS/dev/lang_c/src/data_structure"
+insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HKMS/dev/lang_cpp/src/data_structure"
+insert_path_to_variable "OBJC_INCLUDE_PATH" "$HKMS/dev/lang_objective-c/src/data_structure"
 
-insert_path_to_variable "PYTHONPATH" "$HL_REPO/00_hkms/01_dev/lang_python/src/data_structure"
+insert_path_to_variable "CPATH" "$HOMEBREW_PREFIX/opt/llvm/include/c++/v1" \
+    "$C_INCLUDE_PATH"
+
+insert_path_to_variable "PYTHONPATH" "$HKMS/dev/lang_python/src/data_structure"
 
 if command_exists pkg-config; then
     # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
@@ -118,7 +121,7 @@ less_opts=(
 export LESS="${less_opts[*]}"
 
 #***************   BAT   *****************
-export BAT_CONFIG_PATH="$HOME/.config/bat/config"
+export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"
 
 #***************   Homebrew   *****************
 export HOMEBREW_NO_AUTO_UPDATE=true # 禁用 Homebrew 每次安装软件时的更新
