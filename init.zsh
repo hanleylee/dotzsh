@@ -14,7 +14,7 @@ fi
 
 #███████████████████████   PATH Variables   ██████████████████████████
 export VIM_CONFIG="$HOME/.vim"
-export HL_REPO="$HOME/data/repo"
+export HL_REPO="$HOME/repo"
 export HKMS="$HL_REPO/hkms"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -49,14 +49,13 @@ insert_path_to_variable "PATH" \
 # CPATH 会对 c, c++, objc 这三种语言的搜索路径起作用
 # 而 C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, OBJC_INCLUDE_PATH 只对其对应语言的编译起作用
 # 其作用类似于使用 `-I path`, 在此处进行了变量的定义后方便全局都起作用
-insert_path_to_variable "C_INCLUDE_PATH" "$HKMS/dev/lang_c/src/data_structure"
-insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HKMS/dev/lang_cpp/src/data_structure"
-insert_path_to_variable "OBJC_INCLUDE_PATH" "$HKMS/dev/lang_objective-c/src/data_structure"
+insert_path_to_variable "C_INCLUDE_PATH" "$HKMS/dev/lang_c/src/foundation"
+insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HKMS/dev/lang_cpp/src/foundation"
+insert_path_to_variable "OBJC_INCLUDE_PATH" "$HKMS/dev/lang_objc/src/data_structure"
 
-insert_path_to_variable "CPATH" "$HOMEBREW_PREFIX/opt/llvm/include/c++/v1" \
-    "$C_INCLUDE_PATH"
+insert_path_to_variable "CPATH" "$C_INCLUDE_PATH"
 
-insert_path_to_variable "PYTHONPATH" "$HKMS/dev/lang_python/src/data_structure"
+insert_path_to_variable "PYTHONPATH" "$HKMS/dev/lang_python/src/foundation"
 
 if command_exists pkg-config; then
     # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
