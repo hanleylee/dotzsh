@@ -153,6 +153,18 @@ function ccat() {
     fi
 }
 
+# generate leetcode file with order number
+function lc() {
+    leetup pick -l cpp "${1}"
+    last_file="$(ls -t1 | head -n 1)" # two-sum.cpp 
+    file_with_order="${1}_$last_file" # 0001_two-sum.cpp
+    file_without_ext="${file_with_order%.*}" # 0001_two-sum
+    mkdir -pv "${file_without_ext}"
+
+    mv "${last_file}" "${file_without_ext}/${file_with_order}"
+    # mvim "${file_without_ext}/${file_with_order}"
+}
+
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"
 #     local home="$HOME"
