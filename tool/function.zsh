@@ -155,14 +155,25 @@ function ccat() {
 
 # generate leetcode file with order number
 function lc() {
-    leetup pick -l cpp "${1}"
-    last_file="$(ls -t1 | head -n 1)" # two-sum.cpp 
-    file_with_order="${1}_$last_file" # 0001_two-sum.cpp
+    leetup_raw=$(leetup pick -l cpp "${1}" || return)
+    order=$(printf %04d "${1}")
+    # echo "${res}"| sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
+    # echo "${res}"| sed -r "s/[[:cntrl:]]\[[0-9]{1,3}m//g"
+    leetup_file=$(echo "${leetup_raw}" | sed -r "s/[[:cntrl:]]\[[0-9]{1,3}m//g" | sed "s/^.*\///") # two-sum.cpp
+    # last_file="$(ls -t1 | head -n 1)" # two-sum.cpp
+    file_with_order="${order}_${leetup_file}"      # 0001_two-sum.cpp
     file_without_ext="${file_with_order%.*}" # 0001_two-sum
-    mkdir -pv "${file_without_ext}"
 
-    mv "${last_file}" "${file_without_ext}/${file_with_order}"
+    if [[ -d "$file_without_ext" ]]; then
+        echo "dir existed!"
+        return
+    else
+        mkdir -pv "${file_without_ext}"
+    fi
+
+    mv "${leetup_file}" "${file_without_ext}/${file_with_order}"
     # mvim "${file_without_ext}/${file_with_order}"
+    echo "Generated: \033[35m${file_with_order}\033[0m"
 }
 
 # function _fish_collapsed_pwd() {
