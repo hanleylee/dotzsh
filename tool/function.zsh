@@ -155,6 +155,7 @@ function ccat() {
 
 # generate leetcode file with order number
 function lc() {
+    [[ -z "${1}" ]] && { echo "no input number"; return; }
     leetup_raw=$(leetup pick -l cpp "${1}" || return)
     order=$(printf %04d "${1}")
     # echo "${res}"| sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'

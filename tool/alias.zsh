@@ -16,6 +16,14 @@ if command_exists vim; then
     alias v3='vim --cmd "let g:vim_weight=3"'
 fi
 
+if command_exists nvim; then
+    alias nvn='nvim -u NONE -U NONE -N -i NONE'
+    alias nv0='nvim --cmd "let g:vim_weight=0"'
+    alias nv1='nvim --cmd "let g:vim_weight=1"'
+    alias nv2='nvim --cmd "let g:vim_weight=2"'
+    alias nv3='nvim --cmd "let g:vim_weight=3"'
+fi
+
 if command_exists vim; then
     alias iproxy_iphone7='iproxy 2222 22'
     alias iproxy_ipadpro='iproxy 2223 22'
