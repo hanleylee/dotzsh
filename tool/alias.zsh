@@ -34,6 +34,10 @@ if command_exists ranger; then
     alias r='source ranger'
 fi
 
+if command_exists floaterm; then
+    alias f='floaterm'
+fi
+
 # Go to the /home/$USER (~) directory and clears window of your terminal
 alias q="~ && clear"
 # alias Z='z -I .'

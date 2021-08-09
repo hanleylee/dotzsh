@@ -18,7 +18,7 @@ export HL_REPO="$HOME/repo"
 export HKMS="$HL_REPO/hkms"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local"
+export XDG_DATA_HOME="$HOME/.local/share"
 
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
@@ -31,12 +31,13 @@ insert_path_to_variable "PATH" \
     "$HOMEBREW_PREFIX/bin" \
     "$HOMEBREW_PREFIX/sbin" \
     "$HOMEBREW_PREFIX/opt/make/libexec/gnubin" \
+    "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" \
     "$HOMEBREW_PREFIX/opt/openssl@1.1/bin" \
     "$HOMEBREW_PREFIX/opt/llvm/bin" \
+    "$XDG_DATA_HOME/bin" \
     "$HOME/.cargo/bin" \
     "$HOME/.rbenv/shims" \
     "$HOME/.pyenv/shims" \
-    "$HOME/.local/bin" \
     "$HOME/.pyenv/bin" \
     "$HOME/.fzf/bin" \
     "$HOME/.emacs.d/bin"
@@ -189,6 +190,7 @@ export FZF_DEFAULT_OPTS="\
 "
 # --preview-window down:3:hidden:wrap
 # --preview-window 'right:60%'
+
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS=$FZF_DEFAULT_OPTS
 export FZF_CTRL_R_OPTS="\
@@ -214,3 +216,7 @@ export FZF_MARKS_KEEP_ORDER=1
 
 # z.lua 使用的 fzf 参数
 export _ZL_FZF=$FZF_HIDDEN_PREVIEW
+
+# source file
+source_if_exists "$HOME/.sh/base/lscolors.sh" \
+    "$HOME/.sh/base/lficons.zsh"

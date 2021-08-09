@@ -149,10 +149,11 @@ zle -N _zfzf
 
 bindkey -e # 使用 Emacs 键位
 bindkey ',' autosuggest-accept
-bindkey -s "^o" 'r^M'
+bindkey -s "^o" 'lfcd^M'
 bindkey "^u" backward-kill-line
 bindkey '^h' _zfzf
 
 #***************   source   *****************
-source_if_exists "$HOME/.cargo/env"
-# "$HOME/.config/lf/lfcd.sh" \
+source_if_exists "$HOME/.cargo/env" \
+    "$XDG_CONFIG_HOME/lf/lfcd.sh" \
+    "$XDG_CONFIG_HOME/broot/launcher/bash/br"
