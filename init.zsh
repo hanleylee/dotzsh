@@ -53,6 +53,8 @@ insert_path_to_variable "PATH" \
 insert_path_to_variable "C_INCLUDE_PATH" "$HKMS/dev/lang_c/src/foundation"
 insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HKMS/dev/lang_cpp/src/foundation"
 insert_path_to_variable "OBJC_INCLUDE_PATH" "$HKMS/dev/lang_objc/src/data_structure"
+insert_path_to_variable "LD_LIBRARY_PATH" ""
+
 
 insert_path_to_variable "CPATH" "$C_INCLUDE_PATH"
 
@@ -65,6 +67,7 @@ if command_exists pkg-config; then
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig"
+    insert_path_to_variable "PKG_CONFIG_PATH" "/opt/X11/lib/pkgconfig"
 fi
 
 #███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
@@ -72,17 +75,18 @@ if command_exists pkg-config; then
     pkg-config --exists glib-2.0 && PKGS+="glib-2.0 "
     pkg-config --exists zlib && PKGS+="zlib "
     pkg-config --exists openssl && PKGS+="openssl "
-    pkg-config --exists openssl && PKGS+="readline "
-    pkg-config --exists openssl && PKGS+="libffi "
+    pkg-config --exists readline && PKGS+="readline "
+    pkg-config --exists libffi && PKGS+="libffi "
+    pkg-config --exists x11 && PKGS+="x11"
 
     CPPFLAGS=$(pkg-config --cflags "$PKGS")
     export CPPFLAGS
 
-    CXXFLAGS=$(pkg-config --cflags "$PKGS")
-    export CXXFLAGS
-
     CFLAGS=$(pkg-config --cflags "$PKGS")
     export CFLAGS
+
+    CXXFLAGS=$(pkg-config --cflags "$PKGS")
+    export CXXFLAGS
 
     # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
     LDFLAGS=$(pkg-config --libs "$PKGS")
