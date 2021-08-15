@@ -5,7 +5,7 @@ export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 setopt globdots # 使所有的ls显示 . 与 ..
-EDITOR=vim # zsh 默认的编辑器为 vi, 比较难用, 因此设置为 vim
+EDITOR="$HOMEBREW_PREFIX/bin/vim" # zsh 默认的编辑器为 vi, 比较难用, 因此设置为 vim
 export HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
 export EDITOR
 export VISUAL="$EDITOR"
@@ -157,3 +157,5 @@ bindkey '^h' _zfzf
 source_if_exists "$HOME/.cargo/env" \
     "$XDG_CONFIG_HOME/lf/lfcd.sh" \
     "$XDG_CONFIG_HOME/broot/launcher/bash/br"
+
+test -e /Users/hanley/.sh/.iterm2_shell_integration.zsh && source /Users/hanley/.sh/.iterm2_shell_integration.zsh || true

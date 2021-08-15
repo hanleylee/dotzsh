@@ -55,7 +55,6 @@ insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HKMS/dev/lang_cpp/src/foundation"
 insert_path_to_variable "OBJC_INCLUDE_PATH" "$HKMS/dev/lang_objc/src/data_structure"
 insert_path_to_variable "LD_LIBRARY_PATH" ""
 
-
 insert_path_to_variable "CPATH" "$C_INCLUDE_PATH"
 
 insert_path_to_variable "PYTHONPATH" "$HKMS/dev/lang_python/src/foundation"

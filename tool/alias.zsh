@@ -9,11 +9,11 @@ if command_exists exa; then alias l='exa -laghHimU --git --group-directories-fir
 [[ -f "/usr/local/bin/brew" ]] && alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
 if command_exists vim; then
-    alias vn='vim -u NONE -U NONE -N -i NONE'
-    alias v0='vim --cmd "let g:vim_weight=0"'
-    alias v1='vim --cmd "let g:vim_weight=1"'
-    alias v2='vim --cmd "let g:vim_weight=2"'
-    alias v3='vim --cmd "let g:vim_weight=3"'
+    alias vn='vim -u NONE -U NONE -N -i NONE' # no any config load, completely clean
+    alias v0='vim --cmd "let g:vim_weight=0"' # only load self config, no plugin
+    alias v1='vim --cmd "let g:vim_weight=1"' # plugin to browsing
+    alias v2='vim --cmd "let g:vim_weight=2"' # plugin to editing
+    alias v3='vim --cmd "let g:vim_weight=3"' # plugin to enhanced editing
 fi
 
 if command_exists nvim; then
