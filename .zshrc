@@ -158,4 +158,4 @@ source_if_exists "$HOME/.cargo/env" \
     "$XDG_CONFIG_HOME/lf/lfcd.sh" \
     "$XDG_CONFIG_HOME/broot/launcher/bash/br"
 
-test -e /Users/hanley/.sh/.iterm2_shell_integration.zsh && source /Users/hanley/.sh/.iterm2_shell_integration.zsh || true
+[[ $TERM_PROGRAM == "iTerm.app" ]] && source_if_exists "$ZDOTDIR/.iterm2_shell_integration.zsh"

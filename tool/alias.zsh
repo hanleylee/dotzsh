@@ -1,6 +1,7 @@
 #███████████████████████   ALIAS   ██████████████████████████
 alias reignore='git rm -r --cached . && git add .'
 alias whyignore='git check-ignore -v'
+command_exists pip && alias update_all_pip="pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U"
 command_exists trash && alias rm='trash'
 command_exists nvim && alias nv="nvim"
 if command_exists exa; then alias l='exa -laghHimU --git --group-directories-first --icons -F'; else alias l='ls -lhia'; fi
