@@ -220,6 +220,10 @@ export FZF_MARKS_KEEP_ORDER=1
 # z.lua 使用的 fzf 参数
 export _ZL_FZF=$FZF_HIDDEN_PREVIEW
 
+# for ta-lib
+# export TA_INCLUDE_PATH="$(brew --prefix ta-lib)/include"
+# export TA_LIBRARY_PATH="$(brew --prefix ta-lib)/lib"
+
 # source file
 source_if_exists "$HOME/.sh/base/lscolors.sh" \
     "$HOME/.sh/base/lficons.zsh"
