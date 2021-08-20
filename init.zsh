@@ -219,6 +219,20 @@ export FZF_MARKS_KEEP_ORDER=1
 
 # z.lua 使用的 fzf 参数
 export _ZL_FZF=$FZF_HIDDEN_PREVIEW
+export _ZL_NO_ALIASES=1
+export _ZL_DATA="$HOME/.zlua"
+export _ZL_MAXAGE=100000
+# export _ZL_CMD='z'
+# export _ZL_NO_PROMPT_COMMAND
+# export _ZL_EXCLUDE_DIRS="$HOME,$VIM_CONFIG"
+# export _ZL_ADD_ONCE
+# export _ZL_CD='cd'
+# export _ZL_ECHO=0
+# export _ZL_MATCH_MODE=0
+# export _ZL_NO_CHECK=0
+# export _ZL_HYPHEN=0
+# export _ZL_CLINK_PROMPT_PRIORITY
+
 
 # for ta-lib
 # export TA_INCLUDE_PATH="$(brew --prefix ta-lib)/include"

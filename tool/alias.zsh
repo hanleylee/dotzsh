@@ -9,6 +9,17 @@ if command_exists exa; then alias l='exa -laghHimU --git --group-directories-fir
 [[ -f "/opt/homebrew/bin/brew" ]] && alias abrew='arch -arm64 /opt/homebrew/bin/brew'
 [[ -f "/usr/local/bin/brew" ]] && alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
+# for z.lua
+alias zt='z -I -t .'
+alias zr='z -I -r .'
+alias zc='z -c'
+alias zf='z -I'
+alias zb='z -b'
+alias zbi='z -b -i'
+alias zbf='z -b -I'
+alias zz='z -i'
+alias zzc='zz -c'
+
 if command_exists vim; then
     alias vn='vim -u NONE -U NONE -N -i NONE' # no any config load, completely clean
     alias v0='vim --cmd "let g:vim_weight=0"' # only load self config, no plugin

@@ -52,7 +52,7 @@ function whichd() {
 
 # ***************   zlua   *****************
 function _zfzf {
-    _zlua -I .
+    _zlua -I -t .
 
     if [[ -z "$lines" ]]; then
         zle && zle redraw-prompt
@@ -177,6 +177,7 @@ function lc() {
     mv "${leetup_file}" "${file_without_ext}/${file_with_order}"
     # mvim "${file_without_ext}/${file_with_order}"
     echo "Generated: \033[35m${file_with_order}\033[0m"
+    cd "${OLDPWD}" || return
 }
 
 # function _fish_collapsed_pwd() {
