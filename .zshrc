@@ -5,10 +5,10 @@ export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 setopt globdots # 使所有的ls显示 . 与 ..
-export HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
 EDITOR="$HOMEBREW_PREFIX/bin/vim" # zsh 默认的编辑器为 vi, 比较难用, 因此设置为 vim
 export EDITOR
 export VISUAL="$EDITOR"
+export HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
 export HISTSIZE=100000
 [[ -f "$HOME/.sh/.zsh_history" ]] && export HISTFILE="$HOME/.sh/.zsh_history"
 export SAVEHIST=$HISTSIZE
@@ -152,10 +152,9 @@ command_exists scmpuff && eval "$(scmpuff init -s)"
 
 #███████████████████████   BINDKEYS   ██████████████████████████
 zle -N _zfzf
-
 bindkey -e # 使用 Emacs 键位
-bindkey ',' autosuggest-accept
 bindkey -s "^o" 'lfcd^M'
+bindkey ',' autosuggest-accept
 bindkey "^u" backward-kill-line
 bindkey '^h' _zfzf
 

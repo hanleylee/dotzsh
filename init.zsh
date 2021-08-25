@@ -162,7 +162,7 @@ fzf-tmux \
 --no-sort \
 --exact \
 --preview-window down:3:hidden:wrap \
---bind '?:toggle-preview' \
+--bind '?:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up' \
 --border \
 --cycle \
 "
@@ -187,7 +187,7 @@ export FZF_DEFAULT_OPTS="\
 --exact \
 --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -N -C {}) 2> /dev/null | head -500' \
 --preview-window right:50%:hidden:wrap \
---bind '?:toggle-preview' \
+--bind '?:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up' \
 --border \
 --cycle \
 "
@@ -202,7 +202,7 @@ export FZF_CTRL_R_OPTS="\
 --exact \
 --preview 'echo {}' \
 --preview-window down:3:hidden:wrap \
---bind '?:toggle-preview' \
+--bind '?:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up' \
 --border \
 --cycle \
 "
@@ -213,7 +213,7 @@ export FZF_COMPLETION_TRIGGER='**'
 
 [[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="${HOME}/.fzf-marks"
 export FZF_MARKS_COMMAND=$FZF_HIDDEN_PREVIEW
-export FZF_MARKS_JUMP="^g"
+export FZF_MARKS_JUMP="^[m"
 export FZF_MARKS_NO_COLORS=0
 export FZF_MARKS_KEEP_ORDER=1
 
