@@ -55,7 +55,9 @@ function _zfzf {
     _zlua -I -t .
 
     if [[ -z "$lines" ]]; then
-        zle && zle redraw-prompt
+        
+        zle && zle reset-prompt
+        # zle && zle redraw-prompt
         return 1
     fi
 }
@@ -155,8 +157,14 @@ function ccat() {
 
 # generate leetcode file with order number
 function lc() {
-    cd "$HL_REPO/hkms/dev/lang_cpp/src/algorithm/leetcode" || { echo "dir not existed"; return; }
-    [[ -z "${1}" ]] && { echo "no input number"; return; }
+    cd "$HL_REPO/hkms/dev/lang_cpp/src/algorithm/leetcode" || {
+        echo "dir not existed"
+        return
+    }
+    [[ -z "${1}" ]] && {
+        echo "no input number"
+        return
+    }
     leetup_raw=$(leetup pick -l cpp "${1}" || return)
     order=$(printf %04d "${1}")
     # echo "${res}"| sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
@@ -164,8 +172,8 @@ function lc() {
     # leetup_file=$(echo "${leetup_raw}" | sed -r "s/[[:cntrl:]]\[[0-9]{1,3}m//g" | sed "s/^.*\///") # two-sum.cpp
     leetup_file=$(echo "${leetup_raw}" | ansifilter | sed "s/^.*\///") # two-sum.cpp
     # last_file="$(ls -t1 | head -n 1)" # two-sum.cpp
-    file_with_order="${order}_${leetup_file}"      # 0001_two-sum.cpp
-    file_without_ext="${file_with_order%.*}" # 0001_two-sum
+    file_with_order="${order}_${leetup_file}" # 0001_two-sum.cpp
+    file_without_ext="${file_with_order%.*}"  # 0001_two-sum
 
     if [[ -d "$file_without_ext" ]]; then
         echo "dir existed!"

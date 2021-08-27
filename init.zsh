@@ -94,7 +94,12 @@ fi
 
 #***************   pyenv   *****************
 if command_exists pyenv; then
-    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+
+    if command_exists pyenv-virtualenv-init; then
+        eval "$(pyenv virtualenv-init -)"
+    fi
+
 fi
 
 #***************   GPG   *****************
@@ -135,6 +140,7 @@ export MonkeyDevDeviceIP=
 
 #***************   PYTHON   *****************
 export PYTHON_CONFIGURE_OPTS="--enable-framework"
+[[ -d "$HOME/.pyenv" ]] && export PYENV_ROOT="$HOME/.pyenv"
 
 #***************   RUBY   *****************
 # export RUBY_CONFIGURE_OPTS=--with-openssl-dir=$HOMEBREW_PREFIX/opt/openssl@1.1
@@ -211,7 +217,7 @@ export FZF_ALT_C_OPTS="--preview 'tree -N -C {} | head -500'"
 export FZF_TMUX_OPTS="-p 90%,80%" # 控制着fzf的window 是 popup 的还是 split panel 的
 export FZF_COMPLETION_TRIGGER='**'
 
-[[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="${HOME}/.fzf-marks"
+[[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="$HOME/.fzf-marks"
 export FZF_MARKS_COMMAND=$FZF_HIDDEN_PREVIEW
 export FZF_MARKS_JUMP="^[m"
 export FZF_MARKS_NO_COLORS=0
@@ -232,7 +238,6 @@ export _ZL_MAXAGE=100000
 # export _ZL_NO_CHECK=0
 # export _ZL_HYPHEN=0
 # export _ZL_CLINK_PROMPT_PRIORITY
-
 
 # for ta-lib
 # export TA_INCLUDE_PATH="$(brew --prefix ta-lib)/include"
