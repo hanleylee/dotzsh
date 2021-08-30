@@ -1,7 +1,6 @@
 #███████████████████████   ALIAS   ██████████████████████████
-alias reignore='git rm -r --cached . && git add .'
-alias whyignore='git check-ignore -v'
-command_exists pip && alias update_all_pip="pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U"
+command_exists gkill && alias kill='gkill'
+command_exists gls && alias ls='gls --color=tty'
 command_exists trash && alias rm='trash'
 command_exists nvim && alias nv="nvim"
 if command_exists exa; then alias l='exa -laghHimU --git --group-directories-first --icons -F'; else alias l='ls -lhia'; fi
@@ -19,6 +18,10 @@ alias zbi='z -b -i'
 alias zbf='z -b -I'
 alias zz='z -i'
 alias zzc='zz -c'
+
+alias reignore='git rm -r --cached . && git add .'
+alias whyignore='git check-ignore -v'
+command_exists pip && alias update_all_pip="pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U"
 
 if command_exists vim; then
     alias vn='vim -u NONE -U NONE -N -i NONE' # no any config load, completely clean

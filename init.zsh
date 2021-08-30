@@ -15,6 +15,7 @@ fi
 #███████████████████████   PATH Variables   ██████████████████████████
 export VIM_CONFIG="$HOME/.vim"
 export HL_REPO="$HOME/repo"
+export HL_SECRET="$HOME/.secret"
 export HKMS="$HL_REPO/hkms"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -140,6 +141,7 @@ export MonkeyDevDeviceIP=
 
 #***************   PYTHON   *****************
 export PYTHON_CONFIGURE_OPTS="--enable-framework"
+export PYTHONUNBUFFERED=1
 [[ -d "$HOME/.pyenv" ]] && export PYENV_ROOT="$HOME/.pyenv"
 
 #***************   RUBY   *****************
@@ -168,7 +170,7 @@ fzf-tmux \
 --no-sort \
 --exact \
 --preview-window down:3:hidden:wrap \
---bind '?:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up' \
+--bind '?:toggle-preview' \
 --border \
 --cycle \
 "
@@ -193,7 +195,7 @@ export FZF_DEFAULT_OPTS="\
 --exact \
 --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -N -C {}) 2> /dev/null | head -500' \
 --preview-window right:50%:hidden:wrap \
---bind '?:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up' \
+--bind '?:toggle-preview' \
 --border \
 --cycle \
 "
@@ -208,7 +210,7 @@ export FZF_CTRL_R_OPTS="\
 --exact \
 --preview 'echo {}' \
 --preview-window down:3:hidden:wrap \
---bind '?:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up' \
+--bind '?:toggle-preview' \
 --border \
 --cycle \
 "
