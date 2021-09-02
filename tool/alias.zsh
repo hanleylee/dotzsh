@@ -25,6 +25,8 @@ command_exists pip && alias update_all_pip="pip list --outdated --format=freeze 
 
 if command_exists vim; then
     alias vn='vim -u NONE -U NONE -N -i NONE' # no any config load, completely clean
+    alias vc='vim --clean --cmd "set loadplugins"' # no any config load, completely clean
+    alias vt='HOME=~/vim_test_home vim'
     alias v0='vim --cmd "let g:vim_weight=0"' # only load self config, no plugin
     alias v1='vim --cmd "let g:vim_weight=1"' # plugin to browsing
     alias v2='vim --cmd "let g:vim_weight=2"' # plugin to editing
@@ -32,7 +34,8 @@ if command_exists vim; then
 fi
 
 if command_exists nvim; then
-    alias nvn='nvim -u NONE -U NONE -N -i NONE'
+    # alias nvn='nvim -u NONE -U NONE -N -i NONE'
+    alias nvn='nvim --clean --cmd "set loadplugins"'
     alias nv0='nvim --cmd "let g:vim_weight=0"'
     alias nv1='nvim --cmd "let g:vim_weight=1"'
     alias nv2='nvim --cmd "let g:vim_weight=2"'
