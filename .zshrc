@@ -73,6 +73,8 @@ zinit light skywind3000/z.lua
 @zi_w0 has'fzf'
 zinit light Aloxaf/fzf-tab
 
+@zi_w0 has'git'
+zinit light paulirish/git-open
 # ========
 
 zinit snippet OMZL::git.zsh

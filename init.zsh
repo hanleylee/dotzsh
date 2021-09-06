@@ -97,9 +97,10 @@ fi
 if command_exists pyenv; then
     eval "$(pyenv init -)"
 
-    if command_exists pyenv-virtualenv-init; then
-        eval "$(pyenv virtualenv-init -)"
-    fi
+    # 过于耗费性能
+    # if command_exists pyenv-virtualenv-init; then
+    #     eval "$(pyenv virtualenv-init -)" #
+    # fi
 
 fi
 

@@ -25,7 +25,6 @@ if [[ $system_name == "Darwin" ]]; then
     fi
 else
     ARCH_MSG="Running on ${system_name}(${arch_name})"
-
 fi
 export ARCH_MSG
 
