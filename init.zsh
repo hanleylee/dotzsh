@@ -20,6 +20,7 @@ export HKMS="$HL_REPO/hkms"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
+export LANG=en_CN.UTF8
 
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
@@ -37,6 +38,7 @@ insert_path_to_variable "PATH" \
     "$HOMEBREW_PREFIX/opt/llvm/bin" \
     "$XDG_DATA_HOME/bin" \
     "$HOME/.cargo/bin" \
+    "$HOME/go/bin" \
     "$HOME/.rbenv/shims" \
     "$HOME/.pyenv/shims" \
     "$HOME/.pyenv/bin" \
@@ -67,6 +69,7 @@ if command_exists pkg-config; then
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig"
+    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/msgpack/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "/opt/X11/lib/pkgconfig"
 fi
 
@@ -77,7 +80,8 @@ if command_exists pkg-config; then
     pkg-config --exists openssl && PKGS+="openssl "
     pkg-config --exists readline && PKGS+="readline "
     pkg-config --exists libffi && PKGS+="libffi "
-    pkg-config --exists x11 && PKGS+="x11"
+    pkg-config --exists x11 && PKGS+="x11 "
+    pkg-config --exists msgpack && PKGS+="msgpack"
 
     CPPFLAGS=$(pkg-config --cflags "$PKGS")
     export CPPFLAGS
@@ -148,6 +152,11 @@ export PYTHONUNBUFFERED=1
 #***************   RUBY   *****************
 # export RUBY_CONFIGURE_OPTS=--with-openssl-dir=$HOMEBREW_PREFIX/opt/openssl@1.1
 # export GEM_HOME="$HOME/.gem"
+
+#***************   GO   *****************
+export GOROOT=$(go env GOROOT)
+export GOPATH=$(go env GOPATH)
+export GOBIN=$GOPATH/bin
 
 #***************   GTAGS   *****************
 export GTAGSLABEL='native-pygments'
