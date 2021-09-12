@@ -1,4 +1,6 @@
 #███████████████████████   ALIAS   ██████████████████████████
+# setopt aliases
+
 command_exists gkill && alias kill='gkill'
 command_exists gls && alias ls='gls --color=tty'
 command_exists trash && alias rm='trash'
