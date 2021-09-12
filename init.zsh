@@ -16,6 +16,7 @@ fi
 export VIM_CONFIG="$HOME/.vim"
 export HL_REPO="$HOME/repo"
 export HL_SECRET="$HOME/.secret"
+export HL_LOCAL="$HOME/.local"
 export HKMS="$HL_REPO/hkms"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -36,7 +37,7 @@ insert_path_to_variable "PATH" \
     "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" \
     "$HOMEBREW_PREFIX/opt/openssl@1.1/bin" \
     "$HOMEBREW_PREFIX/opt/llvm/bin" \
-    "$XDG_DATA_HOME/bin" \
+    "$HL_LOCAL/bin" \
     "$HOME/.cargo/bin" \
     "$HOME/go/bin" \
     "$HOME/.rbenv/shims" \
@@ -114,7 +115,7 @@ export GPG_TTY
 
 #***************   LESS   *****************
 # Default pager
-export PAGER='less'
+# export PAGER='less'
 
 # less options
 less_opts=(
@@ -132,7 +133,7 @@ less_opts=(
     # Do not complain when we are on a dumb terminal.
     --dumb
 )
-export LESS="${less_opts[*]}"
+# export LESS="${less_opts[*]}"
 
 #***************   BAT   *****************
 export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"
