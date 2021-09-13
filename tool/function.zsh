@@ -104,6 +104,7 @@ up() {
     fi
 }
 
+# MARK: git related {{{
 # Pretty diff
 function pdiff() {
     if [[ $# -ne 2 ]]; then
@@ -143,18 +144,7 @@ git_keep_one() {
     git stash drop
     git gc --prune=all
 }
-
-function ccat() {
-    local style="monokai"
-    if [ $# -eq 0 ]; then
-        pygmentize -P style="$style" -P tabsize=4 -f terminal256 -g
-    else
-        for NAME in "$@"; do
-            pygmentize -P style="$style" -P tabsize=4 -f terminal256 -g "$NAME"
-        done
-    fi
-}
-
+# }}}
 
 
 # function _fish_collapsed_pwd() {

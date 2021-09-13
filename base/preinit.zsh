@@ -1,5 +1,6 @@
 # MARK: 仅用于添加一些需要在初始化开始时就需要的公共变量或方法
 
+# System name
 system_name=$(uname)
 arch_name=$(uname -m)
 
@@ -69,9 +70,8 @@ function insert_path_to_variable() {
         fi
         eval "${env_var_name}=$env_var_content" # use eval to set value for variable, such as 'PATH=/Users/hanley/...'
     done
-    export "${env_var_name?}"               # export, such as 'export PATH'
+    export "${env_var_name?}" # export, such as 'export PATH'
 }
-
 
 function mkdir_if_not_exists() {
     for dir in "$@"; do
