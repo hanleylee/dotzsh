@@ -23,6 +23,11 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export LANG=en_CN.UTF8
 
+# fpath=(~/.local/lib $fpath)
+insert_path_to_variable "FPATH" \
+    "$ZDOTDIR/lib" \
+    "$ZDOTDIR/completion"
+
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
 insert_path_to_variable "PATH" \
@@ -166,6 +171,13 @@ export GTAGSLABEL='native-pygments'
 #***************   CHEAT   *****************
 [[ -f "$XDG_CONFIG_HOME/cheat/conf.yml" ]] && export CHEAT_CONFIG_PATH="$XDG_CONFIG_HOME/cheat/conf.yml"
 export CHEAT_USE_FZF=true
+
+#***************   SHELLCHECK   *****************
+export SHELLCHECK_OPTS="\
+-e SC1071 \
+-e SC2155 \
+-e SC1091 \
+"
 
 #***************   fzf   *****************
 # --color fg:242,bg:236,hl:196,fg+:232,bg+:142,hl+:196:

@@ -1,0 +1,509 @@
+#compdef jamf
+
+
+_jamf() {
+  local -a _jamf_verbs
+  _jamf_verbs=(
+        "about:displays information about the jamf binary"
+        "bind:binds this computer to a directory service"
+        "bless:blesses a System or a NetBoot Server"
+        "changePassword:changes a local user's password"
+        "checkJSSConnection:checks the availability of the JSS"
+        "createAccount:creates a new local account on the system"
+        "createConf:creates a configuration file that the jamf binary uses to find the JSS"
+        "createHooks:creates and configures login/logout hooks"
+        "createSetupDone:ensures the Setup Assistant does not launch immediately on the next boot"
+        "createStartupItem:creates a startup script to contact the JSS"
+        "deleteAccount:deletes a local account from NetInfo or the local dscl database"
+        "deletePrinter:deletes a printer from the system"
+        "deleteSetupDone:causes the Setup Assistant to launch on the next boot"
+        "displayMessage:displays a message to the current user"
+        "enablePermissions:enables permissions on a volume"
+        "enroll:enrolls this computer with the JSS"
+        "fixByHostFiles:fixes the ByHost files"
+        "fixDocks:repairs docks that have question marks after certain OS Updates"
+        "fixPermissions:fixes the permissions on a given target"
+        "flushCaches:flush cache files for the system and/or users"
+        "flushPolicyHistory:flush the policy history on the JSS"
+        "getARDFields:displays the ARD Fields on a volume"
+        "getComputerName:displays the computer name on a volume"
+        "help:displays this message or details on a specific verb"
+        "install:installs a package"
+        "installAllCached:installs all packages that are cached"
+        "listUsers:lists all the users on the computer"
+        "log:log the IP address, action, and username to the JSS"
+        "manage:enforces the entire management framework from the JSS"
+        "mapPrinter:maps a printer"
+        "mcx:apply Managed Preferences"
+        "modifyDock:installs or removes items in all users docks"
+        "mount:mounts a file share"
+        "policy:checks for policies on the JSS"
+        "reboot:reboots the computer"
+        "recon:runs Recon to update the inventory in the JSS"
+        "removeFramework:removes the JAMF Binary and associated files from the computer"
+        "removeSWUSettings:remove settings that point SWU at internal servers"
+        "resetPassword:resets a local user account password"
+        "runScript:runs a script"
+        "runSoftwareUpdate:run Software Update"
+        "setARDFields:sets the ARD Fields"
+        "setComputerName:sets the computer name"
+        "setHomePage:sets the default home page for users"
+        "setOFP:sets the Open Firmware mode and password"
+        "startSSH:starts the ssh server"
+        "uninstall:uninstalls a package"
+        "unmountServer:unmounts a file server"
+        "updatePrebindings:updates the prebindings on a volume"
+        "version:prints the version of this application"
+  )
+
+  local -a _global_options
+  _global_options=(
+        "-displayJSSTraffic[displays the total network traffic between the jamf binary and the JSS]"
+        "-randomDelaySeconds[delays a random amount of time before starting]:maximum delay"
+        "-verbose[shows verbose events]"
+        "-showPID[prints the PID of the process]"
+  )
+  
+  local curcontext="$curcontext" state line expl
+  local -A opt_args
+
+  _arguments -C '*:: :->verbs'
+
+  if (( CURRENT == 1 )); then
+    _describe -t commands "jamf verb" _jamf_verbs
+    return
+  fi
+  
+  case "$words[1]" in
+    about|version|enablePermissons)
+      return 0
+      ;;
+    bind)
+      _arguments \
+        "$_global_options[@]" \
+        "-type[one of 'ad', 'od', 'admitmac', 'centrify', or 'likewise']" \
+        "-computerID[the name that the computer will be assigned in the Active Directory domain]:computer ID" \
+        "-domain[the DNS name of the server that hosts the Active Directory domain]:domain" \
+        "-server[the DNS name or IP address of the AD or OD server]:server or ip address" \
+        "-username[the username that you will authenticate to Active Directory with to bind the computer]:user name" \
+        "-password[the password for the user that you will authenticate to Active Directory with to bind the computer]:password" \
+        "-ou[the OU (Organizational Unit) that the computers are stored in on the Active Directory server]:organizational unit" \
+        "-cache[create mobile account at login]" \
+        "-requireConfirmation[require confirmation before creating mobile account]" \
+        "-localHomes[use local home directories]" \
+        "-useUNCPath[use UNC Path from AD for network home location]" \
+        "-mountStyle[specify if the method that the user's home directory is mounted (AFP or SMB)]:afp or smb" \
+        "-defaultShell[specify the user's default shell]:shell path" \
+        "-uid[specify that attribute that stores the UID]: uid attribute" \
+        "-userGID[specify that attribute that stores the User's GID]: usergroup id" \
+        "-gid[specify that attribute that stores the GID]: user gid attribute" \
+        "-preferredServer[specify the DNS name of the server whose  Active Directory domain you want used by default]:preferred server address" \
+        "-multipleDomains[allow users to authenticate from any domain in the forest]" \
+        "-adminGroups[specify groups that are have administrative privileges on the computer]:admin groups" \
+        "-encryptUsingSSL[bind to the OD server using SSL (OD Only)]" \
+        "-performSecureBind[perform a Secure, Two-Way bind to OD (OD Only)]" \
+        "-useForAuthentication[use this OD Server for Authentication (OD Only)]" \
+        "-useForContacts[use this OD Server for Contacts (OD Only)]" \
+        "-cachedLogins[the number of times a user can log in when not connected to a network. '0' disables cached logins. (ADmitMac only)]:number logins" \
+        "-homeFolderType[one of the following: "network" (default), "local", "either" and "mobile" (ADmitMac only)]:home folder type" \
+        "-mountNetworkHomeFolderOnDesktop[mount the user's home directory on their desktop (ADmitMac only)]" \
+        "-placeHomeFoldersInDirectory[Specify a folder where the home folders should be mounted (ADmitMac only)]:home folder dir" \
+        "-cachedCredentials[allow the credentials to be cached (ADmitMac only)]" \
+        "-addManagedDomainUserToAdminGroup[add the 'Managed By' domain user to the local admin group (ADmitMac only)]" \
+        "-usersOU[specify the OU that users should be looked up from (ADmitMac only)]:users OU" \
+        "-groupsOU[specify the OU that groups should be looked up from (ADmitMac Only)]:groups OU" \
+        "-printersOU[specify the OU that printers should be looked up from (ADmitMac Only)]:printers OU" \
+        "-sharedFoldersOU[specify the OU that Shared Folders should be looked up from (ADmitMac Only)]:shared folders OU" \
+        "-mapHomeDirectoryAttributeTo[specify that attribute that stores the Home Directory (ADmitMac only)]:home directory attribute" \
+        "-workstationMode[use without Centrify Administrator Console (Centrify Only)]" \
+        "-joinThisZone[specify the Zone in the Centrify Administrator Console (Centrify Only)]:zone" \
+        "-overwriteExistingRecord[overwrite the existing record (Centrify Only)]" \
+        "-doNotUpdatePAMAndDSConfig[Do not update PAM and Directory Service configuration (Centrify Only)]" \
+        && return 0
+    ;;
+    bless)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the target drive that should be blessed]" \
+        "-setOF[set the drive as the current boot device]" \
+        "-setBoot[synonym for setOF]" \
+        "-bootargs[set the boot-args variable in Open Firmware]" \
+        "-bootfile[set the boot-file variable in Open Firmware]" \
+        "-bootdevice[set the boot-device variable in Open Firmware]" \
+        "-bootdirectory[set the boot-directory for an in-place upgrade]" \
+        && return 0
+    ;;    
+    changePassword)
+      _arguments \
+        "$_global_options[@]" \
+        "-username[the username for which to change the password]:user name" \
+        "-password[the new password for the user]:new password" \
+        "-passhash[the hash of the new password for the user]:password hash" \
+        "-oldPassword[the old/current password of the user]:old password" \
+        "-oldPasshash[the hash of the old/current password of the user]:old password hash" \
+        && return 0
+    ;;    
+    checkJSSConnection)
+      _arguments \
+        "$_global_options[@]" \
+        "-retry[the number of times the connection should be tested]:number of retries" \
+        && return 0
+    ;;
+    createAccount)
+      _arguments \
+        "$_global_options[@]" \
+        "-username[the user's user name ]:user name" \
+        "-realname[the user's real name]:real name" \
+        "-password[the password of the user]:password" \
+        "-passhash[the hashed password of the user]:password hash" \
+        "-home[the location of the user's home directory]: home directory location" \
+        "-hint[the hint displayed to the user]:password hint" \
+        "-shell[the user's default shell]:default shell" \
+        "-picture[the user's picture for the Login window]:user picture" \
+        "-admin[this flag adds the user to the admin group]" \
+        "-hiddenUser[creates an account with a UID under 500 and hides it]" \
+        "-networkUser[creates an account with a UID over 1025]" \
+        "-secureSSH[modifies the group com.apple.ssh_access to restrict access to only this user]" \
+        && return 0
+    ;;    
+    createHooks)
+      _arguments \
+        "$_global_options[@]" \
+        "-url[the JSS URL]:jamf server url" \
+        "-verifySSLCert[valid values are 'always' (default), 'never', 'always_except_during_enrollment']:verify SSL cert value" \
+        "-server[the IP address or DNS name of the server]:ip address or dns" \
+        "-target[the target drive that the conf file should be created on]:target drive" \
+        && return 0
+    ;;    
+    createHooks)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the target drive used to create login/logout hooks]:target drive" \
+        "-policies[Checks for policies on login/logout]" \
+        "-mcx[Enforces MCX settings for the user that is logging in]" \
+        "-log[Creates a log entry in the JSS for the user who is logging in/out of the computer]" \
+        "-hideRestore[Hides the Restore partition if present]" \
+        "-background[Performs actions in the background during login]" \
+        "-displayStatus[Enables the progress display for login/logout]" \
+        && return 0
+    ;;    
+    createSetupDone)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the drive that the Setup Assistant will be suppressed on.]:target drive" \
+        "-suppressSetupAssistant[the Setup Assistant will not show on first login for any existing user accounts]" \
+        && return 0
+    ;;    
+    createStartupItem)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the target drive used to create the startup item]:target drive" \
+        "-log[the startup script logs the IP address to the JSS.]" \
+        "-policies[the startup item will check for policies in the JSS.]" \
+        "-ssh[the startup script will ensure that SSH is running.]" \
+        "-mcx[the startup script enforces System Level MCX settings.]" \
+        && return 0
+    ;;    
+    deleteAccount)
+      _arguments \
+        "$_global_options[@]" \
+        "-username[deletes the user's account]:username" \
+        "-backupTo[the .dmg file of the user's home directory]:path for dmg" \
+        "-deleteHomeDirectory[do not archive the user's home directory]" \
+        && return 0
+    ;;    
+    deletePrinter)
+      _arguments \
+        "$_global_options[@]" \
+        "-cupsName[the CUPS name of the printer]:cups printer name" \
+        && return 0
+    ;;    
+    deleteSetupDone)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the drive that the setup file will be delete from]:volume path" \
+        && return 0
+    ;;    
+    displayMessage)
+      _arguments \
+        "$_global_options[@]" \
+        "-message[the message to be displayed]:message" \
+        && return 0
+    ;;    
+    enroll)
+      _arguments \
+        "$_global_options[@]" \
+        "-prompt[prompt for JSS and SSH credentials]" \
+        "-invitation[uses an invitation ID for credentials instead of a user name and password]" \
+        "-noRecon[stops enroll from acquiring inventory]" \
+        "-noManage[stops enroll from enforcing the management framework]" \
+        "-noPolicy[stops enroll from checking for enrollment policies]" \
+        && return 0
+    ;;    
+    fixByHostFiles|fixDocks|fixPermissions)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the root of the drive or folder that will be updated]:volume" \
+        "-duplicate[]" \
+        && return 0
+    ;;    
+    flushCaches)
+      _arguments \
+        "$_global_options[@]" \
+        "-flushSystem[flush all System Caches]" \
+        "-flushUsers[flush all caches in the user's home directories]" \
+        && return 0
+    ;;    
+    flushPolicyHistory)
+      _arguments \
+        "$_global_options[@]" \
+        && return 0
+    ;;    
+    getARDFields)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the drive that the ARD fields will be display from]:path to volume" \
+        && return 0
+    ;;    
+    getComputerName)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the drive that the computer name will be displayed from]:path to volume" \
+        && return 0
+    ;;    
+    help)
+      _describe -t commands "jamf verb" _jamf_verbs \
+        && return 0
+    ;;
+    install)
+      _arguments \
+        "$_global_options[@]" \
+        "-package[the filename of the package that will be installed]:package file name" \
+        "-path[the path to the package, not including the name of the package]:path to package" \
+        "-target[the drive that the package will be installed to]:target volume" \
+        "-fut[enable the Fill User Templates option]" \
+        "-feu[enable the Fill Existing Users option]" \
+        "-showProgress[displays the progress of the HTTP download and the progress of the installation process]" \
+        && return 0
+    ;;    
+    installAllCached)
+      _arguments \
+        "$_global_options[@]" \
+        && return 0
+    ;;    
+    listUsers)
+      _arguments \
+        "$_global_options[@]" \
+        "-showAll[shows system users with unique ID numbers less than 500]" \
+        "-sizes[calculates the size of a user’s home directory]" \
+        && return 0
+    ;;    
+    log)
+      _arguments \
+        "$_global_options[@]" \
+        "-action[the action to log (reboot, login or logout)]:action" \
+        "-username[the name of the user logging in or out]:username" \
+        && return 0
+    ;;    
+    manage)
+      _arguments \
+        "$_global_options[@]" \
+        && return 0
+    ;;    
+    mapPrinter)
+      _arguments \
+        "$_global_options[@]" \
+        "-id[the JSS ID of the printer]:jss id" \
+        "-cupsName[a CUPS compliant name]:printer name" \
+        "-location[the Location field of the printer]:printer location" \
+        "-displayName[the display name]:display name" \
+        "-deviceURI[the DeviceURI for the printer]:printer URI" \
+        "-path[the path to the PPDs folder]:path to PPDs folder" \
+        "-ppd[the full path to the PPD to use for the printer]:path to PPD" \
+        "-default[make this printer the default printer for all users on the system]" \
+        "-shared[make this printer the shared printer]" \
+        && return 0
+    ;;    
+    mcx)
+      _arguments \
+        "$_global_options[@]" \
+        "-username[the username of the account that Managed Preferences are being applied to]:username" \
+        && return 0
+    ;;    
+    modifyDock)
+      _arguments \
+        "$_global_options[@]" \
+        "-file[the file that contains the formatted dock items]:path to dock item file" \
+        "-id[the dock_item_id of the dock item on the JSS]:dock id" \
+        "-leaveRunning[the Dock process will not be restarted]" \
+        "-beginning[the item will be placed at the beginning (left side) of the Dock]" \
+        "-remove[the item will be removed instead of added]" \
+        && return 0
+    ;;    
+    mount)
+      _arguments \
+        "$_global_options[@]" \
+        "-url[mounts the specified URL]":mount uri \
+        "-server[the IP address or DNS name of the server]:server address" \
+        "-share[the name of the share you are mounting]:share name" \
+        "-type[the type of file share (afp or smb)]:type" \
+        "-username[user acccount to access the share with]:username" \
+        "-password[password to access the share with]:password" \
+        "-passhash[the hashed password to access the share with]:password hash" \
+        "-port[specify a non standard port for AFP]:port" \
+        "-workgroup[the workgroup or domain for the SMB type]:workgroup" \
+        "-visible[specify that the share should be visible in the Finder]" \
+        && return 0
+    ;;    
+    policy)
+      _arguments \
+        "$_global_options[@]" \
+        "(-event -trigger -action)"{-event,-trigger,-action}"[the event or trigger for the policy]:trigger name" \
+        "-username[the username to check for policies for]" \
+        "-id[the ID of the policy to be executed]" \
+        "-forceNoRecon[prevents computers from submitting inventory update when a policy is configured to update inventory]" \
+        && return 0
+    ;;    
+    reboot)
+      _arguments \
+        "$_global_options[@]" \
+        "-minutes[the minutes until the machine should reboot]:minutes" \
+        "-message[the message to display to any logged in users]:message" \
+        "-startTimerImmediately[start the restart timer immediately without requiring the user to acknowledge the restart message]" \
+        "-background[background this process (don't wait until the reboot to exit)]" \
+        "-immediately[reboot now without warning users]" \
+        && return 0
+    ;;    
+    recon)
+      _arguments \
+        "$_global_options[@]" \
+        "-saveFormTo[saves the contents of the HTTP form to a file]:filepath" \
+        "-assetTag[the asset tag of the computer]:asset tag" \
+        "-endUsername[the user name of the primary user]:primary user shortname" \
+        "-realname[the real name of the primary user]:primary user full name" \
+        "-email[the email address of the primary user]:primary user email address" \
+        "-position[the position (job title) of the primary user]:primary user job title" \
+        "-building[the text representation of a building in the JSS]:building" \
+        "-department[the text representation of a department in the JSS]:deparment" \
+        "-phone[the phone number of the primary user]:primary user phone number" \
+        "-room[the room that the computer is in]:room" \
+        "-ldapServerID[the JSS ID of the LDAP server to which the primary user belongs]:ldap server ID" \
+        "-userID[the user ID of the primary user's account in the LDAP server]:user ID in JSS" \
+        "-sshUsername[a username that is used to connect to the computer over SSH]:ssh account name" \
+        "-sshPassword[a password that is used to connect to the computer over SSH]:ssh password" \
+        "-sshPasshash[a hashed copy of a password that is used to connect to the computer over SSH]:ssh password hash" \
+        && return 0
+    ;;    
+    removeFramework)
+      _arguments \
+        "$_global_options[@]" \
+        && return 0
+    ;;    
+    removeSWUSettings)
+      _arguments \
+        "$_global_options[@]" \
+        && return 0
+    ;;    
+    resetPassword)
+      _arguments \
+        "$_global_options[@]" \
+        "-username[the username for which to reset the password]:username" \
+        "-password[the new password for the user]:new password" \
+        "-passhash[the hash of the new password for the user]: new passhash" \
+        && return 0
+    ;;    
+    runScript)
+      _arguments \
+        "$_global_options[@]" \
+        "-script[the file name of the script to run]:file name" \
+        "-path[the path to the script]:path to script" \
+        "-computerName[the name of the computer to be passed to the script]:computer name" \
+        "-target[the target drive to be passed to the script]:target drive" \
+        "-username[the username to be passed to the script]:user name" \
+        "-p"{1..8}"[the parameters to be passed to the script]:parameter" \
+        && return 0
+    ;;    
+    runSoftwareUpdate)
+      _arguments \
+        "$_global_options[@]" \
+        "-server[the server which the Software Update service should look to]:software update server address" \
+        "-setPrefOnly[point SWU to the server, but do not run]" \
+        "-fromApple[run Software Update from Apple, not a hosted server]" \
+        && return 0
+    ;;    
+    setARDFields)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the target drive to set the fields on]:target volume" \
+        "-"{1..4}"[the field for Apple Remote Desktop]" \
+        && return 0
+    ;;    
+    setComputerName)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[The target drive to set the name on]:target volume" \
+        "-name[the new name for the computer]:new computer name" \
+        "-useMACAddress[generate the name using the MAC Address]" \
+        "-useSerialNumber[generate the name using the Serial Number]" \
+        "-prefix[add this prefix to the MAC Address or Serial Number]:prefix" \
+        "-suffix[add this suffix to the MAC Address or Serial Number]:suffix" \
+        "-fromFile[The path to a CSV file containing the computer's MAC Address or Serial Number followed by the desired name]:path to csv file" \
+        && return 0
+    ;;    
+    setHomePage)
+      _arguments \
+        "$_global_options[@]" \
+        "-homepage[the URL for the homepage]:homepage url" \
+        "-feu[set the homepage for existing users]" \
+        "-fut[set the homepage in the User Templates]" \
+        "-username[set the homepage only for this user]:username" \
+        "-ffmstone[specify the milestone version for FireFox]:firefox milestone" \
+        "-mozmstone[specify the milestone version for Mozilla (Netscape)]:mozilla milestone" \
+        "-removeDownloadLocation[remove the default download location]" \
+        "-skipIE[do not set the homepage for Internet Explorer]" \
+        "-skipFirefox[do not set the homepage for Firefox]" \
+        "-skipMozilla[do not set the homepage for Mozilla based browsers (Netscape)]" \
+        "-skipSafari[do not set the homepage for Safari]" \
+        && return 0
+    ;;    
+    setOFP)
+      _arguments \
+        "$_global_options[@]" \
+        "-mode[the security-mode to set in Open Firmware (none, command, full)]:security mode" \
+        "-passhash[the hash to set the security-password to in Open Firmware]:password hash" \
+        "-password[the password to set the security-password to in Open Firmware]:password" \
+        && return 0
+    ;;    
+    startSSH)
+      _arguments \
+        "$_global_options[@]" \
+        && return 0
+    ;;    
+    uninstall)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the target drive to uninstall the package from]:target volume" \
+        "-id[the ID of the package in the JSS]:jss package id" \
+        "-fut[remove any files from the package that are in the User Templates]" \
+        "-feu[remove any files from the package that are installed in a user's home directory]" \
+        && return 0
+    ;;    
+    unmountServer)
+      _arguments \
+        "$_global_options[@]" \
+        "-mountPoint[the path to the share you want to unmount]:path to mount" \
+        && return 0
+    ;;    
+    updatePrebindings)
+      _arguments \
+        "$_global_options[@]" \
+        "-target[the path to the location you want to update prebindings for]:target volume" \
+        && return 0
+    ;;    
+    *)
+      _message "unknown jamf verb: $words[1]"
+      _default
+      ;;
+  esac
+  return 1
+}

@@ -4,17 +4,31 @@
 export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-setopt globdots # 使所有的ls显示 . 与 ..
+setopt GLOBDOTS # 使所有的ls显示 . 与 ..
+setopt NO_CASE_GLOB # 通配符扩展不区分大小写
+setopt GLOB_COMPLETE # 列出可能的补全, 但不会直接在提示符中替换补全的结果
 EDITOR="$HOMEBREW_PREFIX/bin/vim" # zsh 默认的编辑器为 vi, 比较难用, 因此设置为 vim
 export EDITOR
 export VISUAL="$EDITOR"
 export HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
 export HISTSIZE=100000
-[[ -f "$HOME/.sh/.zsh_history" ]] && export HISTFILE="$HOME/.sh/.zsh_history"
+# [[ -f "$HOME/.sh/.zsh_history" ]] && export HISTFILE="$HOME/.sh/.zsh_history"
+export HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history # 它将使用ZDOTDIR设置的值, 或者默认值 HOME
 export SAVEHIST=$HISTSIZE
+setopt EXTENDED_HISTORY
 setopt HIST_SAVE_NO_DUPS
-setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
+setopt HIST_EXPIRE_DUPS_FIRST # 去除第一个重复记录
+setopt HIST_IGNORE_DUPS # 去除重复记录
+setopt HIST_FIND_NO_DUPS # 浏览时跳过重复记录
+setopt HIST_REDUCE_BLANKS # 去除空白记录
+setopt SHARE_HISTORY    # 共享历史记录
+setopt APPEND_HISTORY   # 以追加方式而不是覆盖
+setopt INC_APPEND_HISTORY # 立即更新历史记录
+setopt HIST_VERIFY
+setopt CORRECT
+setopt CORRECT_ALL
+setopt AUTO_CD
 setopt AUTO_PUSHD                  # pushes the old directory onto the stack
 setopt PUSHD_MINUS                 # exchange the meanings of '+' and '-'
 setopt CDABLE_VARS                 # expand the expression (allows 'cd -2/tmp')
