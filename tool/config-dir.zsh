@@ -1,3 +1,8 @@
+# Author: Hanley Lee
+# Website: https://www.hanleylee.com
+# GitHub: https://github.com/hanleylee
+# License:  MIT License
+
 mkdir_if_not_exists \
     "$XDG_DATA_HOME" \
     "$XDG_CONFIG_HOME" \

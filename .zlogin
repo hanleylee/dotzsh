@@ -1,3 +1,8 @@
+# Author: Hanley Lee
+# Website: https://www.hanleylee.com
+# GitHub: https://github.com/hanleylee
+# License:  MIT License
+
 echo "$ARCH_MSG"
 
 if [[ -n $SSH_CLIENT ]] || [[ -n $SSH_TTY ]]; then

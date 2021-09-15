@@ -1,3 +1,8 @@
+# Author: Hanley Lee
+# Website: https://www.hanleylee.com
+# GitHub: https://github.com/hanleylee
+# License:  MIT License
+
 # MARK: 仅用于添加一些需要在初始化开始时就需要的公共变量或方法
 
 # System name

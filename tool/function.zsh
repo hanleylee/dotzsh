@@ -1,3 +1,8 @@
+# Author: Hanley Lee
+# Website: https://www.hanleylee.com
+# GitHub: https://github.com/hanleylee
+# License:  MIT License
+
 # set -e # 有一个未通过立刻终止脚本
 # set -x # 显示所有步骤
 

@@ -1,5 +1,10 @@
 #!/usr/bin/env zsh
 
+# Author: Hanley Lee
+# Website: https://www.hanleylee.com
+# GitHub: https://github.com/hanleylee
+# License:  MIT License
+
 # MARK: distinguish the output to give correct color code(e.g. no color for vim execute)
 # generate leetcode file with order number
 get_color() {

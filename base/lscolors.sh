@@ -1,3 +1,8 @@
+# Author: Hanley Lee
+# Website: https://www.hanleylee.com
+# GitHub: https://github.com/hanleylee
+# License:  MIT License
+
 LS_COLORS="bd=38;5;68:\
 ca=38;5;17:\
 cd=38;5;113;1:\

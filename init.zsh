@@ -1,3 +1,8 @@
+# Author: Hanley Lee
+# Website: https://www.hanleylee.com
+# GitHub: https://github.com/hanleylee
+# License:  MIT License
+
 if [ -z "$_INIT_ZSH_LOADED" ]; then
     _INIT_ZSH_LOADED=1
 else
@@ -76,31 +81,35 @@ if command_exists pkg-config; then
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/msgpack/lib/pkgconfig"
+    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/lzo/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "/opt/X11/lib/pkgconfig"
 fi
 
 #███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
 if command_exists pkg-config; then
-    pkg-config --exists glib-2.0 && PKGS+="glib-2.0 "
-    pkg-config --exists zlib && PKGS+="zlib "
-    pkg-config --exists openssl && PKGS+="openssl "
-    pkg-config --exists readline && PKGS+="readline "
-    pkg-config --exists libffi && PKGS+="libffi "
-    pkg-config --exists x11 && PKGS+="x11 "
-    pkg-config --exists msgpack && PKGS+="msgpack"
+    PKGS=() # array list
+    pkg-config --exists glib-2.0 && PKGS+=("glib-2.0")
+    pkg-config --exists zlib && PKGS+=("zlib")
+    pkg-config --exists openssl && PKGS+=("openssl")
+    pkg-config --exists readline && PKGS+=("readline")
+    pkg-config --exists libffi && PKGS+=("libffi")
+    pkg-config --exists x11 && PKGS+=("x11")
+    pkg-config --exists msgpack && PKGS+=("msgpack")
+    pkg-config --exists lzo2 && PKGS+=("lzo2")
 
-    CPPFLAGS=$(pkg-config --cflags "$PKGS")
+    CPPFLAGS=$(pkg-config --cflags "${PKGS[*]}")
     export CPPFLAGS
 
-    CFLAGS=$(pkg-config --cflags "$PKGS")
+    CFLAGS=$(pkg-config --cflags "${PKGS[*]}")
     export CFLAGS
 
-    CXXFLAGS=$(pkg-config --cflags "$PKGS")
+    CXXFLAGS=$(pkg-config --cflags "${PKGS[*]}")
     export CXXFLAGS
 
     # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
-    LDFLAGS=$(pkg-config --libs "$PKGS")
+    LDFLAGS=$(pkg-config --libs "${PKGS[*]}")
     export LDFLAGS
+    unset PKGS
 fi
 
 #***************   pyenv   *****************
