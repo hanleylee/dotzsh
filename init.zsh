@@ -45,6 +45,7 @@ insert_path_to_variable "PATH" \
     "$HOMEBREW_PREFIX/sbin" \
     "$HOMEBREW_PREFIX/opt/make/libexec/gnubin" \
     "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" \
+    "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin" \
     "$HOMEBREW_PREFIX/opt/openssl@1.1/bin" \
     "$HOMEBREW_PREFIX/opt/llvm/bin" \
     "$HL_LOCAL/bin" \
@@ -211,7 +212,6 @@ fzf-tmux \
 export FZF_DEFAULT_COMMAND="\
 fd \
 --hidden \
--I \
 --follow \
 --exclude={Pods,.git,.idea,.sass-cache,node_modules,build} \
 --type f \

@@ -40,7 +40,7 @@ setopt CDABLE_VARS                 # expand the expression (allows 'cd -2/tmp')
 setopt PUSHD_IGNORE_DUPS           # push dir, remove the old items if it already existing
 # zstyle ':completion:*:directory-stack' list-colors '=(#b) #([0-9]#)*( *)==95=38;5;12'
 
-##███████████████████████   PLUGINS   ██████████████████████████
+##███████████████████████   PLUGINS   ██████████████████████████ {{{
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.sh/.zinit/bin/zinit.zsh ]]; then
@@ -151,8 +151,9 @@ zinit light "/Users/hanley/repo/handy" # use for debug
 
 # zinit ice svn
 # zinit snippet OMZP::gitfast
+#}}}
 
-#███████████████████████   zstyle   ██████████████████████████
+#███████████████████████   zstyle   ██████████████████████████ {{{
 zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 # zstyle ':fzf-tab:*' fzf-preview 'exa -1 --color=always $realpath'
@@ -164,25 +165,39 @@ zstyle ':completion:*:exa' file-sort modification
 zstyle ':completion:*:exa' sort false
 # zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 # zstyle ':fzf-tab:complete:cd:*' popup-pad 80 0
+#}}}
 
-#███████████████████████   Utilities Settings   ██████████████████████████
+#███████████████████████   Utilities Settings   ██████████████████████████ {{{
 #***************   autosuggest   *****************
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245,underline" # 提示样式, 可设置前景, 背景, 加粗, 下划线
 
 #***************   scmpuff   *****************
 command_exists scmpuff && eval "$(scmpuff init -s)"
+#}}}
 
-#███████████████████████   BINDKEYS   ██████████████████████████
+#███████████████████████   BINDKEYS   ██████████████████████████ {{{
 zle -N _zfzf
 bindkey -e # 使用 Emacs 键位
-bindkey -s "^o" 'lfcd^M'
 bindkey ',' autosuggest-accept
 bindkey "^u" backward-kill-line
-bindkey '^h' _zfzf
 
-#***************   source   *****************
+if command_exists lf; then
+    bindkey -s "^o" 'lfcd^M'
+fi
+
+if command_exists lazygit; then
+    bindkey -s "^g" 'lg^M'
+fi
+
+if command_exists fzf; then
+    bindkey '^h' _zfzf
+fi
+#}}}
+
+#***************   source   ***************** {{{
 source_if_exists "$HOME/.cargo/env" \
     "$XDG_CONFIG_HOME/lf/lfcd.sh" \
     "$XDG_CONFIG_HOME/broot/launcher/bash/br"
 
 [[ $TERM_PROGRAM == "iTerm.app" ]] && source_if_exists "$ZDOTDIR/.iterm2_shell_integration.zsh"
+#}}}

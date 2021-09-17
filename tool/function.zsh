@@ -11,10 +11,32 @@ ofx() {
     open ./*.xcworkspace || open ./*.xcodeproj
 }
 
+function repeat() {
+    local i max
+    max=$1
+    shift
+    for ((i = 1; i <= max; i++)); do # --> C-like syntax
+        eval "$@"
+    done
+}
+
 if command_exists code; then
     # 在 vscode 中打开当前 finder 的文件夹
     codef() {
         code "$(pfd)"
+    }
+fi
+
+if command_exists lazygit; then
+    lg() {
+        export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
+
+        lazygit "$@"
+
+        if [ -f "$LAZYGIT_NEW_DIR_FILE" ]; then
+            cd "$(cat "$LAZYGIT_NEW_DIR_FILE")"
+            rm -f "$LAZYGIT_NEW_DIR_FILE" >/dev/null
+        fi
     }
 fi
 
@@ -60,7 +82,7 @@ function _zfzf {
     _zlua -I -t .
 
     if [[ -z "$lines" ]]; then
-        
+
         zle && zle reset-prompt
         # zle && zle redraw-prompt
         return 1
@@ -150,7 +172,6 @@ git_keep_one() {
     git gc --prune=all
 }
 # }}}
-
 
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"
