@@ -10,6 +10,7 @@ command_exists gkill && alias kill='gkill'
 command_exists gls && alias ls='gls --color=tty'
 command_exists trash && alias rm='trash'
 command_exists nvim && alias nv="nvim"
+command_exists lazygit && alias lg="lazygit"
 if command_exists exa; then alias l='exa -laghHimU --git --group-directories-first --icons -F'; else alias l='ls -lhia'; fi
 [[ -d "$HOME/.hlconfig.git" ]] && alias hlconfig='git --git-dir=$HOME/.hlconfig.git/ --work-tree=$HOME'
 [[ -f "/opt/homebrew/bin/brew" ]] && alias abrew='arch -arm64 /opt/homebrew/bin/brew'

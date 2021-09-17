@@ -211,6 +211,7 @@ fzf-tmux \
 export FZF_DEFAULT_COMMAND="\
 fd \
 --hidden \
+-I \
 --follow \
 --exclude={Pods,.git,.idea,.sass-cache,node_modules,build} \
 --type f \
