@@ -196,13 +196,14 @@ export SHELLCHECK_OPTS="\
 # --color fg:#ebdbb2,bg:#282828,hl:#fabd2f,fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f
 # --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#83a598,marker:#fe8019,header:#665c54
 # one dark
-FZF_HIDDEN_PREVIEW="\
+FZF_FULL_COMMAND="\
 fzf-tmux \
 -p 90%,80% \
 --layout=reverse \
 --no-sort \
 --exact \
---preview-window down:3:hidden:wrap \
+--height=80% \
+--preview-window right:50%:hidden:nowrap \
 --bind '?:toggle-preview' \
 --border \
 --cycle \
@@ -216,6 +217,9 @@ fd \
 --exclude={Pods,.git,.idea,.sass-cache,node_modules,build} \
 --type f \
 "
+# export FZF_PREVIEW_COMMAND="\
+# highlight -O ansi -l {} || coderay {} || rougify {} || cat {}\
+# "
 
 # --sort \, 默认是 --no-sort, 就是根据你原有的结果顺序为以后所有的顺序基础
 export FZF_DEFAULT_OPTS="\
@@ -226,8 +230,9 @@ export FZF_DEFAULT_OPTS="\
 --layout=reverse \
 --no-sort \
 --exact \
---preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -N -C {}) 2> /dev/null | head -500' \
---preview-window right:50%:hidden:wrap \
+--height=80% \
+--preview '([[ -f {} ]] && highlight -O ansi -l {} 2> /dev/null || tree -N -C -l -L 5 {}) 2> /dev/null | head -500' \
+--preview-window right:50%:hidden:nowrap \
 --bind '?:toggle-preview' \
 --border \
 --cycle \
@@ -241,25 +246,26 @@ export FZF_CTRL_R_OPTS="\
 --layout=reverse \
 --no-sort \
 --exact \
---preview 'echo {}' \
+--height=80% \
+--preview 'echo {} | head -500' \
 --preview-window down:3:hidden:wrap \
 --bind '?:toggle-preview' \
 --border \
 --cycle \
 "
 
-export FZF_ALT_C_OPTS="--preview 'tree -N -C {} | head -500'"
+export FZF_ALT_C_OPTS="--preview 'tree -N -C -l -L 5 {} | head -500'"
 export FZF_TMUX_OPTS="-p 90%,80%" # 控制着fzf的window 是 popup 的还是 split panel 的
 export FZF_COMPLETION_TRIGGER='**'
 
 [[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="$HOME/.fzf-marks"
-export FZF_MARKS_COMMAND=$FZF_HIDDEN_PREVIEW
+export FZF_MARKS_COMMAND="$FZF_FULL_COMMAND --preview 'tree -N -C -l -L 5 {3} | head -500'"
 export FZF_MARKS_JUMP="^[m"
 export FZF_MARKS_NO_COLORS=0
 export FZF_MARKS_KEEP_ORDER=1
 
 # z.lua 使用的 fzf 参数
-export _ZL_FZF=$FZF_HIDDEN_PREVIEW
+export _ZL_FZF="$FZF_FULL_COMMAND --preview 'tree -N -C -l -L 5 {2} | head -500'"
 export _ZL_NO_ALIASES=1
 export _ZL_DATA="$HOME/.zlua"
 export _ZL_MAXAGE=100000

@@ -42,7 +42,16 @@ if command_exists fd; then
     # go into directory
     fdc() {
         local dir
-        dir=$(fd "${1:-.}" --hidden --follow -I --exclude={Pods,.git,.idea,.sass-cache,node_modules,build} --type d 2>/dev/null | fzf +m) && cd "$dir" || return
+        dir=$(\
+            fd "${1:-.}"\
+            --hidden \
+            --follow \
+            -I \
+            --exclude={Pods,.git,.idea,.sass-cache,node_modules,build} \
+            --type d 2>/dev/null \
+            | fzf +m) \
+            && cd "$dir" \
+            || return
         #dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
     }
 
