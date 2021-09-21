@@ -231,7 +231,7 @@ export FZF_DEFAULT_OPTS="\
 --no-sort \
 --exact \
 --height=80% \
---preview '([[ -f {} ]] && highlight -O ansi -l {} 2> /dev/null || tree -N -C -l -L 5 {}) 2> /dev/null | head -500' \
+--preview '([[ -f {} ]] && highlight -O ansi -l {} 2> /dev/null || tree -N -C -l -L 1 {}) 2> /dev/null | head -500' \
 --preview-window right:50%:hidden:nowrap \
 --bind '?:toggle-preview' \
 --border \
@@ -240,6 +240,7 @@ export FZF_DEFAULT_OPTS="\
 # --preview-window down:3:hidden:wrap
 # --preview-window 'right:60%'
 
+export DIR_PREVIEW_COMMAND='tree -N -C -l -L 1'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS=$FZF_DEFAULT_OPTS
 export FZF_CTRL_R_OPTS="\
@@ -254,18 +255,19 @@ export FZF_CTRL_R_OPTS="\
 --cycle \
 "
 
-export FZF_ALT_C_OPTS="--preview 'tree -N -C -l -L 5 {} | head -500'"
+export FZF_ALT_C_OPTS="--preview '$DIR_PREVIEW_COMMAND {}'"
 export FZF_TMUX_OPTS="-p 90%,80%" # 控制着fzf的window 是 popup 的还是 split panel 的
 export FZF_COMPLETION_TRIGGER='**'
 
 [[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="$HOME/.fzf-marks"
-export FZF_MARKS_COMMAND="$FZF_FULL_COMMAND --preview 'tree -N -C -l -L 5 {3} | head -500'"
+export FZF_MARKS_COMMAND="$FZF_FULL_COMMAND --preview '$DIR_PREVIEW_COMMAND {3}'"
 export FZF_MARKS_JUMP="^[m"
 export FZF_MARKS_NO_COLORS=0
 export FZF_MARKS_KEEP_ORDER=1
 
 # z.lua 使用的 fzf 参数
-export _ZL_FZF="$FZF_FULL_COMMAND --preview 'tree -N -C -l -L 5 {2} | head -500'"
+export _ZL_FZF="$FZF_FULL_COMMAND --preview '$DIR_PREVIEW_COMMAND {2}'"
+export _ZL_FZF_HEIGHT='80%'
 export _ZL_NO_ALIASES=1
 export _ZL_DATA="$HOME/.zlua"
 export _ZL_MAXAGE=100000
