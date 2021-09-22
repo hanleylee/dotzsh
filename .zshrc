@@ -22,15 +22,15 @@ export HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history # 它将使用ZDOTDIR设置的值
 export SAVEHIST=$HISTSIZE
 setopt EXTENDED_HISTORY
 setopt HIST_SAVE_NO_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_EXPIRE_DUPS_FIRST # 去除第一个重复记录
+setopt HIST_IGNORE_SPACE # ignore commands that start with space
+setopt HIST_EXPIRE_DUPS_FIRST # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt HIST_IGNORE_DUPS # 去除重复记录
 setopt HIST_FIND_NO_DUPS # 浏览时跳过重复记录
 setopt HIST_REDUCE_BLANKS # 去除空白记录
-setopt SHARE_HISTORY    # 共享历史记录
 setopt APPEND_HISTORY   # 以追加方式而不是覆盖
-setopt INC_APPEND_HISTORY # 立即更新历史记录
-setopt HIST_VERIFY
+setopt SHARE_HISTORY    # 共享历史记录(read the history file everytime history is called upon as well as the functionality from `inc_append_history`)
+# setopt INC_APPEND_HISTORY # 立即更新历史记录(save every command before it is executed), SHARE_HISTORY 已经包含了此功能
+setopt HIST_VERIFY # show command with history expansion to user before running it
 setopt CORRECT
 setopt CORRECT_ALL
 setopt AUTO_CD
@@ -38,6 +38,7 @@ setopt AUTO_PUSHD                  # pushes the old directory onto the stack
 setopt PUSHD_MINUS                 # exchange the meanings of '+' and '-'
 setopt CDABLE_VARS                 # expand the expression (allows 'cd -2/tmp')
 setopt PUSHD_IGNORE_DUPS           # push dir, remove the old items if it already existing
+
 # zstyle ':completion:*:directory-stack' list-colors '=(#b) #([0-9]#)*( *)==95=38;5;12'
 
 ##███████████████████████   PLUGINS   ██████████████████████████ {{{
@@ -99,7 +100,7 @@ zinit light paulirish/git-open
 zinit snippet OMZL::git.zsh
 zinit snippet OMZL::functions.zsh
 zinit snippet OMZL::completion.zsh
-zinit snippet OMZL::history.zsh
+# zinit snippet OMZL::history.zsh
 zinit snippet OMZL::key-bindings.zsh
 zinit snippet OMZL::theme-and-appearance.zsh
 
