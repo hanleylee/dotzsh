@@ -49,6 +49,9 @@ insert_path_to_variable "PATH" \
     "$HOMEBREW_PREFIX/opt/openssl@1.1/bin" \
     "$HOMEBREW_PREFIX/opt/llvm/bin" \
     "$HL_LOCAL/bin" \
+    "$HL_LOCAL/bin/sh" \
+    "$HL_LOCAL/bin/py" \
+    "$ZDOTDIR/bin" \
     "$HOME/.cargo/bin" \
     "$HOME/go/bin" \
     "$HOME/.rbenv/shims" \
