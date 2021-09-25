@@ -31,7 +31,7 @@ _cheat() {
         '(-e --edit)'{-e,--edit}'[Edit <sheet>]: :->personal' \
         '(-l --list)'{-l,--list}'[List cheatsheets]: :->full' \
         '(-p --path)'{-p,--path}'[Return only sheets found on path <name>]: :->pathlist' \
-        '(-r --regex)'{-r,--regex}'[Treat search <phrase> as a regex]: :->none' \
+        '(-r --regex)'{-r,--regex}'[Treat search <phrase> as a regex]: :->full' \
         '(-s --search)'{-s,--search}'[Search cheatsheets for <phrase>]: :->none' \
         '(-t --tag)'{-t,--tag}'[Return only sheets matching <tag>]: :->taglist' \
         '(-T --tags)'{-T,--tags}'[List all tags in use]: :->none' \

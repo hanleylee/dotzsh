@@ -51,6 +51,7 @@ insert_path_to_variable "PATH" \
     "$HL_LOCAL/bin" \
     "$HL_LOCAL/bin/sh" \
     "$HL_LOCAL/bin/py" \
+    "$HL_LOCAL/bin/osascript" \
     "$ZDOTDIR/bin" \
     "$HOME/.cargo/bin" \
     "$HOME/go/bin" \
