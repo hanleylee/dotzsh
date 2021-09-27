@@ -6,6 +6,23 @@
 #███████████████████████   ALIAS   ██████████████████████████
 # setopt aliases
 
+alias -g ND='*(/om[1])' 	      # newest directory
+alias -g NF='*(.om[1])' 	      # newest file
+#alias -g NE='2>|/dev/null'
+alias -g NO='&>|/dev/null'
+alias -g P='2>&1 | $PAGER'
+alias -g VV='| vim -R -'
+alias -g L='| less'
+alias -g M='| most'
+alias -g WC='| wc -l'
+alias -g H='| head'
+alias -g T='| tail'
+alias -g G='| grep'
+alias -g LL="2>&1 | less"
+alias -g CA="2>&1 | cat -A"
+alias -g NE="2> /dev/null"
+alias -g NUL="> /dev/null 2>&1"
+
 # for os X system {{{
 alias chrome="open -a \"Google Chrome\""
 # mount all connected Firewire disks
