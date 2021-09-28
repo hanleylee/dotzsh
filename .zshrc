@@ -55,7 +55,7 @@ fi
 source "$HOME/.sh/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
-autoload -U compinit && compinit   # load + start completion
+autoload -Uz compinit && compinit   # load + start completion
 
 # Common ICE modifiers
 @zi_lucid() {
@@ -84,14 +84,14 @@ zinit light zdharma/fast-syntax-highlighting
 @zi_w0
 zinit light zsh-users/zsh-completions
 
+@zi_w0 has'fzf'
+zinit light Aloxaf/fzf-tab
+
 @zi_w0
 zinit light urbainvaes/fzf-marks
 
 @zi_w0
 zinit light skywind3000/z.lua
-
-@zi_w0 has'fzf'
-zinit light Aloxaf/fzf-tab
 
 @zi_w0 has'git'
 zinit light paulirish/git-open

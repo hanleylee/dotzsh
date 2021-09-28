@@ -152,7 +152,7 @@ less_opts=(
     # Do not complain when we are on a dumb terminal.
     --dumb
 )
-# export LESS="${less_opts[*]}"
+export LESS="${less_opts[*]}"
 
 #***************   BAT   *****************
 export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"
@@ -266,6 +266,9 @@ export FZF_COMPLETION_TRIGGER='**'
 [[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="$HOME/.fzf-marks"
 export FZF_MARKS_COMMAND="$FZF_FULL_COMMAND --preview '$DIR_PREVIEW_COMMAND {3}'"
 export FZF_MARKS_JUMP="^[m"
+export FZF_MARKS_COLOR_LHS=39 # (default)	ANSI color code of left-hand side
+export FZF_MARKS_COLOR_RHS=36 # (cyan)	ANSI color code of right-hand side
+export FZF_MARKS_COLOR_COLON=33 # (yellow)	ANSI color code of separator
 export FZF_MARKS_NO_COLORS=0
 export FZF_MARKS_KEEP_ORDER=1
 
