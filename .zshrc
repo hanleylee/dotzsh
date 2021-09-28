@@ -116,11 +116,11 @@ zinit snippet OMZP::colored-man-pages
 @zi_w1
 zinit snippet OMZP::git
 
+@zi_completion has'cargo'
+zinit snippet OMZP::cargo
+
 @zi_completion has'docker'
 zinit snippet OMZP::docker/_docker
-
-@zi_completion has'cargo'
-zinit snippet OMZP::cargo/_cargo
 
 @zi_completion has'fd'
 zinit snippet OMZP::fd/_fd

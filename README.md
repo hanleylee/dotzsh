@@ -20,3 +20,10 @@ This repository is my `$HOME/.sh` directory
 
 - package-manager: [zinit](https://github.com/zdharma/zinit)
 - fuzzy finder: [fzf](https://github.com/junegunn/fzf)
+- terminal: [iterm2](https://github.com/gnachman/iTerm2)
+- font: [Yahei-Fira-Icon-Hybrid-Font](https://github.com/hanleylee/yahei-fira-icon-hybrid-font)
+- os: MacOS
+
+## Preview
+
+![himg](https://a.hanleylee.com/HKMS/2021-09-29002157.png?x-oss-process=style/WaMa)
