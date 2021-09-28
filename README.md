@@ -26,4 +26,4 @@ This repository is my `$HOME/.sh` directory
 
 ## Preview
 
-![himg](https://a.hanleylee.com/HKMS/2021-09-29002157.png?x-oss-process=style/WaMa)
+![himg](./img/preview_ls.png)
