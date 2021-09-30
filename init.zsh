@@ -71,7 +71,7 @@ insert_path_to_variable "PATH" \
 # 其作用类似于使用 `-I path`, 在此处进行了变量的定义后方便全局都起作用
 insert_path_to_variable "C_INCLUDE_PATH" "$HKMS/dev/lang_c/src/foundation"
 insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HKMS/dev/lang_cpp/src/foundation"
-insert_path_to_variable "OBJC_INCLUDE_PATH" "$HKMS/dev/lang_objc/src/data_structure"
+insert_path_to_variable "OBJC_INCLUDE_PATH" "$HKMS/dev/lang_objc/src/foundation"
 insert_path_to_variable "LD_LIBRARY_PATH" ""
 
 insert_path_to_variable "CPATH" "$C_INCLUDE_PATH"

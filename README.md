@@ -14,7 +14,7 @@ I just put `.zshenv` file on `$HOME`, and set contents of `$HOME/.zshenv` as bel
 ZDOTDIR=$HOME/.sh
 ```
 
-This repository is my `$HOME/.sh` directory
+This repository is my `$HOME/.sh/` directory
 
 ## Dependency
 
