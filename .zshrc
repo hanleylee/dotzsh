@@ -88,7 +88,8 @@ zinit light zsh-users/zsh-completions
 zinit light Aloxaf/fzf-tab
 
 @zi_w0
-zinit light urbainvaes/fzf-marks
+# zinit light urbainvaes/fzf-marks
+zinit light "/Users/hanley/github/lang/sh/fzf-marks" # use for debug
 
 @zi_w0
 zinit light skywind3000/z.lua

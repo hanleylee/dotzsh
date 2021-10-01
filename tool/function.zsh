@@ -173,6 +173,12 @@ git_keep_one() {
 }
 # }}}
 
+test_zsh1() {
+    for i in $(seq 1 20); do
+        /usr/bin/time /bin/zsh --no-rcs -i -c exit
+    done
+}
+
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"
 #     local home="$HOME"

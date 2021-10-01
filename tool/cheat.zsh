@@ -3,7 +3,7 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
-#compdef cheat
+# 提供 cheat 补全功能
 
 local cheats taglist pathlist
 
