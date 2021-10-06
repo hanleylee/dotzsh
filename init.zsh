@@ -35,6 +35,7 @@ insert_path_to_variable "FPATH" \
 
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
+# "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
 insert_path_to_variable "PATH" \
     "/bin" \
     "/sbin" \

@@ -1,5 +1,6 @@
 .zsh_sessions/
 .zinit/
+backup/
 .zsh_history
 .z
 .zcompdump*
