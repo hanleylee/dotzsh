@@ -20,6 +20,7 @@ fi
 #███████████████████████   PATH Variables   ██████████████████████████
 export VIM_CONFIG="$HOME/.vim"
 export HL_REPO="$HOME/repo"
+export HL_LANG="$HOME/repo/lang"
 export HL_SECRET="$HOME/.secret"
 export HL_LOCAL="$HOME/.local"
 export HKMS="$HL_REPO/hkms"
@@ -27,6 +28,18 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export LANG=en_CN.UTF8
+
+export ROOTMARKERS=(
+    ".svn"
+    ".git"
+    ".root"
+    ".project"
+    ".hg"
+    "_darcs"
+    "build.xml"
+    "Makefile"
+    "CMakeLists.txt"
+)
 
 # fpath=(~/.local/lib $fpath)
 insert_path_to_variable "FPATH" \
@@ -70,14 +83,14 @@ insert_path_to_variable "PATH" \
 # CPATH 会对 c, c++, objc 这三种语言的搜索路径起作用
 # 而 C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, OBJC_INCLUDE_PATH 只对其对应语言的编译起作用
 # 其作用类似于使用 `-I path`, 在此处进行了变量的定义后方便全局都起作用
-insert_path_to_variable "C_INCLUDE_PATH" "$HKMS/dev/lang_c/src/foundation"
-insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HKMS/dev/lang_cpp/src/foundation"
-insert_path_to_variable "OBJC_INCLUDE_PATH" "$HKMS/dev/lang_objc/src/foundation"
+insert_path_to_variable "C_INCLUDE_PATH" "$HL_LANG/c/foundation"
+insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HL_LANG/cpp/foundation"
+insert_path_to_variable "OBJC_INCLUDE_PATH" "$HL_LANG/objc/foundation"
 insert_path_to_variable "LD_LIBRARY_PATH" ""
 
 insert_path_to_variable "CPATH" "$C_INCLUDE_PATH"
 
-insert_path_to_variable "PYTHONPATH" "$HKMS/dev/lang_python/src/foundation"
+insert_path_to_variable "PYTHONPATH" "$HL_LANG/python/foundation"
 
 if command_exists pkg-config; then
     # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig

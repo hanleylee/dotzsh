@@ -31,8 +31,8 @@ setopt APPEND_HISTORY   # 以追加方式而不是覆盖
 setopt SHARE_HISTORY    # 共享历史记录(read the history file everytime history is called upon as well as the functionality from `inc_append_history`)
 # setopt INC_APPEND_HISTORY # 立即更新历史记录(save every command before it is executed), SHARE_HISTORY 已经包含了此功能
 setopt HIST_VERIFY # show command with history expansion to user before running it
-setopt CORRECT
-setopt CORRECT_ALL
+# setopt CORRECT
+# setopt CORRECT_ALL
 setopt AUTO_CD
 setopt AUTO_PUSHD                  # pushes the old directory onto the stack
 setopt PUSHD_MINUS                 # exchange the meanings of '+' and '-'
