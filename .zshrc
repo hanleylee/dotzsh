@@ -41,6 +41,8 @@ setopt PUSHD_IGNORE_DUPS           # push dir, remove the old items if it alread
 
 # zstyle ':completion:*:directory-stack' list-colors '=(#b) #([0-9]#)*( *)==95=38;5;12'
 
+autoload -Uz compinit && compinit   # load + start completion
+
 ##███████████████████████   PLUGINS   ██████████████████████████ {{{
 
 ### Added by Zinit's installer
@@ -55,7 +57,6 @@ fi
 source "$HOME/.sh/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
-autoload -Uz compinit && compinit   # load + start completion
 
 # Common ICE modifiers
 @zi_lucid() {
@@ -130,7 +131,7 @@ zinit snippet OMZP::fd/_fd
 zinit snippet OMZP::pip/_pip
 
 zinit ice has'svn' svn silent wait'1'
-zinit snippet OMZP::osx
+zinit snippet OMZP::macos
 
 @zi_w1
 zinit snippet OMZP::command-not-found
