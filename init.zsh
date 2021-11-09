@@ -72,6 +72,7 @@ insert_path_to_variable "PATH" \
     "$HOME/.rbenv/shims" \
     "$HOME/.pyenv/shims" \
     "$HOME/.pyenv/bin" \
+    "$HOME/.gem/bin" \
     "$HOME/.fzf/bin" \
     "$HOME/.emacs.d/bin"
 # export PATH="$GEM_HOME/bin:$PATH"
