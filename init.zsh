@@ -184,8 +184,8 @@ export PYTHONUNBUFFERED=1
 [[ -d "$HOME/.pyenv" ]] && export PYENV_ROOT="$HOME/.pyenv"
 
 #***************   RUBY   *****************
-# export RUBY_CONFIGURE_OPTS=--with-openssl-dir=$HOMEBREW_PREFIX/opt/openssl@1.1
-# export GEM_HOME="$HOME/.gem"
+export RUBY_CONFIGURE_OPTS=--with-openssl-dir=$HOMEBREW_PREFIX/opt/openssl@1.1
+export GEM_HOME="$HOME/.gem"
 
 #***************   GO   *****************
 export GOROOT=$(go env GOROOT)

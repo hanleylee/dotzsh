@@ -130,6 +130,9 @@ zinit snippet OMZP::fd/_fd
 @zi_completion has'pip'
 zinit snippet OMZP::pip/_pip
 
+@zi_completion has'pod'
+zinit snippet OMZP::pod/_pod
+
 zinit ice has'svn' svn silent wait'1'
 zinit snippet OMZP::macos
 
