@@ -41,10 +41,10 @@ export ROOTMARKERS=(
     "CMakeLists.txt"
 )
 
-# fpath=(~/.local/lib $fpath)
 insert_path_to_variable "FPATH" \
     "$ZDOTDIR/lib" \
-    "$ZDOTDIR/completion"
+    "$ZDOTDIR/completion" \
+    "$HOMEBREW_PREFIX/share/zsh/site-functions"
 
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
