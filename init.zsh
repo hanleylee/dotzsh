@@ -60,7 +60,7 @@ insert_path_to_variable "PATH" \
     "$HOMEBREW_PREFIX/opt/make/libexec/gnubin" \
     "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" \
     "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin" \
-    "$HOMEBREW_PREFIX/opt/openssl@1.1/bin" \
+    "$HOMEBREW_PREFIX/opt/openssl/bin" \
     "$HOMEBREW_PREFIX/opt/llvm/bin" \
     "$HL_LOCAL/bin" \
     "$HL_LOCAL/bin/sh" \
@@ -72,9 +72,9 @@ insert_path_to_variable "PATH" \
     "$HOME/.rbenv/shims" \
     "$HOME/.pyenv/shims" \
     "$HOME/.pyenv/bin" \
-    "$HOME/.gem/bin" \
     "$HOME/.fzf/bin" \
     "$HOME/.emacs.d/bin"
+    # "$HOME/.gem/bin" \
 # export PATH="$GEM_HOME/bin:$PATH"
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
 # export PATH="/usr/local/opt/openjdk/bin:$PATH"
@@ -97,7 +97,7 @@ if command_exists pkg-config; then
     # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig"
-    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig"
+    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/openssl/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig"
     insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/msgpack/lib/pkgconfig"
@@ -143,6 +143,11 @@ if command_exists pyenv; then
 
 fi
 
+#***************   rbenv   *****************
+if command_exists rbenv; then
+    eval "$(rbenv init - zsh)"
+fi
+
 #***************   GPG   *****************
 GPG_TTY=$(tty)
 export GPG_TTY
@@ -185,8 +190,8 @@ export PYTHONUNBUFFERED=1
 [[ -d "$HOME/.pyenv" ]] && export PYENV_ROOT="$HOME/.pyenv"
 
 #***************   RUBY   *****************
-export RUBY_CONFIGURE_OPTS=--with-openssl-dir=$HOMEBREW_PREFIX/opt/openssl@1.1
-export GEM_HOME="$HOME/.gem"
+export RUBY_CONFIGURE_OPTS=--with-openssl-dir=$HOMEBREW_PREFIX/opt/openssl
+# export GEM_HOME="$HOME/.gem"
 
 #***************   GO   *****************
 export GOROOT=$(go env GOROOT)
