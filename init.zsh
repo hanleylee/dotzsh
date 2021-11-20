@@ -18,7 +18,6 @@ fi
 [[ -f "$ZDOTDIR/base/preinit.zsh" ]] && . "$ZDOTDIR/base/preinit.zsh"
 
 #███████████████████████   PATH Variables   ██████████████████████████
-export VIM_CONFIG="$HOME/.vim"
 export HL_REPO="$HOME/repo"
 export HL_LANG="$HOME/repo/lang"
 export HL_SECRET="$HOME/.secret"
@@ -290,7 +289,7 @@ export FZF_MARKS_COLOR_LHS=39 # (default)	ANSI color code of left-hand side
 export FZF_MARKS_COLOR_RHS=36 # (cyan)	ANSI color code of right-hand side
 export FZF_MARKS_COLOR_COLON=33 # (yellow)	ANSI color code of separator
 export FZF_MARKS_NO_COLORS=0
-export FZF_MARKS_KEEP_ORDER=1
+# export FZF_MARKS_KEEP_ORDER=1
 
 # z.lua 使用的 fzf 参数
 export _ZL_FZF="$FZF_FULL_COMMAND --preview '$DIR_PREVIEW_COMMAND {2}'"
