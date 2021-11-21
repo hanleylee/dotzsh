@@ -45,16 +45,18 @@ autoload -Uz compinit && compinit   # load + start completion
 
 ##███████████████████████   PLUGINS   ██████████████████████████ {{{
 
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 ### Added by Zinit's installer
-if [[ ! -f $HOME/.sh/.zinit/bin/zinit.zsh ]]; then
+if [[ ! -d "$ZINIT_HOME" ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.sh/.zinit" && command chmod g-rwX "$HOME/.sh/.zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.sh/.zinit/bin" && \
+    command mkdir -p "$(dirname "$ZINIT_HOME")"
+    command git clone https://github.com/zdharma-continuum/zinit "$ZINIT_HOME" && \
         print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
-source "$HOME/.sh/.zinit/bin/zinit.zsh"
+source "${ZINIT_HOME}/zinit.zsh"
+
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
@@ -159,7 +161,10 @@ zinit light HanleyLee/Handy
 # zinit snippet OMZP::gitfast
 #}}}
 
-#███████████████████████   zstyle   ██████████████████████████ {{{
+#███████████████████████   APPEARANCE   ██████████████████████████ {{{
+if command_exists dircolors; then
+    if [[ -f $ZDOTDIR/.dircolors ]]; then eval "$(dircolors -b "$ZDOTDIR"/.dircolors)"; else eval "$(dircolors -b)"; fi
+fi
 zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 # zstyle ':fzf-tab:*' fzf-preview 'exa -1 --color=always $realpath'

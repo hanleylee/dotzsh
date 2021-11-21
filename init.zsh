@@ -313,5 +313,6 @@ export _ZL_MAXAGE=100000
 # export TA_LIBRARY_PATH="$(brew --prefix ta-lib)/lib"
 
 # source file
-source_if_exists "$HOME/.sh/base/lscolors.sh" \
-    "$HOME/.sh/base/lficons.zsh"
+# source_if_exists "$HOME/.sh/base/lscolors.sh" \
+#     "$HOME/.sh/base/lficons.zsh"
+source_if_exists "$ZDOTDIR/base/lficons.zsh"
