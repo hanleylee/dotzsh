@@ -114,6 +114,7 @@ if command_exists vim; then
     alias v1='vim --cmd "let g:vim_weight=1"' # plugin to browsing
     alias v2='vim --cmd "let g:vim_weight=2"' # plugin to editing
     alias v3='vim --cmd "let g:vim_weight=3"' # plugin to enhanced editing
+    alias vmore="vim -u ~/.vim/.vimrc_more -U NONE -i NONE -" # for pager
 fi
 # }}}
 

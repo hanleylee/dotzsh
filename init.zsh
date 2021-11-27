@@ -160,6 +160,9 @@ less_opts=(
     # Quit if entire file fits on first screen.
     -+F
     -+X
+    -M
+    # increasely search
+    --incsearch
     # show number
     -N
     # Ignore case in searches that do not contain uppercase.
