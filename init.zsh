@@ -152,8 +152,6 @@ GPG_TTY=$(tty)
 export GPG_TTY
 
 #***************   LESS   *****************
-# Default pager
-# export PAGER='less'
 
 # less options
 less_opts=(
@@ -161,10 +159,10 @@ less_opts=(
     -+F
     -+X
     -M
-    # increasely search
-    --incsearch
     # show number
     -N
+    # increasely search
+    --incsearch
     # Ignore case in searches that do not contain uppercase.
     --ignore-case
     # Allow ANSI colour escapes, but no other escapes.
@@ -175,6 +173,13 @@ less_opts=(
     --dumb
 )
 export LESS="${less_opts[*]}"
+
+#***************   PAGER   *****************
+# Default pager
+export PAGER='less'
+
+#***************   MAN   *****************
+export MANPAGER='less'
 
 #***************   BAT   *****************
 export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"
