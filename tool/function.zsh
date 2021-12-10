@@ -9,7 +9,7 @@
 # 在 xcode 中打开当前目录下的 xcworkspace 文件
 ofx() {
     open ./*.xcworkspace || open ./*.xcodeproj
-}
+} 2> /dev/null
 
 function repeat() {
     local i max
