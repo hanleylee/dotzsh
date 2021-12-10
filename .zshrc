@@ -202,25 +202,6 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245,underline" # 提示样式, 可设
 command_exists scmpuff && eval "$(scmpuff init -s)"
 #}}}
 
-#███████████████████████   BINDKEYS   ██████████████████████████ {{{
-zle -N _zfzf
-bindkey -e # 使用 Emacs 键位
-bindkey ',' autosuggest-accept
-bindkey "^u" backward-kill-line
-
-if command_exists lf; then
-    bindkey -s "^o" 'lfcd^M'
-fi
-
-if command_exists lazygit; then
-    bindkey -s "^g" 'lg^M'
-fi
-
-if command_exists fzf; then
-    bindkey '^h' _zfzf
-fi
-#}}}
-
 #***************   source   ***************** {{{
 source_if_exists "$HOME/.cargo/env" \
     "$XDG_CONFIG_HOME/lf/lfcd.sh" \

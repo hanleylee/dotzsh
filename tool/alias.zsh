@@ -118,6 +118,12 @@ if command_exists vim; then
 fi
 # }}}
 
+# for macvim {{{
+if command_exists mvim; then
+    alias mvimpod='mvim --remote-tab Podfile'
+fi
+# }}}
+
 # for nvim {{{
 if command_exists nvim; then
     alias nv="nvim"
