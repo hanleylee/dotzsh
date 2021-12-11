@@ -179,6 +179,15 @@ test_zsh1() {
     done
 }
 
+function light() {
+    if [ -z "$2" ]; then
+        src="pbpaste"
+    else
+        src="cat $2"
+    fi
+    eval "$src" | highlight -O rtf --syntax="$1" -k "Fira Code" --style=solarized-dark --font-size 24 | pbcopy
+}
+
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"
 #     local home="$HOME"
