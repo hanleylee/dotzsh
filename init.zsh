@@ -3,6 +3,8 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
+# MARK: JUST FOR PATH AND EXPORT VARIABLES
+
 if [ -z "$_INIT_ZSH_LOADED" ]; then
     _INIT_ZSH_LOADED=1
 else
@@ -43,40 +45,47 @@ export ROOTMARKERS=(
     "CMakeLists.txt"
 )
 
-insert_path_to_variable "FPATH" \
-    "$ZDOTDIR/lib" \
-    "$ZDOTDIR/completion" \
+_fpath_arr=(
+    "$ZDOTDIR/lib"
+    "$ZDOTDIR/completion"
     "$HOMEBREW_PREFIX/share/zsh/site-functions"
+)
+
+insert_path_to_variable "FPATH" "${_fpath_arr[@]}"
+unset _fpath_arr
 
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
-insert_path_to_variable "PATH" \
-    "/bin" \
-    "/sbin" \
-    "/usr/bin" \
-    "/usr/sbin" \
-    "/opt/MonkeyDev/bin" \
-    "$HOMEBREW_PREFIX/bin" \
-    "$HOMEBREW_PREFIX/sbin" \
-    "$HOMEBREW_PREFIX/opt/make/libexec/gnubin" \
-    "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" \
-    "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin" \
-    "$HOMEBREW_PREFIX/opt/openssl/bin" \
-    "$HOMEBREW_PREFIX/opt/llvm/bin" \
-    "$HL_LOCAL/bin" \
-    "$HL_LOCAL/bin/sh" \
-    "$HL_LOCAL/bin/py" \
-    "$HL_LOCAL/bin/osascript" \
-    "$ZDOTDIR/bin" \
-    "$HOME/.cargo/bin" \
-    "$HOME/go/bin" \
-    "$HOME/.rbenv/shims" \
-    "$HOME/.pyenv/shims" \
-    "$HOME/.pyenv/bin" \
-    "$HOME/.fzf/bin" \
+_path_arr=(
+    "/bin"
+    "/sbin"
+    "/usr/bin"
+    "/usr/sbin"
+    "/opt/MonkeyDev/bin"
+    "$HOMEBREW_PREFIX/bin"
+    "$HOMEBREW_PREFIX/sbin"
+    "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/openssl/bin"
+    "$HOMEBREW_PREFIX/opt/llvm/bin"
+    "$HL_LOCAL/bin"
+    "$HL_LOCAL/bin/sh"
+    "$HL_LOCAL/bin/py"
+    "$HL_LOCAL/bin/osascript"
+    "$ZDOTDIR/bin"
+    "$HOME/.cargo/bin"
+    "$HOME/go/bin"
+    "$HOME/.rbenv/shims"
+    "$HOME/.pyenv/shims"
+    "$HOME/.pyenv/bin"
+    "$HOME/.fzf/bin"
     "$HOME/.emacs.d/bin"
     # "$HOME/.gem/bin" \
+)
+insert_path_to_variable "PATH" "${_path_arr[@]}"
+unset _path_arr
 # export PATH="$GEM_HOME/bin:$PATH"
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
 # export PATH="/usr/local/opt/openjdk/bin:$PATH"
@@ -97,14 +106,17 @@ insert_path_to_variable "PYTHONPATH" "$HL_LANG/python/foundation"
 
 if command_exists pkg-config; then
     # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
-    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/lib/pkgconfig"
-    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig"
-    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/openssl/lib/pkgconfig"
-    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig"
-    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig"
-    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/msgpack/lib/pkgconfig"
-    insert_path_to_variable "PKG_CONFIG_PATH" "$HOMEBREW_PREFIX/opt/lzo/lib/pkgconfig"
-    insert_path_to_variable "PKG_CONFIG_PATH" "/opt/X11/lib/pkgconfig"
+    _pkgconfig_path=(
+        "$HOMEBREW_PREFIX/lib/pkgconfig"
+        "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig"
+        "$HOMEBREW_PREFIX/opt/openssl/lib/pkgconfig"
+        "$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig"
+        "$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig"
+        "$HOMEBREW_PREFIX/opt/msgpack/lib/pkgconfig"
+        "$HOMEBREW_PREFIX/opt/lzo/lib/pkgconfig"
+        "/opt/X11/lib/pkgconfig"
+    )
+    insert_path_to_variable "PKG_CONFIG_PATH" "${_pkgconfig_path[@]}"
 fi
 
 #███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
@@ -119,35 +131,19 @@ if command_exists pkg-config; then
     pkg-config --exists msgpack && PKGS+=("msgpack")
     pkg-config --exists lzo2 && PKGS+=("lzo2")
 
-    CPPFLAGS=$(pkg-config --cflags "${PKGS[*]}")
+    CPPFLAGS=$(pkg-config --cflags "${PKGS[@]}")
     export CPPFLAGS
 
-    CFLAGS=$(pkg-config --cflags "${PKGS[*]}")
+    CFLAGS=$(pkg-config --cflags "${PKGS[@]}")
     export CFLAGS
 
-    CXXFLAGS=$(pkg-config --cflags "${PKGS[*]}")
+    CXXFLAGS=$(pkg-config --cflags "${PKGS[@]}")
     export CXXFLAGS
 
     # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
-    LDFLAGS=$(pkg-config --libs "${PKGS[*]}")
+    LDFLAGS=$(pkg-config --libs "${PKGS[@]}")
     export LDFLAGS
     unset PKGS
-fi
-
-#***************   pyenv   *****************
-if command_exists pyenv; then
-    eval "$(pyenv init -)"
-
-    # 过于耗费性能
-    # if command_exists pyenv-virtualenv-init; then
-    #     eval "$(pyenv virtualenv-init -)" #
-    # fi
-
-fi
-
-#***************   rbenv   *****************
-if command_exists rbenv; then
-    eval "$(rbenv init - zsh)"
 fi
 
 #***************   GPG   *****************
@@ -176,6 +172,7 @@ less_opts=(
     --dumb
 )
 export LESS="${less_opts[*]}"
+unset less_opts
 
 #***************   PAGER   *****************
 # Default pager
@@ -183,6 +180,9 @@ export PAGER='less'
 
 #***************   MAN   *****************
 export MANPAGER='less'
+
+#***************   autosuggest   *****************
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245,underline" # 提示样式, 可设置前景, 背景, 加粗, 下划线
 
 #***************   BAT   *****************
 export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"
@@ -322,8 +322,3 @@ export _ZL_MAXAGE=100000
 # for ta-lib
 # export TA_INCLUDE_PATH="$(brew --prefix ta-lib)/include"
 # export TA_LIBRARY_PATH="$(brew --prefix ta-lib)/lib"
-
-# source file
-# source_if_exists "$HOME/.sh/base/lscolors.sh" \
-#     "$HOME/.sh/base/lficons.zsh"
-source_if_exists "$ZDOTDIR/base/lficons.zsh"
