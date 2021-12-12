@@ -35,6 +35,7 @@ autoload -Uz _zinit
     @zi_w1 as'completion' blockf "$@"
 }
 
+# 命令补全
 @zi_w0 atload'_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
 

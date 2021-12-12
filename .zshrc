@@ -3,8 +3,9 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
+[[ -f "$ZDOTDIR/init.zsh" ]] && source "$ZDOTDIR/init.zsh"
+
 _path_arr=(
-    "$ZDOTDIR/init.zsh"
     "$ZDOTDIR/main/main.zsh"
     "$ZDOTDIR/main/completion.zsh"
     "$ZDOTDIR/main/zinit.zsh"

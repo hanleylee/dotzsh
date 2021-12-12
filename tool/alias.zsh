@@ -6,18 +6,18 @@
 #███████████████████████   ALIAS   ██████████████████████████
 # setopt aliases
 
-alias -g ND='*(/om[1])' 	      # newest directory
-alias -g NF='*(.om[1])' 	      # newest file
+alias -g ND='*(/om[1])'           # newest directory
+alias -g NF='*(.om[1])'           # newest file
 #alias -g NE='2>|/dev/null'
 alias -g NO='&>|/dev/null'
-alias -g P='2>&1 | $PAGER'
 alias -g VV='| vim -R -'
+alias -g P='2>&1 | $PAGER'
 alias -g L='| less'
 alias -g M='| most'
-alias -g WC='| wc -l'
 alias -g H='| head'
 alias -g T='| tail'
 alias -g G='| grep'
+alias -g WC='| wc -l'
 alias -g LL="2>&1 | less"
 alias -g CA="2>&1 | cat -A"
 alias -g NE="2> /dev/null"

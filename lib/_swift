@@ -1,0 +1,1810 @@
+#compdef swift
+local context state state_descr line
+_swift_commandname=$words[1]
+typeset -A opt_args
+
+_swift() {
+    integer ret=1
+    local -a args
+    args+=(
+        '(-h --help)'{-h,--help}'[Print help information.]'
+        '(-): :->command'
+        '(-)*:: :->arg'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+    case $state in
+        (command)
+            local subcommands
+            subcommands=(
+                'run:Build and run an executable product'
+                'build:Build sources into binary products'
+                'test:Build and run tests'
+                'package:Perform operations on Swift packages'
+                'help:Show subcommand help information.'
+            )
+            _describe "subcommand" subcommands
+            ;;
+        (arg)
+            case ${words[1]} in
+                (run)
+                    _swift_run
+                    ;;
+                (build)
+                    _swift_build
+                    ;;
+                (test)
+                    _swift_test
+                    ;;
+                (package)
+                    _swift_package
+                    ;;
+                (help)
+                    _swift_help
+                    ;;
+            esac
+            ;;
+    esac
+
+    return ret
+}
+
+_swift_run() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--skip-build[Skip building the executable product]'
+        '--build-tests[Build both source and test targets]'
+        '--repl[Launch Swift REPL for the package]'
+        ':executable:{local -a list; list=(${(f)"$(swift package completion-tool list-executables)"}); _describe '''' list}'
+        ':arguments:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_build() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--build-tests[Build both source and test targets]'
+        '--show-bin-path[Print the binary output path]'
+        '--target[Build the specified target]:target:'
+        '--product[Build the specified product]:product:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_test() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--skip-build[Skip building the test target]'
+        '--parallel[Run the tests in parallel.]'
+        '--num-workers[Number of tests to execute in parallel.]:num-workers:'
+        '(--list-tests -l)'{--list-tests,-l}'[Lists test methods in specifier format]'
+        '--show-codecov-path[Print the path of the exported code coverage JSON file]'
+        '(-s --specifier)'{-s,--specifier}':specifier:'
+        '--filter[Run test cases matching regular expression, Format: <test-target>.<test-case> or <test-target>.<test-case>/<test>]:filter:'
+        '--skip[Skip test cases matching regular expression, Example: --skip PerformanceTests]:skip:'
+        '--xunit-output[Path where the xUnit xml file should be generated.]:xunit-output:_files -/'
+        '--test-product[Test the specified product.]:test-product:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+        '(-): :->command'
+        '(-)*:: :->arg'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+    case $state in
+        (command)
+            local subcommands
+            subcommands=(
+                'clean:Delete build artifacts'
+                'purge-cache:Purge the global repository cache.'
+                'reset:Reset the complete cache/build directory'
+                'update:Update package dependencies'
+                'describe:Describe the current package'
+                'init:Initialize a new package'
+                '_format:'
+                'experimental-api-diff:'
+                'dump-symbol-graph:Dump Symbol Graph'
+                'dump-pif:'
+                'dump-package:Print parsed Package.swift as JSON'
+                'edit:Put a package in editable mode'
+                'unedit:Remove a package from editable mode'
+                'config:Manipulate configuration of the package'
+                'resolve:Resolve package dependencies'
+                'fetch:'
+                'show-dependencies:Print the resolved dependency graph'
+                'tools-version:Manipulate tools version of the current package'
+                'generate-xcodeproj:Generates an Xcode project. This command will be deprecated soon.'
+                'compute-checksum:Compute the checksum for a binary artifact.'
+                'archive-source:Create a source archive for the package'
+                'completion-tool:Completion tool (for shell completions)'
+            )
+            _describe "subcommand" subcommands
+            ;;
+        (arg)
+            case ${words[1]} in
+                (clean)
+                    _swift_package_clean
+                    ;;
+                (purge-cache)
+                    _swift_package_purge-cache
+                    ;;
+                (reset)
+                    _swift_package_reset
+                    ;;
+                (update)
+                    _swift_package_update
+                    ;;
+                (describe)
+                    _swift_package_describe
+                    ;;
+                (init)
+                    _swift_package_init
+                    ;;
+                (_format)
+                    _swift_package__format
+                    ;;
+                (experimental-api-diff)
+                    _swift_package_experimental-api-diff
+                    ;;
+                (dump-symbol-graph)
+                    _swift_package_dump-symbol-graph
+                    ;;
+                (dump-pif)
+                    _swift_package_dump-pif
+                    ;;
+                (dump-package)
+                    _swift_package_dump-package
+                    ;;
+                (edit)
+                    _swift_package_edit
+                    ;;
+                (unedit)
+                    _swift_package_unedit
+                    ;;
+                (config)
+                    _swift_package_config
+                    ;;
+                (resolve)
+                    _swift_package_resolve
+                    ;;
+                (fetch)
+                    _swift_package_fetch
+                    ;;
+                (show-dependencies)
+                    _swift_package_show-dependencies
+                    ;;
+                (tools-version)
+                    _swift_package_tools-version
+                    ;;
+                (generate-xcodeproj)
+                    _swift_package_generate-xcodeproj
+                    ;;
+                (compute-checksum)
+                    _swift_package_compute-checksum
+                    ;;
+                (archive-source)
+                    _swift_package_archive-source
+                    ;;
+                (completion-tool)
+                    _swift_package_completion-tool
+                    ;;
+            esac
+            ;;
+    esac
+
+    return ret
+}
+
+_swift_package_clean() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_purge-cache() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_reset() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_update() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '(--dry-run -n)'{--dry-run,-n}'[Display the list of dependencies that can be updated]'
+        ':packages:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_describe() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--type[json | text]:type:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_init() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--type[Package type: empty | library | executable | system-module | manifest]:type:'
+        '--name[Provide custom package name]:name:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package__format() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        ':swift-format-flags:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_experimental-api-diff() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        ':treeish:'
+        '--invert-baseline[Invert the baseline which is helpful for determining API additions]'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_dump-symbol-graph() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_dump-pif() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--preserve-structure[Preserve the internal structure of PIF]'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_dump-package() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_edit() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--revision[The revision to edit]:revision:'
+        '--branch[The branch to create]:branch:'
+        '--path[Create or use the checkout at this path]:path:_files -/'
+        ':package-name:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_unedit() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--force[Unedit the package even if it has uncommited and unpushed changes]'
+        ':package-name:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_config() {
+    integer ret=1
+    local -a args
+    args+=(
+        '(-h --help)'{-h,--help}'[Print help information.]'
+        '(-): :->command'
+        '(-)*:: :->arg'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+    case $state in
+        (command)
+            local subcommands
+            subcommands=(
+                'set-mirror:Set a mirror for a dependency'
+                'unset-mirror:Remove an existing mirror'
+                'get-mirror:Print mirror configuration for the given package dependency'
+            )
+            _describe "subcommand" subcommands
+            ;;
+        (arg)
+            case ${words[1]} in
+                (set-mirror)
+                    _swift_package_config_set-mirror
+                    ;;
+                (unset-mirror)
+                    _swift_package_config_unset-mirror
+                    ;;
+                (get-mirror)
+                    _swift_package_config_get-mirror
+                    ;;
+            esac
+            ;;
+    esac
+
+    return ret
+}
+
+_swift_package_config_set-mirror() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--package-url[The package dependency url]:package-url:'
+        '--original-url[The original url]:original-url:'
+        '--mirror-url[The mirror url]:mirror-url:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_config_unset-mirror() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--package-url[The package dependency url]:package-url:'
+        '--original-url[The original url]:original-url:'
+        '--mirror-url[The mirror url]:mirror-url:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_config_get-mirror() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--package-url[The package dependency url]:package-url:'
+        '--original-url[The original url]:original-url:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_resolve() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--version[The version to resolve at]:version:'
+        '--branch[The branch to resolve at]:branch:'
+        '--revision[The revision to resolve at]:revision:'
+        ':package-name:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_fetch() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--version[The version to resolve at]:version:'
+        '--branch[The branch to resolve at]:branch:'
+        '--revision[The revision to resolve at]:revision:'
+        ':package-name:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_show-dependencies() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--format[text | dot | json | flatlist]:format:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_tools-version() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--format[text | dot | json | flatlist]:format:'
+        '--set-current[Set tools version of package to the current tools version in use]'
+        '--set[Set tools version of package to the given value]:set:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_generate-xcodeproj() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '--xcconfig-overrides[Path to xcconfig file]:xcconfig-overrides:_files'
+        '--output[Path where the Xcode project should be generated]:output:_files -/'
+        '--legacy-scheme-generator[Use the legacy scheme generator]'
+        '--watch[Watch for changes to the Package manifest to regenerate the Xcode project]'
+        '--skip-extra-files[Do not add file references for extra files to the generated Xcode project]'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_compute-checksum() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        ':path:_files -/'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_archive-source() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        '(-o --output)'{-o,--output}'[The absolute or relative path for the generated source archive]:output:_files -/'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_package_completion-tool() {
+    integer ret=1
+    local -a args
+    args+=(
+        '-Xcc[Pass flag through to all C compiler invocations]:Xcc:'
+        '-Xswiftc[Pass flag through to all Swift compiler invocations]:Xswiftc:'
+        '-Xlinker[Pass flag through to all linker invocations]:Xlinker:'
+        '-Xcxx[Pass flag through to all C++ compiler invocations]:Xcxx:'
+        '(--configuration -c)'{--configuration,-c}'[Build with configuration]:configuration:(debug release)'
+        '--build-path[Specify build/cache directory]:build-path:_files -/'
+        '--cache-path[Specify the shared cache directory]:cache-path:_files -/'
+        '--enable-repository-cache[Use a shared cache when fetching repositories]'
+        '--disable-repository-cache[Use a shared cache when fetching repositories]'
+        '(--chdir -C)'{--chdir,-C}':chdir:_files -/'
+        '--package-path[Change working directory before any other operation]:package-path:_files -/'
+        '--multiroot-data-file:multiroot-data-file:_files'
+        '--enable-prefetching'
+        '--disable-prefetching'
+        '(--verbose -v)'{--verbose,-v}'[Increase verbosity of informational output]'
+        '--disable-sandbox[Disable using the sandbox when executing subprocesses]'
+        '--manifest-cache[Caching mode of Package.swift manifests (shared: shared cache, local: package'"'"'s build directory, none: disabled]:manifest-cache:'
+        '--destination:destination:_files'
+        '--triple:triple:'
+        '--sdk:sdk:_files -/'
+        '--toolchain:toolchain:_files -/'
+        '--static-swift-stdlib[Link Swift stdlib statically]'
+        '--no-static-swift-stdlib[Link Swift stdlib statically]'
+        '--skip-update[Skip updating dependencies from their remote during a resolution]'
+        '--sanitize[Turn on runtime checks for erroneous behavior, possible values: address, thread, undefined, scudo]:sanitize:'
+        '--enable-code-coverage[Enable code coverage]'
+        '--disable-code-coverage[Enable code coverage]'
+        '(--force-resolved-versions --disable-automatic-resolution)'{--force-resolved-versions,--disable-automatic-resolution}'[Disable automatic resolution if Package.resolved file is out-of-date]'
+        '--auto-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-index-store[Enable or disable indexing-while-building feature]'
+        '--disable-index-store[Enable or disable indexing-while-building feature]'
+        '--enable-parseable-module-interfaces'
+        '--trace-resolver'
+        '(--jobs -j)'{--jobs,-j}'[The number of jobs to spawn in parallel during the build process]:jobs:'
+        '--enable-build-manifest-caching'
+        '--disable-build-manifest-caching'
+        '--emit-swift-module-separately'
+        '--use-integrated-swift-driver'
+        '--experimental-explicit-module-build'
+        '--print-manifest-job-graph[Write the command graph for the build manifest as a graphviz file]'
+        '--build-system:build-system:(native xcode)'
+        '--netrc'
+        '--netrc-optional'
+        '--netrc-file:netrc-file:_files'
+        ':mode:(generate-bash-script generate-zsh-script generate-fish-script list-dependencies list-executables)'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+_swift_help() {
+    integer ret=1
+    local -a args
+    args+=(
+        ':subcommands:'
+        '(-h --help)'{-h,--help}'[Print help information.]'
+    )
+    _arguments -w -s -S $args[@] && ret=0
+
+    return ret
+}
+
+
+_custom_completion() {
+    local completions=("${(@f)$($*)}")
+    _describe '' completions
+}
+
+_swift

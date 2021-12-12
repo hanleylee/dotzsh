@@ -7,6 +7,10 @@
 zstyle ':completion:*' menu select
 # Case insensitive auto-completion
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# Case insensitive auto-completion II
+# zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 
+# partial completion suggestions
+#  zstyle ':completion:*' list-suffixes zstyle ':completion:*' expand prefix suffix 
 # If the line has sudo or doas in it, then it tries to gain more access while completing command options (-/--)
 zstyle ':completion::complete:*' gain-privileges 1
 # Don't show . and .. in completion menu
@@ -34,4 +38,5 @@ _comp_options+=(globdots)
 zmodload zsh/complist
 #}}}
 
+# the zstyle command must added before enable the compinit system
 autoload -Uz compinit && compinit   # load + start completion

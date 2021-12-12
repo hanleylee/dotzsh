@@ -45,19 +45,11 @@ export ROOTMARKERS=(
     "CMakeLists.txt"
 )
 
-_fpath_arr=(
-    "$ZDOTDIR/lib"
-    "$ZDOTDIR/completion"
-    "$HOMEBREW_PREFIX/share/zsh/site-functions"
-)
-
-insert_path_to_variable "FPATH" "${_fpath_arr[@]}"
-unset _fpath_arr
-
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
+# Connected array Variables, path is connected with PATH
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
-_path_arr=(
+path+=(
     "/bin"
     "/sbin"
     "/usr/bin"
@@ -83,12 +75,19 @@ _path_arr=(
     "$HOME/.fzf/bin"
     "$HOME/.emacs.d/bin"
     # "$HOME/.gem/bin" \
+    # export PATH="$GEM_HOME/bin:$PATH"
+    # export PATH="/usr/local/opt/ruby/bin:$PATH"
+    # export PATH="/usr/local/opt/openjdk/bin:$PATH"
 )
-insert_path_to_variable "PATH" "${_path_arr[@]}"
-unset _path_arr
-# export PATH="$GEM_HOME/bin:$PATH"
-# export PATH="/usr/local/opt/ruby/bin:$PATH"
-# export PATH="/usr/local/opt/openjdk/bin:$PATH"
+export PATH
+
+# Connected array Variables, fpath is connected with FPATH
+fpath+=(
+    "$ZDOTDIR/lib"
+    "$ZDOTDIR/completion"
+    "$HOMEBREW_PREFIX/share/zsh/site-functions"
+)
+export FPATH
 
 # 为 system 范围添加 header 路径, 会影响到 vim 的 ycm 与 ale.
 # refer to <https://gcc.gnu.org/onlinedocs/cpp/Environment-Variables.html>
