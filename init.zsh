@@ -47,9 +47,9 @@ export ROOTMARKERS=(
 
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
-# Connected array Variables, path is connected with PATH
+# Because the order is so important for PATH, so we can't use connected `path` to reflect its value
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
-path+=(
+_path_arr=(
     "/bin"
     "/sbin"
     "/usr/bin"
@@ -79,7 +79,8 @@ path+=(
     # export PATH="/usr/local/opt/ruby/bin:$PATH"
     # export PATH="/usr/local/opt/openjdk/bin:$PATH"
 )
-export PATH
+insert_path_to_variable "PATH" "${_path_arr[@]}"
+unset _path_arr
 
 # Connected array Variables, fpath is connected with FPATH
 fpath+=(
