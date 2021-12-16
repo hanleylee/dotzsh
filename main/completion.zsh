@@ -5,16 +5,36 @@
 
 # Enables you to go through the list and select one option
 zstyle ':completion:*' menu select
+# 分组显示
+zstyle ':completion:*' group-name ''
 # Case insensitive auto-completion
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-# Case insensitive auto-completion II
-# zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 
+# 使用缓存。某些命令的补全很耗时的(如 aptitude)
+zstyle ':completion:*' use-cache on
+_cache_dir=${XDG_CACHE_HOME:-$HOME/.cache}/zsh
+zstyle ':completion:*' cache-path $_cache_dir
+unset _cache_dir
 # partial completion suggestions
 #  zstyle ':completion:*' list-suffixes zstyle ':completion:*' expand prefix suffix 
 # If the line has sudo or doas in it, then it tries to gain more access while completing command options (-/--)
-zstyle ':completion::complete:*' gain-privileges 1
-# Don't show . and .. in completion menu
-zstyle ':completion:*' special-dirs false
+zstyle ':completion::complete:*' gain-privileges 1 # double esc to put 'sudo'
+zstyle ':completion:*' special-dirs false # Don't show . and .. in completion menu
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# 用本用户的所有进程补全
+zstyle ':completion:*:processes' command 'ps -afu$USER'
+zstyle ':completion:*:*:*:*:processes' force-list always
+# 进程名补全
+zstyle ':completion:*:processes-names' command  'ps c -u ${USER} -o command | uniq'
+
+# cd 补全顺序
+zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
+# 在 .. 后不要回到当前目录
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+
+# complete manual by their section, from grml
+zstyle ':completion:*:manuals'    separate-sections true
+zstyle ':completion:*:manuals.*'  insert-sections   true
 
 zstyle ":completion:*:git-checkout:*" sort false
 zstyle ':completion:*:exa' file-sort modification

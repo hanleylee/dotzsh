@@ -43,6 +43,11 @@ alias q="~ && clear"
 
 alias mv="mv -v"
 alias cp="cp -v"
+alias py='python3'
+alias :q="exit"
+alias girl=man
+alias woman=man
+
 
 # for time {{{
 alias d='date +%F'
@@ -155,3 +160,14 @@ if command_exists floaterm; then
     alias f='floaterm'
 fi
 # }}}
+
+# grc aliases
+if (( $+aliases[colourify] )); then
+  # default is better
+  unalias gcc g++ 2>/dev/null || true
+  # bug: https://github.com/garabik/grc/issues/72
+  unalias mtr     2>/dev/null || true
+  # buffering issues: https://github.com/garabik/grc/issues/25
+  unalias ping    2>/dev/null || true
+fi
+# [[ -z $functions[j] && -f /etc/profile.d/autojump.zsh ]] && source /etc/profile.d/autojump.zsh

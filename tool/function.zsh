@@ -6,6 +6,15 @@
 # set -e # 有一个未通过立刻终止脚本
 # set -x # 显示所有步骤
 
+# Quick change directories, Expands .... -> ../../../
+smartdots() {
+    if [[ $LBUFFER = *.. ]]; then
+        LBUFFER+=/..
+    else
+        LBUFFER+=.
+    fi
+}
+
 # 在 xcode 中打开当前目录下的 xcworkspace 文件
 ofx() {
     open ./*.xcworkspace || open ./*.xcodeproj
@@ -92,26 +101,26 @@ function _zfzf {
 if command_exists apt; then
     # Update and upgrade packages
     apt-update() {
-        sudo apt update
-        sudo apt -y upgrade
-    }
+    sudo apt update
+    sudo apt -y upgrade
+}
 
     # Clean packages
     apt-clean() {
-        sudo apt -y autoremove
-        sudo apt-get -y autoclean
-        sudo apt-get -y clean
-    }
+    sudo apt -y autoremove
+    sudo apt-get -y autoclean
+    sudo apt-get -y clean
+}
 
     # List intentionally installed packages
     apt-list() {
-        (
-            zcat "$(ls -tr /var/log/apt/history.log*.gz)"
-            cat /var/log/apt/history.log
-        ) 2>/dev/null |
-            grep -E '^Commandline' |
-            sed -e 's/Commandline: \(.*\)/\1/' |
-            grep -E -v '^/usr/bin/unattended-upgrade$'
+    (
+    zcat "$(ls -tr /var/log/apt/history.log*.gz)"
+    cat /var/log/apt/history.log
+    ) 2>/dev/null |
+        grep -E '^Commandline' |
+        sed -e 's/Commandline: \(.*\)/\1/' |
+        grep -E -v '^/usr/bin/unattended-upgrade$'
     }
 fi
 
@@ -159,10 +168,10 @@ glog() {
 
     git log --color=always --format="$log_fmt" "$@" |
         fzf --no-sort --tiebreak=index --no-multi --reverse --ansi \
-            --header="enter to view, alt-y to copy hash" --preview="$view_commit" \
-            --bind="enter:execute:$view_commit | less -R" \
-            --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
-}
+        --header="enter to view, alt-y to copy hash" --preview="$view_commit" \
+        --bind="enter:execute:$view_commit | less -R" \
+        --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
+    }
 
 git_keep_one() {
     git pull --depth 1
@@ -186,6 +195,170 @@ function light() {
         src="cat $2"
     fi
     eval "$src" | highlight -O rtf --syntax="$1" -k "Fira Code" --style=solarized-dark --font-size 24 | pbcopy
+}
+
+nocolor () {
+    sed -r 's:\x1b\[[0-9;]*[mK]::g;s:[\r\x0f]::g'
+}
+
+# 删除空文件
+rmempty () {
+    for i; do
+        [[ -f $i && ! -s $i ]] && rm $i
+    done
+    return 0
+}
+
+# 断掉软链接
+breakln () {
+    for f in $*; do
+        tgt=$(readlink "$f")
+        unlink "$f"
+        cp -rL "$tgt" "$f"
+    done
+}
+
+# 设置标题
+if [[ $TERM == screen* || $TERM == tmux* ]]; then
+    # 注：不支持中文
+    title () { echo -ne "\ek$*\e\\" }
+else
+    title () { echo -ne "\e]0;$*\a" }
+fi
+if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
+    cursorcolor () { echo -ne "\e]12;$*\007" }
+elif [[ $TERM == screen* ]]; then
+    if (( $+TMUX )); then
+        cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
+    else
+        cursorcolor () { echo -ne "\eP\e]12;$*\007\e\\" }
+    fi
+elif [[ $TERM == tmux* ]]; then
+    cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
+fi
+
+# 使用伪终端代替管道，对 ls 这种“顽固分子”有效 {{{2
+ptyrun () {
+    local ptyname=pty-$$
+    zmodload zsh/zpty
+    zpty $ptyname "${(q)@}"
+    if [[ ! -t 1 ]]; then
+        setopt local_traps
+        trap '' INT
+    fi
+    zpty -r $ptyname
+    zpty -d $ptyname
+}
+
+ptyless () {
+    ptyrun "$@" | tr -d $'\x0f' | less
+}
+
+# 剪贴板数据到 QR 码
+clipboard2qr () {
+    data="$(xsel)"
+    echo $data
+    echo $data | qrencode -t UTF8
+}
+
+# 截图到剪贴板
+screen2clipboard () {
+    screenshot | xclip -i -selection clipboard -t image/png
+}
+
+# 将剪贴板中的图片从 bmp 转到 png。QQ 会使用 bmp
+clipboard_bmp2png () {
+    xclip -selection clipboard -o -t image/bmp | convert - png:- | xclip -i -selection clipboard -t image/png
+}
+
+# 将剪贴板中的图片从 png 转到 bmp。QQ 会使用 bmp
+clipboard_png2bmp () {
+    xclip -selection clipboard -o -t image/png | convert - bmp:- | xclip -i -selection clipboard -t image/bmp
+}
+
+# 文件名从 GB 转码，带确认
+mvgb () {
+    for i in $*; do
+        new="$(echo $i|iconv -f utf8 -t latin1|iconv -f gbk)"
+        echo $new
+        echo -n 'Sure? '
+        read -q ans && mv -i $i $new
+        echo
+    done
+}
+
+pid () { #{{{2
+    s=0
+    for i in $*; do
+        i=${i/,/}
+        echo -n "$i: "
+        r=$(cat /proc/$i/cmdline|tr '\0' ' ' 2>/dev/null)
+        if [[ $? -ne 0 ]]; then
+            echo not found
+            s=1
+        else
+            echo $r
+        fi
+    done
+    return $s
+}
+
+# 快速查找当前目录下的文件
+s () {
+    find . -name "*$1*"
+}
+
+#{{{2 query XMPP SRV records
+xmpphost () {
+    host -t SRV _xmpp-client._tcp.$1
+    host -t SRV _xmpp-server._tcp.$1
+}
+
+# 软件仓库中重复的软件包
+duppkg4repo () {
+    local repo=$1
+    [[ -z $repo ]] && { echo >&2 'which repository to examine?'; return 1 }
+    local pkgs
+    pkgs=$(comm -12 \
+        <(pacman -Sl $repo|awk '{print $2}'|sort) \
+        <(pacman -Sl|awk -vrepo=$repo '$1 != repo {print $2}'|sort) \
+    )
+        [[ -z $pkgs ]] && return 0
+        LANG=C pacman -Si ${=pkgs} | awk -vself=$repo '/^Repository/{ repo=$3; } /^Name/ && repo != self { printf("%s/%s\n", repo, $3); }'
+    }
+
+# 反复重试, 直到成功 {{{ 2
+try_until_success () {
+    local i=1
+    while true; do
+        echo "Try $i at $(date)."
+        $* && break
+        (( i+=1 ))
+        echo
+    done
+}
+compdef try_until_success=command
+
+# autojump 快速安装
+install_autojump () {
+    mkdir -p ~/.local/bin ${_zdir}/.zsh/Completion
+    pushd ~/.local/bin > /dev/null
+    wget -N https://github.com/wting/autojump/raw/master/bin/autojump{,_{data,argparse,match,utils}.py}
+    chmod +x autojump
+    popd > /dev/null
+    wget https://github.com/wting/autojump/raw/master/bin/autojump.zsh -O ${_zdir}/.zsh/autojump.zsh
+    wget https://github.com/wting/autojump/raw/master/bin/_j -O ${_zdir}/.zsh/Completion/_j
+}
+
+wait_pid () {
+    local pid=$1
+    while true; do
+        if [[ -d /proc/$pid ]]; then
+            sleep 3
+        else
+            break
+        fi
+    done
 }
 
 # function _fish_collapsed_pwd() {

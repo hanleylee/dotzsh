@@ -3,6 +3,9 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
+# check first, or the script will end wherever it fails
+# zmodload zsh/regex 2>/dev/null && _has_re=1 || _has_re=0
+
 # MARK: 仅用于添加一些需要在初始化开始时就需要的公共变量或方法
 
 # System name
@@ -38,7 +41,8 @@ export ARCH_MSG
 # -> Bool
 function command_exists() {
     for cmd in "$@"; do
-        command -v "$cmd" &>/dev/null || return 1
+        # command -v "$cmd" &>/dev/null || return 1             # path 中的工具, alias 与 function 都会返回 true
+        (( $+commands[$cmd] )) # 只会在 path 中找到真正可用的命令, alias 与 function 都不算
     done
     # command -v $1 &> /dev/null
     # [[ -x "$(command -v $1)" ]]

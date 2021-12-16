@@ -3,23 +3,21 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
-# Quick change directories
-# Expands .... -> ../../../
-
-smartdots() {
-    if [[ $LBUFFER = *.. ]]; then
-        LBUFFER+=/..
-    else
-        LBUFFER+=.
-    fi
-}
 zle -N smartdots
 bindkey . smartdots
 
-zle -N _zfzf
+# ^Xe 用 $EDITOR 编辑命令
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
+
 bindkey -e # 使用 Emacs 键位
 bindkey ',' autosuggest-accept
 bindkey "^u" backward-kill-line
+
+# bindkey "\eB" zsh-backward-word
+# bindkey "\eF" zsh-forward-word
+# bindkey "\eW" zsh-backward-kill-word
 
 if command_exists lf; then
     bindkey -s "^o" 'lfcd^M'
@@ -30,5 +28,6 @@ if command_exists lazygit; then
 fi
 
 if command_exists fzf; then
+    zle -N _zfzf
     bindkey '^h' _zfzf
 fi

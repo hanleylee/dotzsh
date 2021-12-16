@@ -35,4 +35,20 @@ setopt AUTO_PUSHD                  # pushes the old directory onto the stack
 setopt PUSHD_MINUS                 # exchange the meanings of '+' and '-'
 setopt CDABLE_VARS                 # expand the expression (allows 'cd -2/tmp')
 setopt PUSHD_IGNORE_DUPS           # push dir, remove the old items if it already existing
+# unsetopt nomatch
+# setopt nomatch
+unsetopt BEEP
+# rm * 时不要提示
+setopt RM_STAR_SILENT
+# 允许在交互模式中使用注释
+setopt INTERACTIVE_COMMENTS
 
+setopt AUTO_CONTINUE # disown 后自动继续进程
+setopt EXTENDED_GLOB
+setopt RC_QUOTES # 单引号中的 '' 表示一个 ' （如同 Vimscript 中者）
+setopt LISTPACKED # 补全列表不同列可以使用不同的列宽
+setopt MAGIC_EQUAL_SUBST # 补全 identifier=path 形式的参数
+setopt TRANSIENT_RPROMPT # 为方便复制，右边的提示符只在最新的提示符上显示
+setopt KSH_OPTION_PRINT # setopt 的输出显示选项的开关状态
+setopt NO_BG_NICE
+setopt NOFLOWCONTROL
