@@ -164,8 +164,11 @@ fi
 # for dutree {{{
 if command_exists dutree; then
     alias dt='dutree'
+    alias ds='dutree --summary'
+    alias d1='dutree --depth=1'
 fi
 # }}}
+
 # grc aliases
 if (( $+aliases[colourify] )); then
   # default is better
