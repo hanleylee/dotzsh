@@ -29,8 +29,7 @@ zstyle ':completion:*:processes-names' command  'ps c -u ${USER} -o command | un
 
 # cd 补全顺序
 zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
-# 在 .. 后不要回到当前目录
-zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*:cd:*' ignore-parents parent pwd # 在 cd 后不要显示 '.'
 
 # complete manual by their section, from grml
 zstyle ':completion:*:manuals'    separate-sections true
@@ -51,12 +50,13 @@ zstyle ':fzf-tab:*' fzf-pad 4
 # zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 # zstyle ':fzf-tab:complete:cd:*' popup-pad 80 0
 
-# Show hidden files in the menu
-_comp_options+=(globdots)
-
 # Enabling completion for command options (which start with -- or -)
 zmodload zsh/complist
 #}}}
 
 # the zstyle command must added before enable the compinit system
 autoload -Uz compinit && compinit   # load + start completion
+
+# Show hidden files in the menu
+_comp_options+=(globdots)
+

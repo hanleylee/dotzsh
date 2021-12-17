@@ -161,6 +161,11 @@ if command_exists floaterm; then
 fi
 # }}}
 
+# for dutree {{{
+if command_exists dutree; then
+    alias dt='dutree'
+fi
+# }}}
 # grc aliases
 if (( $+aliases[colourify] )); then
   # default is better
