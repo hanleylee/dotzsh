@@ -125,7 +125,7 @@ fi
 
 # for macvim {{{
 if command_exists mvim; then
-    alias mvimpod='mvim --remote-tab Podfile'
+    alias mvimpod='mvim --remote-tab Podfile &>/dev/null'
 fi
 # }}}
 
