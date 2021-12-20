@@ -74,6 +74,8 @@ STICKY_OTHER_WRITABLE 48;5;235;38;5;139;3 # dir that is sticky and other-writabl
 
 # Xcode project
 .podspec 38;5;220;1
+.xcworkspace 38;5;113;1
+.xcodeproj 38;5;113;1
 
 # pure text document
 .log 38;5;190
@@ -758,6 +760,7 @@ STICKY_OTHER_WRITABLE 48;5;235;38;5;139;3 # dir that is sticky and other-writabl
 *NOTICE 38;5;220;1
 *CHANGES 38;5;220;1
 *Podfile 38;5;220;1
+*Podfile.lock 38;5;220;1
 *config 1
 *cfg 1
 *conf 1
