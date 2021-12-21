@@ -16,12 +16,15 @@ _launchctl_verbs=(
 'submit:submit a job from the command line'
 'remove:remove specified job'
 'bootstrap:bootstrap launchd'
+'bootout:bootout launchd'
+'kickstart:kickstart specified target service'
+'kill:kill specified target service'
 'list:list jobs and information about jobs'
 'setenv:set an environmental variable in launchd'
 'unsetenv:unset an environmental variable in launchd'
 'getenv:get an environmental variable from launchd'
-'export:export shell settings from launchd'
 'debug:set the waitfordebugger flag for the target job to true.'
+'export:export shell settings from launchd'
 'limit:view and adjust launchd resource limits'
 'shutdown:prepare for system shutdown'
 'getrusage:get resource usage statistics from launchd'
@@ -81,6 +84,15 @@ case "$words[1]" in
 		_arguments \
 			'-s[run as server (does not return)]' \
 			'-S+[session type]:session type'
+		;;
+	kickstart)
+		_arguments \
+			'-k[kill the running instance before restarting the service]' \
+			'-p[print the PID of the new process or the already-running process to stdout]'
+		;;
+	kill)
+		_arguments \
+			'-15[SIGTERM]'
 		;;
 	list)
 		_launchctl_options () { _arguments '-x+[output as a XML property list]: :_launchctl_jobs' }
