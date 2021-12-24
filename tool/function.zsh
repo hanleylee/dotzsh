@@ -34,6 +34,21 @@ pfmv() {
 EOF
 }
 
+# use MacVim to edit the current file of Xcode
+mvxc() {
+    # either of the below method is acceptable
+    # open -a MacVim `pfxc`
+    osascript <<EOF
+    tell application "MacVim"
+        set current_document_path to "$(pfxc)"
+        if (current_document_path is not "") then
+            open current_document_path
+            return
+        end if
+    end tell
+EOF
+}
+
 # cd to the path of MacVim's current working directory
 function cdmv() {
   cd "$(pfmv)"
