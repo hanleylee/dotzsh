@@ -20,6 +20,29 @@ ofx() {
     open ./*.xcworkspace || open ./*.xcodeproj
 } 2> /dev/null
 
+# print the path of current file of MacVim's front window
+pfmv() {
+    osascript <<'EOF'
+        tell application "MacVim"
+            set window_title to name of window 1
+            set is_empty to offset of "[NO NAME]" in window_title
+            if is_empty is 0 then
+                set cwd to do shell script "echo '" & window_title & "' |sed 's/.* (\\(.*\\)).*/\\1/'" & " |sed \"s,^~,$HOME,\""
+                return cwd
+            end if
+        end tell
+EOF
+}
+
+# cd to the path of MacVim's current working directory
+function cdmv() {
+  cd "$(pfmv)"
+}
+
+# function cdit() {
+#   cd "$(pfit)"
+# }
+
 function repeat() {
     local i max
     max=$1
