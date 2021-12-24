@@ -218,6 +218,25 @@ git_keep_one() {
     git stash drop
     git gc --prune=all
 }
+
+function gstpush() {
+    git stash push -m "hanley_$1"
+}
+
+function gstpop() {
+    # MARK: Method 1
+    # git stash apply stash^{/"hanley_$1"}
+
+    # MARK: Method 2
+    # stash_index like "stash@{0}"
+    stash_index=$(git stash list | grep "hanley_$1$" | cut -d: -f1)
+    if [[ -n "${stash_index}" ]]; then
+        git stash pop "${stash_index}"
+    else
+        echo "There is no stash for name \"hanley_$1\""
+        return
+    fi
+}
 # }}}
 
 test_zsh1() {

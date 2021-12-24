@@ -99,6 +99,7 @@ alias zzc='zz -c'
 # }}}
 
 # for git {{{
+alias gs='git status'
 alias reignore='git rm -r --cached . && git add .'
 alias whyignore='git check-ignore -v'
 alias git-root='cd $(git rev-parse --show-toplevel)'
