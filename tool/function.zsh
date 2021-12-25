@@ -40,6 +40,7 @@ mvxc() {
     # open -a MacVim `pfxc`
     osascript <<EOF
     tell application "MacVim"
+        activate
         set current_document_path to "$(pfxc)"
         if (current_document_path is not "") then
             open current_document_path

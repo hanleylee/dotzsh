@@ -20,11 +20,28 @@ fi
 [[ -f "$ZDOTDIR/base/preinit.zsh" ]] && . "$ZDOTDIR/base/preinit.zsh"
 
 #███████████████████████   PATH Variables   ██████████████████████████
+
 export HL_REPO="$HOME/repo"
-export HL_LANG="$HOME/repo/lang"
+export HKMS="$HL_REPO/hkms"
+# Language {{{
+export HL_LANG="$HL_REPO/lang"
+export HL_LANG_C="$HL_REPO/lang/c"
+export HL_LANG_CPP="$HL_REPO/lang/cpp"
+export HL_LANG_RUBY="$HL_REPO/lang/ruby"
+export HL_LANG_HTML="$HL_REPO/lang/html"
+export HL_LANG_OBJC="$HL_REPO/lang/objc"
+export HL_LANG_PYTHON="$HL_REPO/lang/python"
+export HL_LANG_RUST="$HL_REPO/lang/rust"
+export HL_LANG_SHELL="$HL_REPO/lang/shell"
+export HL_LANG_SWIFT="$HL_REPO/lang/swift"
+export HL_LANG_VIMSCRIPT="$HL_REPO/lang/vimscript"
+export HL_LANG_JAVASCRIPT="$HL_REPO/lang/javascript"
+export HL_LANG_APPLESCRIPT="$HL_REPO/lang/applescript"
+# }}}
+
 export HL_SECRET="$HOME/.secret"
 export HL_LOCAL="$HOME/.local"
-export HKMS="$HL_REPO/hkms"
+
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
