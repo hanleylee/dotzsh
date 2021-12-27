@@ -76,9 +76,6 @@ zinit snippet OMZP::sudo
 @zi_w1
 zinit snippet OMZP::colored-man-pages
 
-@zi_w1
-zinit snippet OMZP::git
-
 @zi_completion has'cargo'
 zinit snippet OMZP::cargo
 
