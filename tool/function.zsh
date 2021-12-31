@@ -23,30 +23,30 @@ ofx() {
 # print the path of current file of MacVim's front window
 pfmv() {
     osascript <<'EOF'
-        tell application "MacVim"
-            set window_title to name of window 1
-            set is_empty to offset of "[NO NAME]" in window_title
-            if is_empty is 0 then
-                set cwd to do shell script "echo '" & window_title & "' |sed 's/.* (\\(.*\\)).*/\\1/'" & " |sed \"s,^~,$HOME,\""
-                return cwd
-            end if
-        end tell
-        EOF
-    }
+tell application "MacVim"
+    set window_title to name of window 1
+    set is_empty to offset of "[NO NAME]" in window_title
+    if is_empty is 0 then
+        set cwd to do shell script "echo '" & window_title & "' |sed 's/.* (\\(.*\\)).*/\\1/'" & " |sed \"s,^~,$HOME,\""
+        return cwd
+    end if
+end tell
+EOF
+}
 
 # use MacVim to edit the current file of Xcode
 mvxc() {
     # either of the below method is acceptable
     # open -a MacVim `pfxc`
     osascript <<EOF
-    tell application "MacVim"
-        activate
-        set current_document_path to "$(pfxc)"
-        if (current_document_path is not "") then
-            open current_document_path
-            return
-        end if
-    end tell
+tell application "MacVim"
+    activate
+    set current_document_path to "$(pfxc)"
+    if (current_document_path is not "") then
+        open current_document_path
+        return
+    end if
+end tell
 EOF
 }
 
