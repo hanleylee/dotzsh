@@ -102,6 +102,7 @@ alias zzc='zz -c'
 # }}}
 
 # for git {{{
+alias lg='lazygit'
 alias g='git'
 alias gs='git status'
 alias reignore='git rm -r --cached . && git add .'

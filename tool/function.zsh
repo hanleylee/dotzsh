@@ -76,7 +76,7 @@ if command_exists code; then
 fi
 
 if command_exists lazygit; then
-    lg() {
+    lgf() {
         export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
 
         lazygit "$@"
