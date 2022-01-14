@@ -351,6 +351,7 @@ if command_exists vim; then
     alias iproxy_iphone7='iproxy 2222 22'
     alias iproxy_ipadpro='iproxy 2223 22'
     alias iproxy_iphone12='iproxy 2224 22'
+    alias iproxy_iphonese='iproxy 2225 22'
 fi
 # }}}
 

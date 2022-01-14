@@ -3,9 +3,6 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
-export LC_CTYPE="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
-
 # MARK: GLOB
 setopt GLOBDOTS # 使所有的ls显示 . 与 ..(会导致 completion 有 . 与 ..)
 setopt NO_CASE_GLOB # 通配符扩展不区分大小写
