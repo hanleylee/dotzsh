@@ -103,8 +103,8 @@ zinit snippet OMZP::git-auto-fetch
 zinit ice multisrc'*.zsh'
 zinit load "$ZDOTDIR/tool"
 
-# zinit light HanleyLee/Handy
-zinit light "/Users/hanley/repo/handy" # use for debug
+zinit light HanleyLee/Handy
+# zinit light "/Users/hanley/repo/handy" # use for debug
 
 # 为了使用 GitHub 项目的子目录作为 snippet, 需要在 URL中添加 /trunk/{path-to-dir}
 # zinit ice svn
