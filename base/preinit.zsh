@@ -48,6 +48,14 @@ function command_exists() {
     # [[ -x "$(command -v $1)" ]]
 }
 
+function is_home() {
+    [[ $HOST =~ "home" ]]
+}
+
+function is_work() {
+    [[ $HOST =~ "work" ]]
+}
+
 # source if file exists, can pass many file
 # -> Void
 function source_if_exists() {
