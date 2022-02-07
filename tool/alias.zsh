@@ -368,7 +368,7 @@ fi
 
 # for macvim {{{
 if command_exists mvim; then
-    alias mvpod='mvim --remote-tab Podfile &>/dev/null'
+    alias mvpod='mvim --remote-tab-silent Podfile &>/dev/null'
 fi
 # }}}
 
