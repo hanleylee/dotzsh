@@ -80,6 +80,7 @@ _path_arr=(
     "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
     "$HOMEBREW_PREFIX/opt/openssl/bin"
     "$HOMEBREW_PREFIX/opt/llvm/bin"
+    "$HOMEBREW_PREFIX/opt/sqlite/bin"
     "$HL_LOCAL/bin"
     "$HL_LOCAL/bin/sh"
     "$HL_LOCAL/bin/py"
@@ -126,12 +127,14 @@ if command_exists pkg-config; then
     # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
     _pkgconfig_path=(
         "$HOMEBREW_PREFIX/lib/pkgconfig"
+        "$HOMEBREW_PREFIX/opt/glib/lib/pkgconfig"
         "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig"
         "$HOMEBREW_PREFIX/opt/openssl/lib/pkgconfig"
         "$HOMEBREW_PREFIX/opt/readline/lib/pkgconfig"
         "$HOMEBREW_PREFIX/opt/libffi/lib/pkgconfig"
         "$HOMEBREW_PREFIX/opt/msgpack/lib/pkgconfig"
         "$HOMEBREW_PREFIX/opt/lzo/lib/pkgconfig"
+        "$HOMEBREW_PREFIX/opt/sqlite/lib/pkgconfig"
         "/opt/X11/lib/pkgconfig"
     )
     insert_path_to_variable "PKG_CONFIG_PATH" "${_pkgconfig_path[@]}"
@@ -148,20 +151,23 @@ if command_exists pkg-config; then
     pkg-config --exists x11 && PKGS+=("x11")
     pkg-config --exists msgpack && PKGS+=("msgpack")
     pkg-config --exists lzo2 && PKGS+=("lzo2")
+    pkg-config --exists lzo2 && PKGS+=("sqlite3")
 
-    CPPFLAGS=$(pkg-config --cflags "${PKGS[@]}")
-    export CPPFLAGS
+    if [[ -n ${PKGS[*]} ]]; then
+        CPPFLAGS=$(pkg-config --cflags "${PKGS[@]}")
+        export CPPFLAGS
 
-    CFLAGS=$(pkg-config --cflags "${PKGS[@]}")
-    export CFLAGS
+        CFLAGS=$(pkg-config --cflags "${PKGS[@]}")
+        export CFLAGS
 
-    CXXFLAGS=$(pkg-config --cflags "${PKGS[@]}")
-    export CXXFLAGS
+        CXXFLAGS=$(pkg-config --cflags "${PKGS[@]}")
+        export CXXFLAGS
 
-    # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
-    LDFLAGS=$(pkg-config --libs "${PKGS[@]}")
-    export LDFLAGS
-    unset PKGS
+        # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
+        LDFLAGS=$(pkg-config --libs "${PKGS[@]}")
+        export LDFLAGS
+        unset PKGS
+    fi
 fi
 
 #***************   GPG   *****************
