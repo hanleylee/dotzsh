@@ -426,7 +426,10 @@ fi
 
 if is_work; then
     # for bnc {{{ #
-    alias bnc_to_hanley="find . -name '*.pbxproj' -depth -exec gsed -i -f ~/.local/share/sed/bnc_to_hanley.sed {} \;"
+    # alias bnc_to_hanley="find . -type f -name '*.pbxproj' -depth -exec gsed -i -f ~/.local/share/sed/bnc_to_hanley.sed {} \;"
+    # alias bnc_to_hanley_develop="find . -type f \( -name '*.pbxproj' -o -name '*.plist' \) -maxdepth 2 -exec gsed -i -f ~/.local/share/sed/bnc_to_hanley_develop.sed {} \;"
+    # alias bnc_to_hanley_release="find . -type f \( -name '*.pbxproj' -o -name '*.plist' \) -maxdepth 2 -exec gsed -i -f ~/.local/share/sed/bnc_to_hanley_release.sed {} \;"
+    alias bnc_to_hanley_test="find . -type f \( -name '*.pbxproj' -o -name '*.plist' \) -maxdepth 2 -exec echo {} \;"
     # }}} for bnc #
     # [[ -z $functions[j] && -f /etc/profile.d/autojump.zsh ]] && source /etc/profile.d/autojump.zsh
 fi

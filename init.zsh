@@ -71,6 +71,7 @@ _path_arr=(
     "/bin"
     "/sbin"
     "/usr/bin"
+    "/usr/libexec"
     "/usr/sbin"
     "/opt/MonkeyDev/bin"
     "$HOMEBREW_PREFIX/bin"
