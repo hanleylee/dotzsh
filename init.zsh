@@ -19,8 +19,8 @@ fi
 # esac
 [[ -f "$ZDOTDIR/base/preinit.zsh" ]] && . "$ZDOTDIR/base/preinit.zsh"
 
-#███████████████████████   PATH Variables   ██████████████████████████
 
+#███████████████████████   PATH Variables   ██████████████████████████
 export HL_REPO="$HOME/repo"
 export HKMS="$HL_REPO/hkms"
 # Language {{{
@@ -65,6 +65,8 @@ export ROOTMARKERS=(
 
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
+export ANDROID_HOME="/Users/hanley/Library/Android/sdk"
+
 # Because the order is so important for PATH, so we can't use connected `path` to reflect its value
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
 _path_arr=(
@@ -94,6 +96,8 @@ _path_arr=(
     "$HOME/.pyenv/bin"
     "$HOME/.fzf/bin"
     "$HOME/.emacs.d/bin"
+    "$ANDROID_HOME/tools"
+    "$ANDROID_HOME/platform-tools"
     # "$HOME/.gem/bin" \
     # export PATH="$GEM_HOME/bin:$PATH"
     # export PATH="/usr/local/opt/ruby/bin:$PATH"
@@ -347,3 +351,7 @@ export _ZL_MAXAGE=100000
 # for ta-lib
 # export TA_INCLUDE_PATH="$(brew --prefix ta-lib)/include"
 # export TA_LIBRARY_PATH="$(brew --prefix ta-lib)/lib"
+
+# Flutter
+export PUB_HOSTED_URL=https://pub.flutter-io.cn
+export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
