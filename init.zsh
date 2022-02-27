@@ -37,6 +37,8 @@ export HL_LANG_SWIFT="$HL_REPO/lang/swift"
 export HL_LANG_VIMSCRIPT="$HL_REPO/lang/vimscript"
 export HL_LANG_JAVASCRIPT="$HL_REPO/lang/javascript"
 export HL_LANG_APPLESCRIPT="$HL_REPO/lang/applescript"
+export HL_LANG_PLANTUML="$HL_REPO/lang/plantuml"
+export HL_LANG_DART="$HL_REPO/lang/dart"
 # }}}
 
 export HL_SECRET="$HOME/.secret"
@@ -148,15 +150,15 @@ fi
 #███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
 if command_exists pkg-config; then
     PKGS=() # array list
-    pkg-config --exists glib-2.0 && PKGS+=("glib-2.0")
-    pkg-config --exists zlib && PKGS+=("zlib")
-    pkg-config --exists openssl && PKGS+=("openssl")
-    pkg-config --exists readline && PKGS+=("readline")
-    pkg-config --exists libffi && PKGS+=("libffi")
-    pkg-config --exists x11 && PKGS+=("x11")
-    pkg-config --exists msgpack && PKGS+=("msgpack")
-    pkg-config --exists lzo2 && PKGS+=("lzo2")
-    pkg-config --exists lzo2 && PKGS+=("sqlite3")
+    # pkg-config --exists glib-2.0 && PKGS+=("glib-2.0")
+    # pkg-config --exists zlib && PKGS+=("zlib")
+    # pkg-config --exists openssl && PKGS+=("openssl")
+    # pkg-config --exists readline && PKGS+=("readline")
+    # pkg-config --exists libffi && PKGS+=("libffi")
+    # pkg-config --exists x11 && PKGS+=("x11")
+    # pkg-config --exists msgpack && PKGS+=("msgpack")
+    # pkg-config --exists lzo2 && PKGS+=("lzo2")
+    # pkg-config --exists lzo2 && PKGS+=("sqlite3")
 
     if [[ -n ${PKGS[*]} ]]; then
         CPPFLAGS=$(pkg-config --cflags "${PKGS[@]}")
