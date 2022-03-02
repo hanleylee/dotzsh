@@ -358,3 +358,14 @@ export _ZL_MAXAGE=100000
 # Flutter
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+
+
+# MARK: Source file
+
+_path_arr=(
+    "$ZDOTDIR/base/lficons.zsh"
+)
+
+source_if_exists "${_path_arr[@]}"
+
+unset _path_arr
