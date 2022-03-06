@@ -63,11 +63,15 @@ export ROOTMARKERS=(
     "build.xml"
     "Makefile"
     "CMakeLists.txt"
+    ".idea"
 )
+
+# export str for macvim usage
+export ROOTMARKERS_STR=${ROOTMARKERS[*]}
 
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
-export ANDROID_HOME="/Users/hanley/Library/Android/sdk"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
 
 # Because the order is so important for PATH, so we can't use connected `path` to reflect its value
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
