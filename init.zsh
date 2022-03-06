@@ -39,6 +39,9 @@ export HL_LANG_JAVASCRIPT="$HL_REPO/lang/javascript"
 export HL_LANG_APPLESCRIPT="$HL_REPO/lang/applescript"
 export HL_LANG_PLANTUML="$HL_REPO/lang/plantuml"
 export HL_LANG_DART="$HL_REPO/lang/dart"
+export HL_FRAMEWORK="$HL_REPO/framework"
+export HL_FRAMEWORK_ios="$HL_REPO/framework/ios"
+export HL_FRAMEWORK_flutter="$HL_REPO/framework/flutter"
 # }}}
 
 export HL_SECRET="$HOME/.secret"
@@ -363,6 +366,8 @@ export _ZL_MAXAGE=100000
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 
+# MARK: For vim
+# export VIMTEST=true
 
 # MARK: Source file
 
