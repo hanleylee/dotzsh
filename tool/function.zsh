@@ -133,7 +133,6 @@ function _zfzf {
 
         zle && zle reset-prompt
         # zle && zle redraw-prompt
-        return 1
     fi
 }
 
@@ -162,6 +161,13 @@ if command_exists apt; then
         grep -E -v '^/usr/bin/unattended-upgrade$'
     }
 fi
+
+# *************** autojump *****************
+# use fzf to jump to history directories
+autojump_fzf() {
+    cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' | eval ${FZF_WITH_COMMAND_AND_ARGS})" 
+    zle && zle reset-prompt
+}
 
 # Go back up N directories
 up() {

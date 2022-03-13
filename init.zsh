@@ -262,39 +262,60 @@ export SHELLCHECK_OPTS="\
 -e SC1091 \
 "
 
+#***************   fd   *****************
+# -I 不忽略 .gitignore 列表内容(fd 默认是忽略的)
+export FD_COMMON_COMMAND="\
+fd \
+--full-path \
+--hidden \
+--follow \
+--exclude=$FD_COMMON_EXCLUDE \
+"
+
+export FD_COMMON_EXCLUDE="\
+{\
+Pods,\
+.git,\
+.idea,\
+.sass-cache,\
+node_modules,\
+build\
+}\
+"
+
 #***************   fzf   *****************
+export FZF_COMMON_COMMAND="fzf-tmux"
+
+export FZF_COMMON_PREVIEW="\
+--preview '([[ -f {} ]] && highlight -O ansi -l {} 2> /dev/null || tree -N -C -l -L 1 {}) 2> /dev/null | head -500' \
+--preview-window right:50%:hidden:nowrap \
+"
+
+# 一个完备的包含 command 与 args 的完整 fzf 命令, 可以被外界直接拿来用, 与 <c-t> 的效果相同
+export FZF_WITH_COMMAND_AND_ARGS="\
+$FZF_COMMON_COMMAND \
+-p 90%,80% \
+$FZF_COMMON_PREVIEW \
+"
+
+# fzf 要求的 FZF_DEFAULT_COMMAND 与 FZF_DEFAULT_OPTS
+export FZF_DEFAULT_COMMAND="\
+$FD_COMMON_COMMAND \
+--type f \
+"
+
+# --sort \, 默认是 --no-sort, 就是根据你原有的结果顺序为以后所有的顺序基础
+# 所有的 fzf 都会使用的 opt, 不需要在手动调用 fzf 时候再次加上
+# --preview-window down:3:hidden:wrap
+# --preview-window 'right:60%'
 # --color fg:242,bg:236,hl:196,fg+:232,bg+:142,hl+:196:
 # --color info:108,prompt:109,spinner:108,pointer:168,marker:168
 # 默认 fzf 配置, 使用 fd 而不是系统的 find
 # --color fg:#ebdbb2,bg:#282828,hl:#fabd2f,fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f
 # --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#83a598,marker:#fe8019,header:#665c54
 # one dark
-FZF_FULL_COMMAND="\
-fzf-tmux \
--p 90%,80% \
---layout=reverse \
---no-sort \
---exact \
---height=80% \
---preview-window right:50%:hidden:nowrap \
---bind '?:toggle-preview' \
---border \
---cycle \
-"
+# use eval if you want use this variable in pipe e.g. fd . | eval ${FZF_COMMON_COMMAND}
 
-# -I 不忽略 .gitignore 列表内容(fd 默认是忽略的)
-export FZF_DEFAULT_COMMAND="\
-fd \
---hidden \
---follow \
---exclude={Pods,.git,.idea,.sass-cache,node_modules,build} \
---type f \
-"
-# export FZF_PREVIEW_COMMAND="\
-# highlight -O ansi -l {} || coderay {} || rougify {} || cat {}\
-# "
-
-# --sort \, 默认是 --no-sort, 就是根据你原有的结果顺序为以后所有的顺序基础
 export FZF_DEFAULT_OPTS="\
 --history-size=50000 \
 --color=dark \
@@ -303,37 +324,37 @@ export FZF_DEFAULT_OPTS="\
 --layout=reverse \
 --no-sort \
 --exact \
---height=80% \
---preview '([[ -f {} ]] && highlight -O ansi -l {} 2> /dev/null || tree -N -C -l -L 1 {}) 2> /dev/null | head -500' \
---preview-window right:50%:hidden:nowrap \
 --bind '?:toggle-preview' \
 --border \
 --cycle \
-"
-# --preview-window down:3:hidden:wrap
-# --preview-window 'right:60%'
-
-export DIR_PREVIEW_COMMAND='tree -N -C -l -L 1'
-export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_CTRL_T_OPTS=$FZF_DEFAULT_OPTS
-export FZF_CTRL_R_OPTS="\
---layout=reverse \
---no-sort \
---exact \
 --height=80% \
+"
+# fzf <c-t>
+export FZF_CTRL_T_COMMAND=$FD_COMMON_COMMAND
+export FZF_CTRL_T_OPTS="\
+$FZF_DEFAULT_OPTS \
+$FZF_COMMON_PREVIEW \
+"
+# fzf <c-r>
+export FZF_CTRL_R_OPTS="\
+$FZF_DEFAULT_OPTS \
 --preview 'echo {} | head -500' \
 --preview-window down:3:hidden:wrap \
---bind '?:toggle-preview' \
---border \
---cycle \
 "
 
+export DIR_PREVIEW_COMMAND='tree -N -C -l -L 1'
+
+# fzf <alt-c>
+export FZF_ALT_C_COMMAND=$FD_COMMON_COMMAND
 export FZF_ALT_C_OPTS="--preview '$DIR_PREVIEW_COMMAND {}'"
+
+# fzf-tmux
 export FZF_TMUX_OPTS="-p 90%,80%" # 控制着fzf的window 是 popup 的还是 split panel 的
 export FZF_COMPLETION_TRIGGER='**'
 
+# fzf marks
 [[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="$HOME/.fzf-marks"
-export FZF_MARKS_COMMAND="$FZF_FULL_COMMAND --preview '$DIR_PREVIEW_COMMAND {3}'"
+export FZF_MARKS_COMMAND="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS -p 90%,80% --preview '$DIR_PREVIEW_COMMAND {3}' --preview-window right:50%:hidden:nowrap"
 export FZF_MARKS_JUMP="^[m"
 export FZF_MARKS_COLOR_LHS=39 # (default)	ANSI color code of left-hand side
 export FZF_MARKS_COLOR_RHS=36 # (cyan)	ANSI color code of right-hand side
@@ -342,7 +363,7 @@ export FZF_MARKS_NO_COLORS=0
 # export FZF_MARKS_KEEP_ORDER=1
 
 # z.lua 使用的 fzf 参数
-export _ZL_FZF="$FZF_FULL_COMMAND --preview '$DIR_PREVIEW_COMMAND {2}'"
+export _ZL_FZF="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS -p 90%,80% --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:50%:hidden:nowrap"
 export _ZL_FZF_HEIGHT='80%'
 export _ZL_NO_ALIASES=1
 export _ZL_DATA="$HOME/.zlua"

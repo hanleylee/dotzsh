@@ -13,6 +13,7 @@ _path_arr=(
     "$HOME/.cargo/env"
     "$XDG_CONFIG_HOME/lf/lfcd.sh"
     "$XDG_CONFIG_HOME/broot/launcher/bash/br"
+    "$HOMEBREW_PREFIX/etc/profile.d/autojump.sh"
 )
 [[ $TERM_PROGRAM == "iTerm.app" ]] && _path_arr+=("$ZDOTDIR/.iterm2_shell_integration.zsh")
 source_if_exists "${_path_arr[@]}"
