@@ -4,6 +4,10 @@
 # License:  MIT License
 
 # MARK: JUST FOR PATH AND EXPORT VARIABLES
+# NOTE:
+# 1. 多个环境变量之间如果有依赖, 那么 export 的顺序非常重要, 如果变量 a 在 export 之前就被另一个环境变量 b 使用, 那么 b 会异常
+# 2. 在 $() 中使用环境变量会导致不被展开的问题, 可以使用 eval $var 解决
+# 3. 在 $() 中如果遇到环境变量带有单引号的情况(可以通过 set -x 查看每一步的执行细节), 可以尝试先将整个命令作为变量进行构建, 然后再使用 $() 统一执行
 
 if [ -z "$_INIT_ZSH_LOADED" ]; then
     _INIT_ZSH_LOADED=1
@@ -75,6 +79,7 @@ export ROOTMARKERS_STR=${ROOTMARKERS[*]}
 typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
 
 export ANDROID_HOME="$HOME/Library/Android/sdk"
+export THEMIS_HOME="$HOME/vim-themis"
 
 # Because the order is so important for PATH, so we can't use connected `path` to reflect its value
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
@@ -215,7 +220,8 @@ unset less_opts
 
 #***************   PAGER   *****************
 # Default pager
-export PAGER='less'
+export PAGER='hlpager'
+# export PAGER='vmore'
 
 #***************   MAN   *****************
 export MANPAGER='less'
@@ -264,14 +270,6 @@ export SHELLCHECK_OPTS="\
 
 #***************   fd   *****************
 # -I 不忽略 .gitignore 列表内容(fd 默认是忽略的)
-export FD_COMMON_COMMAND="\
-fd \
---full-path \
---hidden \
---follow \
---exclude=$FD_COMMON_EXCLUDE \
-"
-
 export FD_COMMON_EXCLUDE="\
 {\
 Pods,\
@@ -281,6 +279,14 @@ Pods,\
 node_modules,\
 build\
 }\
+"
+
+export FD_COMMON_COMMAND="\
+fd \
+--full-path \
+--hidden \
+--follow \
+--exclude=$FD_COMMON_EXCLUDE \
 "
 
 #***************   fzf   *****************
@@ -314,7 +320,6 @@ $FD_COMMON_COMMAND \
 # --color fg:#ebdbb2,bg:#282828,hl:#fabd2f,fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f
 # --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#83a598,marker:#fe8019,header:#665c54
 # one dark
-# use eval if you want use this variable in pipe e.g. fd . | eval ${FZF_COMMON_COMMAND}
 
 export FZF_DEFAULT_OPTS="\
 --history-size=50000 \
