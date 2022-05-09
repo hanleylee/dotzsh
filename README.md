@@ -18,7 +18,7 @@ This repository is my `$HOME/.sh/` directory
 
 ## Dependency
 
-- package-manager: [zinit](https://github.com/zdharma/zinit)
+- package-manager: [zinit](https://github.com/zdharma-continuum/zinit)
 - fuzzy finder: [fzf](https://github.com/junegunn/fzf)
 - terminal: [iterm2](https://github.com/gnachman/iTerm2)
 - font: [Yahei-Fira-Icon-Hybrid-Font](https://github.com/hanleylee/yahei-fira-icon-hybrid-font)
