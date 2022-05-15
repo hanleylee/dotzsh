@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-ZLUA_SCRIPT="/Users/hanley/.local/share/zinit/plugins/skywind3000---z.lua/z.lua"
+ZLUA_SCRIPT="$ZINIT_HOME/plugins/skywind3000---z.lua/z.lua"
 
 if [[ -f "$ZLUA_SCRIPT" ]]; then
     eval "$(lua $ZLUA_SCRIPT --init zsh once enhanced)"
