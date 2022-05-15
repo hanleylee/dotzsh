@@ -3,5 +3,6 @@ backup/
 .zsh_history
 .z
 .zcompdump*
+.zlua_history
 
 .DS_Store

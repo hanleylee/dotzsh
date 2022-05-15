@@ -371,7 +371,7 @@ export FZF_MARKS_NO_COLORS=0
 export _ZL_FZF="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS -p 90%,80% --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:50%:hidden:nowrap"
 export _ZL_FZF_HEIGHT='80%'
 export _ZL_NO_ALIASES=1
-export _ZL_DATA="$HOME/.zlua"
+export _ZL_DATA="$ZDOTDIR/.zlua_history"
 export _ZL_MAXAGE=100000
 # export _ZL_CMD='z'
 export _ZL_NO_PROMPT_COMMAND
