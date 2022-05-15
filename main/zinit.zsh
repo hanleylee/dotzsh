@@ -53,8 +53,8 @@ zinit light Aloxaf/fzf-tab
 # zinit light urbainvaes/fzf-marks
 zinit light "/Users/hanley/github/lang/sh/fzf-marks" # use for debug
 
-# @zi_w0
-# zinit light skywind3000/z.lua
+@zi_w0
+zinit light skywind3000/z.lua
 
 @zi_w0 has'git'
 zinit light paulirish/git-open

@@ -28,8 +28,11 @@ if command_exists lazygit; then
 fi
 
 if command_exists fzf; then
-    # zle -N _zfzf
-    # bindkey '^h' _zfzf
-    zle -N autojump_fzf
-    bindkey '^h' autojump_fzf
+    # MARK: Use z.lua
+    zle -N _zfzf
+    bindkey '^h' _zfzf
+
+    # MARK: Use autojump
+    # zle -N autojump_fzf
+    # bindkey '^h' autojump_fzf
 fi

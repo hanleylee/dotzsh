@@ -10,6 +10,10 @@ _path_arr=(
     "$ZDOTDIR/main/completion.zsh"
     "$ZDOTDIR/main/zinit.zsh"
     "$ZDOTDIR/main/eval_tools.zsh"
+)
+
+# MARK: Tools
+_path_arr+=(
     "$HOME/.cargo/env"
     "$XDG_CONFIG_HOME/lf/lfcd.sh"
     "$XDG_CONFIG_HOME/broot/launcher/bash/br"

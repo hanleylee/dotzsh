@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+ZLUA_SCRIPT="/Users/hanley/.local/share/zinit/plugins/skywind3000---z.lua/z.lua"
+
+if [[ -f "$ZLUA_SCRIPT" ]]; then
+    eval "$(lua $ZLUA_SCRIPT --init zsh once enhanced)"
+else
+    echo 'Not found z.lua'
+    return
+fi
+
+_zlua -l -t \
+    | eval "${FZF_WITH_COMMAND_AND_ARGS} --tac" \
+    | sed 's/^-[0-9,.]* *//'

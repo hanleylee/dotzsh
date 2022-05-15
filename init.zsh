@@ -374,13 +374,13 @@ export _ZL_NO_ALIASES=1
 export _ZL_DATA="$HOME/.zlua"
 export _ZL_MAXAGE=100000
 # export _ZL_CMD='z'
-# export _ZL_NO_PROMPT_COMMAND
+export _ZL_NO_PROMPT_COMMAND
 # export _ZL_EXCLUDE_DIRS="$HOME,$VIM_CONFIG"
-# export _ZL_ADD_ONCE
-# export _ZL_CD='cd'
-# export _ZL_ECHO=0
-# export _ZL_MATCH_MODE=0
-# export _ZL_NO_CHECK=0
+export _ZL_ADD_ONCE=1
+export _ZL_CD='cd'
+export _ZL_ECHO=0
+export _ZL_MATCH_MODE=1
+export _ZL_NO_CHECK=0
 # export _ZL_HYPHEN=0
 # export _ZL_CLINK_PROMPT_PRIORITY
 
