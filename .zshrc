@@ -3,6 +3,8 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
+[[ -f "$ZDOTDIR/export_var.zsh" ]] && source "$ZDOTDIR/export_var.zsh"
+
 _path_arr=(
     "$ZDOTDIR/main/option.zsh"
     "$ZDOTDIR/main/completion.zsh"

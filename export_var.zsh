@@ -9,11 +9,11 @@
 # 2. 在 $() 中使用环境变量会导致不被展开的问题, 可以使用 eval $var 解决
 # 3. 在 $() 中如果遇到环境变量带有单引号的情况(可以通过 set -x 查看每一步的执行细节), 可以尝试先将整个命令作为变量进行构建, 然后再使用 $() 统一执行
 
-# if [ -z "$_INIT_ZSH_LOADED" ]; then
-#     _INIT_ZSH_LOADED=1
-# else
-#     return
-# fi
+if [ -z "$_INIT_ZSH_LOADED" ]; then
+    _INIT_ZSH_LOADED=1
+else
+    return
+fi
 
 [[ -f "$ZDOTDIR/base/preinit.zsh" ]] && . "$ZDOTDIR/base/preinit.zsh"
 
