@@ -8,13 +8,12 @@ You can visit my configuration for **inspiration**!
 
 ## How I use it?
 
-I just put `.zshenv` file on `$HOME`, and set contents of `$HOME/.zshenv` as below
+1. Clone this repo to local dir: `$HOME/.sh`
+2. Put a `$HOME/.zshenv` file and set contents of to it as below:
 
-```bash
-ZDOTDIR=$HOME/.sh
+```zsh
+source "$HOME/.sh/.zshenv"
 ```
-
-This repository is my `$HOME/.sh/` directory
 
 ## Dependency
 

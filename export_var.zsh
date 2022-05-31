@@ -9,18 +9,12 @@
 # 2. 在 $() 中使用环境变量会导致不被展开的问题, 可以使用 eval $var 解决
 # 3. 在 $() 中如果遇到环境变量带有单引号的情况(可以通过 set -x 查看每一步的执行细节), 可以尝试先将整个命令作为变量进行构建, 然后再使用 $() 统一执行
 
-if [ -z "$_INIT_ZSH_LOADED" ]; then
-    _INIT_ZSH_LOADED=1
-else
-    return
-fi
+# if [ -z "$_INIT_ZSH_LOADED" ]; then
+#     _INIT_ZSH_LOADED=1
+# else
+#     return
+# fi
 
-# 如果是非交互式则退出, 比如 bash test.sh 这种调用 bash 运行脚本时就不是交互式
-# 只有直接敲 bash 进入的等待用户输入命令的那种模式才成为交互式, 才往下初始化
-# case "$-" in
-#     *i*) ;;
-#     *) return
-# esac
 [[ -f "$ZDOTDIR/base/preinit.zsh" ]] && . "$ZDOTDIR/base/preinit.zsh"
 
 
@@ -137,7 +131,7 @@ export -U FPATH # 保证 FPATH 没有重复项
 insert_path_to_variable "C_INCLUDE_PATH" "$HL_LANG/c/foundation"
 insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HL_LANG/cpp/foundation"
 insert_path_to_variable "OBJC_INCLUDE_PATH" "$HL_LANG/objc/foundation"
-insert_path_to_variable "LD_LIBRARY_PATH" ""
+# insert_path_to_variable "LD_LIBRARY_PATH" ""
 
 insert_path_to_variable "CPATH" "$C_INCLUDE_PATH"
 
