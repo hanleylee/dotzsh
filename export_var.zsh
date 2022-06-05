@@ -21,6 +21,8 @@ fi
 #███████████████████████   PATH Variables   ██████████████████████████
 export HL_REPO="$HOME/repo"
 export HKMS="$HL_REPO/hkms"
+export HL_TODO="$HOME/Library/Mobile Documents/com~apple~CloudDocs/iCloud_HL/todo"
+# export HL_TODO="$HL_REPO/todo"
 # Language {{{
 export HL_LANG="$HL_REPO/lang"
 export HL_LANG_C="$HL_REPO/lang/c"
