@@ -12,7 +12,7 @@ You can visit my configuration for **inspiration**!
 2. Put a `$HOME/.zshenv` file and set contents of to it as below:
 
 ```zsh
-export ZDOTDIR=$HOME/.sh/
+export ZDOTDIR=$HOME/.sh
 ```
 
 ## Dependency
