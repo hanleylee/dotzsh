@@ -123,7 +123,8 @@ fpath+=(
     "$ZDOTDIR/completion"
     "$HOMEBREW_PREFIX/share/zsh/site-functions"
 )
-export -U FPATH # 保证 FPATH 没有重复项
+typeset -U fpath
+# export FPATH # 保证 FPATH 没有重复项
 
 # 为 system 范围添加 header 路径, 会影响到 vim 的 ycm 与 ale.
 # refer to <https://gcc.gnu.org/onlinedocs/cpp/Environment-Variables.html>
