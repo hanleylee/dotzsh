@@ -385,6 +385,13 @@ if command_exists nvim; then
 fi
 # }}}
 
+# for emacsclient {{{
+if command_exists emacsclient; then
+    # alias mvpod='mvim --remote-tab Podfile &>/dev/null'
+    alias ecpod='[[ -f Podfile ]] && emacsclient -n Podfile || emacsclient -n Example/Podfile'
+    alias ecflutter='emacsclient -n lib/main.dart'
+fi
+# }}}
 # for iproxy {{{
 if command_exists vim; then
     alias iproxy_iphone_7='iproxy 2222 22'
