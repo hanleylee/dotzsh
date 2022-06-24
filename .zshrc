@@ -15,7 +15,6 @@ _path_arr=(
 # MARK: Tools
 _path_arr+=(
     "$HOME/.cargo/env"
-    "$XDG_CONFIG_HOME/lf/lfcd.sh"
     "$XDG_CONFIG_HOME/broot/launcher/bash/br"
     "$HOMEBREW_PREFIX/etc/profile.d/autojump.sh"
 )

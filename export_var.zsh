@@ -388,6 +388,7 @@ export _ZL_NO_CHECK=0
 # Flutter
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+export FLUTTER_ROOT="/usr/local/Caskroom/flutter/2.10.1/flutter"
 
 # MARK: For vim
 # export VIMTEST=true
