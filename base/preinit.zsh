@@ -98,13 +98,3 @@ function mkdir_if_not_exists() {
         [[ -d "$dir" ]] || mkdir -pv "$dir"
     done
 }
-
-function remove_path_if_not_exists() {
-    _array=()
-    for dir in "$@"; do
-        if [[ -d "$dir" ]]; then
-            _array+=("$dir")
-        fi
-    done
-    reply=$_array # use replay or $REPLAY to return a value
-}
