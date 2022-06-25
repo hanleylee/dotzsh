@@ -1,0 +1,18 @@
+#!/usr/bin/env osascript
+
+tell application "Safari"
+
+    set tab_list to every tab in the front window
+
+    tell application "Google Chrome"
+        activate
+    end tell
+
+    repeat with the_tab in tab_list
+        set the_url to the URL of the_tab
+        tell application "Google Chrome" to open location the_url
+        # Uncomment the next line to close tab after opening in Chrome
+        # tell the_tab to close
+    end repeat
+
+end tell

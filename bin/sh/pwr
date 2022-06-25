@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# Print current working root
+
+_dir="$PWD"
+
+# ROOTMARKERS=${ROOTMARKERS:-".git"}
+ROOTMARKERS=(
+    ".svn"
+    ".git"
+    ".root"
+    ".project"
+    ".hg"
+    "_darcs"
+    "build.xml"
+    "Makefile"
+    "CMakeLists.txt"
+)
+
+# echo "${ROOTMARKERS[@]}"
+
+[[ $# -gt 0 ]] && ROOTMARKERS=$@
+
+while [[ -n "$_dir" ]]; do
+    for v in "${ROOTMARKERS[@]}"; do
+        if [[ -e "$_dir/$v" ]]; then
+            echo "$_dir"
+            exit
+        fi
+    done
+    _dir="${_dir%/*}"
+done
+
+echo "cannot find any of " "${ROOTMARKERS[@]}"
+unset _dir

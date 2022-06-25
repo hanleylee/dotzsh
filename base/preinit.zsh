@@ -49,13 +49,16 @@ function command_exists() {
 }
 
 function is_home() {
-    [[ $HOST =~ "home" ]]
+    [[ ${(L)HOST} =~ "home" ]]
 }
 
 function is_work() {
-    [[ $HOST =~ "work" ]]
+    [[ ${(L)HOST} =~ "work" ]]
 }
 
+function is_hanley() {
+    [[ ${(L)HOST} =~ "hanley" ]]
+}
 # source if file exists, can pass many file
 # -> Void
 function source_if_exists() {
@@ -94,4 +97,14 @@ function mkdir_if_not_exists() {
     for dir in "$@"; do
         [[ -d "$dir" ]] || mkdir -pv "$dir"
     done
+}
+
+function remove_path_if_not_exists() {
+    _array=()
+    for dir in "$@"; do
+        if [[ -d "$dir" ]]; then
+            _array+=("$dir")
+        fi
+    done
+    reply=$_array # use replay or $REPLAY to return a value
 }

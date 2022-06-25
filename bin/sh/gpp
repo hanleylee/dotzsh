@@ -1,0 +1,39 @@
+#!/usr/bin/env zsh
+
+# 用于简化 commit -> git push
+
+set -e
+autoload -Uz color && color
+# source "${0:a:h}/base/color"
+
+function addChanges() {
+    if [[ `git status --porcelain` ]]; then  # Changes
+        echo -e "\n${N_GREEN}==> Add All Changes${NC}"
+        git add -A
+
+        echo -e "\n${N_GREEN}==> Commit${NC}"
+        git commit -m "daily $(date "+%Y-%m-%d")"
+    else   # No changes
+
+    fi
+}
+
+function fetch() {
+    echo -e "\n${N_GREEN}==> Fetch${NC}"
+    git fetch --all --prune || (echo -e "${N_RED}Can't Fetch!!!${NC}"; exit 1)
+}
+
+function rebase() {
+    defaultBranch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') # 获得远程默认分支, master 或 main
+
+    echo -e "\n${N_GREEN}==> Pull Rebase${NC}"
+    git rebase origin/"${defaultBranch}" || (echo -e "${N_RED}Can't Rebase!!!${NC}"; exit 1)
+}
+
+function push() {
+    echo -e "\n${N_GREEN}==> Push${NC}"
+    git push || (echo -e "${N_RED}Can't Push!!! ${NC}"; exit 1)
+}
+
+addChanges && fetch && rebase && push
+

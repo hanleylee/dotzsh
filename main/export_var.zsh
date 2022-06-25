@@ -9,44 +9,7 @@
 # 2. 在 $() 中使用环境变量会导致不被展开的问题, 可以使用 eval $var 解决
 # 3. 在 $() 中如果遇到环境变量带有单引号的情况(可以通过 set -x 查看每一步的执行细节), 可以尝试先将整个命令作为变量进行构建, 然后再使用 $() 统一执行
 
-if [ -z "$_INIT_ZSH_LOADED" ]; then
-    _INIT_ZSH_LOADED=1
-else
-    return
-fi
-
-[[ -f "$ZDOTDIR/base/preinit.zsh" ]] && . "$ZDOTDIR/base/preinit.zsh"
-
-
 #███████████████████████   PATH Variables   ██████████████████████████
-export HL_REPO="$HOME/repo"
-export HKMS="$HL_REPO/hkms"
-export HL_TODO="$HOME/Library/Mobile Documents/com~apple~CloudDocs/iCloud_HL/todo"
-# export HL_TODO="$HL_REPO/todo"
-# Language {{{
-export HL_LANG="$HL_REPO/lang"
-export HL_LANG_C="$HL_REPO/lang/c"
-export HL_LANG_CPP="$HL_REPO/lang/cpp"
-export HL_LANG_RUBY="$HL_REPO/lang/ruby"
-export HL_LANG_HTML="$HL_REPO/lang/html"
-export HL_LANG_OBJC="$HL_REPO/lang/objc"
-export HL_LANG_PYTHON="$HL_REPO/lang/python"
-export HL_LANG_RUST="$HL_REPO/lang/rust"
-export HL_LANG_SHELL="$HL_REPO/lang/shell"
-export HL_LANG_SWIFT="$HL_REPO/lang/swift"
-export HL_LANG_VIMSCRIPT="$HL_REPO/lang/vimscript"
-export HL_LANG_JAVASCRIPT="$HL_REPO/lang/javascript"
-export HL_LANG_APPLESCRIPT="$HL_REPO/lang/applescript"
-export HL_LANG_PLANTUML="$HL_REPO/lang/plantuml"
-export HL_LANG_DART="$HL_REPO/lang/dart"
-export HL_FRAMEWORK="$HL_REPO/framework"
-export HL_FRAMEWORK_ios="$HL_REPO/framework/ios"
-export HL_FRAMEWORK_flutter="$HL_REPO/framework/flutter"
-# }}}
-
-export HL_SECRET="$HOME/.secret"
-export HL_LOCAL="$HOME/.local"
-
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -72,50 +35,41 @@ export ROOTMARKERS=(
 # export str for macvim usage
 export ROOTMARKERS_STR=${ROOTMARKERS[*]}
 
-typeset -U PATH # 保证 TMUX 下及 source 后 PATH 不会有重复项
-
-export ANDROID_HOME="$HOME/Library/Android/sdk"
-export THEMIS_HOME="$HOME/vim-themis"
-
 # Because the order is so important for PATH, so we can't use connected `path` to reflect its value
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
-_path_arr=(
-    "/bin"
-    "/sbin"
-    "/usr/bin"
-    "/usr/libexec"
-    "/usr/sbin"
-    "/opt/MonkeyDev/bin"
-    "$HOMEBREW_PREFIX/bin"
-    "$HOMEBREW_PREFIX/sbin"
-    "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
-    "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
-    "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
-    "$HOMEBREW_PREFIX/opt/dart/libexec/bin"
-    "$HOMEBREW_PREFIX/opt/openssl/bin"
-    "$HOMEBREW_PREFIX/opt/llvm/bin"
-    "$HOMEBREW_PREFIX/opt/sqlite/bin"
-    "$HL_LOCAL/bin"
-    "$HL_LOCAL/bin/sh"
-    "$HL_LOCAL/bin/py"
-    "$HL_LOCAL/bin/osascript"
-    "$ZDOTDIR/bin"
-    "$HOME/.cargo/bin"
-    "$HOME/go/bin"
-    "$HOME/.rbenv/shims"
-    "$HOME/.pyenv/shims"
-    "$HOME/.pyenv/bin"
-    "$HOME/.fzf/bin"
+typeset -U path
+path=(
     "$HOME/.emacs.d/bin"
-    "$ANDROID_HOME/tools"
-    "$ANDROID_HOME/platform-tools"
-    # "$HOME/.gem/bin" \
-    # export PATH="$GEM_HOME/bin:$PATH"
-    # export PATH="/usr/local/opt/ruby/bin:$PATH"
-    # export PATH="/usr/local/opt/openjdk/bin:$PATH"
+    "$HOME/.fzf/bin"
+    "$HOME/.pyenv/bin"
+    "$HOME/.pyenv/shims"
+    "$HOME/.rbenv/shims"
+    "$HOME/go/bin"
+    "$HOME/.cargo/bin"
+    "$ZDOTDIR/bin/osascript"
+    "$ZDOTDIR/bin/py"
+    "$ZDOTDIR/bin/sh"
+    "$ZDOTDIR/bin"
+    "$HOMEBREW_PREFIX/opt/sqlite/bin"
+    "$HOMEBREW_PREFIX/opt/llvm/bin"
+    "$HOMEBREW_PREFIX/opt/openssl/bin"
+    "$HOMEBREW_PREFIX/opt/dart/libexec/bin"
+    "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/ruby/bin"
+    "$HOMEBREW_PREFIX/opt/openjdk/bin"
+    "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
+    "$HOMEBREW_PREFIX/sbin"
+    "$HOMEBREW_PREFIX/bin"
+    "/usr/sbin"
+    "/usr/libexec"
+    "/usr/bin"
+    "/sbin"
+    "/bin"
+    "/test"
+    $path
 )
-insert_path_to_variable "PATH" "${_path_arr[@]}"
-unset _path_arr
+export PATH
 
 # Connected array Variables, fpath is connected with FPATH
 fpath+=(
@@ -124,21 +78,7 @@ fpath+=(
     "$HOMEBREW_PREFIX/share/zsh/site-functions"
 )
 typeset -U fpath
-# export FPATH # 保证 FPATH 没有重复项
-
-# 为 system 范围添加 header 路径, 会影响到 vim 的 ycm 与 ale.
-# refer to <https://gcc.gnu.org/onlinedocs/cpp/Environment-Variables.html>
-# CPATH 会对 c, c++, objc 这三种语言的搜索路径起作用
-# 而 C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, OBJC_INCLUDE_PATH 只对其对应语言的编译起作用
-# 其作用类似于使用 `-I path`, 在此处进行了变量的定义后方便全局都起作用
-insert_path_to_variable "C_INCLUDE_PATH" "$HL_LANG/c/foundation"
-insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HL_LANG/cpp/foundation"
-insert_path_to_variable "OBJC_INCLUDE_PATH" "$HL_LANG/objc/foundation"
-# insert_path_to_variable "LD_LIBRARY_PATH" ""
-
-insert_path_to_variable "CPATH" "$C_INCLUDE_PATH"
-
-insert_path_to_variable "PYTHONPATH" "$HL_LANG/python/foundation"
+export FPATH # 保证 FPATH 没有重复项
 
 if command_exists pkg-config; then
     # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
@@ -155,6 +95,7 @@ if command_exists pkg-config; then
         "/opt/X11/lib/pkgconfig"
     )
     insert_path_to_variable "PKG_CONFIG_PATH" "${_pkgconfig_path[@]}"
+    unset _pkgconfig_path
 fi
 
 #███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
@@ -231,10 +172,6 @@ export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"
 
 #***************   Homebrew   *****************
 export HOMEBREW_NO_AUTO_UPDATE=true # 禁用 Homebrew 每次安装软件时的更新
-
-#***************   MonkeyDev   *****************
-[[ -d "/opt/MonkeyDev" ]] && export MonkeyDevPath="/opt/MonkeyDev"
-export MonkeyDevDeviceIP=
 
 #***************   PYTHON   *****************
 export PYTHON_CONFIGURE_OPTS="--enable-framework"
@@ -385,20 +322,3 @@ export _ZL_NO_CHECK=0
 # export TA_INCLUDE_PATH="$(brew --prefix ta-lib)/include"
 # export TA_LIBRARY_PATH="$(brew --prefix ta-lib)/lib"
 
-# Flutter
-export PUB_HOSTED_URL=https://pub.flutter-io.cn
-export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
-export FLUTTER_ROOT="/usr/local/Caskroom/flutter/2.10.1/flutter"
-
-# MARK: For vim
-# export VIMTEST=true
-
-# MARK: Source file
-
-_path_arr=(
-    "$ZDOTDIR/base/lficons.zsh"
-)
-
-source_if_exists "${_path_arr[@]}"
-
-unset _path_arr

@@ -1,0 +1,10 @@
+#!/usr/bin/env osascript
+
+-- activate application "iTerm"
+tell application "iTerm"
+    tell current session of current window
+        set myTerm to (variable named "session.path")
+        return myTerm
+        -- write text "echo this is the current path: " & myTerm
+    end tell
+end tell

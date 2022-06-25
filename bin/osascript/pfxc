@@ -1,0 +1,17 @@
+#!/usr/bin/env osascript
+
+tell application "Xcode"
+    set window_name to name of window 1
+
+    if (window_name is "") then
+        return "There seems no opened project!!"
+    end if
+
+    set last_word_in_main_window to (word -1 of window_name)
+    if (last_word_in_main_window is "Edited") then
+        display notification "Please save the current document and try again"
+    else
+        set current_document to document 1 whose name ends with last_word_in_main_window
+        return path of current_document
+    end if
+end tell
