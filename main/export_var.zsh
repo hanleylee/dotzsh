@@ -71,14 +71,14 @@ path=(
 )
 export PATH
 
+typeset -U fpath
 # Connected array Variables, fpath is connected with FPATH
 fpath+=(
     "$ZDOTDIR/lib"
     "$ZDOTDIR/completion"
     "$HOMEBREW_PREFIX/share/zsh/site-functions"
 )
-typeset -U fpath
-export FPATH # 保证 FPATH 没有重复项
+# export FPATH
 
 if command_exists pkg-config; then
     # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
