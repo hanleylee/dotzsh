@@ -304,6 +304,10 @@ function gstpop() {
         return
     fi
 }
+
+function git_branch_copy() {
+    git rev-parse --abbrev-ref HEAD | pbcopy
+}
 # }}}
 
 test_zsh1() {
