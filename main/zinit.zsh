@@ -95,6 +95,9 @@ zinit snippet OMZP::pod/_pod
 zinit ice has'svn' svn silent wait'1'
 zinit snippet OMZP::macos
 
+zinit ice has'svn' svn silent wait'1'
+zinit snippet OMZP::flutter
+
 # zinit ice has'svn' has'emacs' svn silent wait'1'
 # zinit snippet OMZP::emacs
 
