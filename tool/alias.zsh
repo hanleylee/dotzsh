@@ -431,6 +431,12 @@ if (( $+aliases[colourify] )); then
   unalias ping    2>/dev/null || true
 fi
 
+# for flutter {{{
+if command_exists flutter; then
+    alias fua='flutter pub pub upgrade -C . && flutter pub pub upgrade -C ./exapmle'
+fi
+# }}}
+
 if is_work; then
     # for bnc {{{ #
     # alias bnc_to_hanley="find . -type f -name '*.pbxproj' -depth -exec gsed -i -f ~/.local/share/sed/bnc_to_hanley.sed {} \;"
