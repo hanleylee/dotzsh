@@ -50,6 +50,7 @@ alias py='python3'
 alias :q="exit"
 alias girl=man
 alias woman=man
+alias copy="tr -d '\n' | pbcopy"
 
 
 # for time {{{

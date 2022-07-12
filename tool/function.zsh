@@ -306,7 +306,7 @@ function gstpop() {
 }
 
 function git_branch_copy() {
-    git rev-parse --abbrev-ref HEAD | pbcopy
+    git rev-parse --abbrev-ref HEAD | tr -d '\n' | pbcopy
 }
 # }}}
 
