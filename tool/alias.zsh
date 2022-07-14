@@ -434,7 +434,7 @@ fi
 
 # for flutter {{{
 if command_exists flutter; then
-    alias fua='flutter pub pub upgrade -C . && flutter pub pub upgrade -C ./exapmle'
+    alias fua='flutter pub pub upgrade -C . && flutter pub pub upgrade -C ./expamle'
 fi
 # }}}
 
