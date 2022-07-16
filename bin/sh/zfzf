@@ -10,5 +10,5 @@ else
 fi
 
 _zlua -l -t \
-    | eval "${FZF_WITH_COMMAND_AND_ARGS} --tac" \
+    | eval "${_ZL_FZF} --tac" \
     | sed 's/^-[0-9,.]* *//'

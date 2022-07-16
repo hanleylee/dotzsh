@@ -224,19 +224,20 @@ fd \
 --exclude=$FD_COMMON_EXCLUDE \
 "
 
+#***************   preview   *****************
+export FILE_PREVIEW_COMMAND='highlight -O ansi -l'
+export DIR_PREVIEW_COMMAND='tree -N -C -l -L 1'
+
 #***************   fzf   *****************
-export FZF_COMMON_COMMAND="fzf-tmux"
+if is_tmux; then
+    export FZF_COMMON_COMMAND="fzf-tmux -p 90%,80%"
+else
+    export FZF_COMMON_COMMAND="fzf"
+fi
 
 export FZF_COMMON_PREVIEW="\
---preview '([[ -f {} ]] && highlight -O ansi -l {} 2> /dev/null || tree -N -C -l -L 1 {}) 2> /dev/null | head -500' \
+--preview '([[ -f {} ]] && $FILE_PREVIEW_COMMAND {} 2> /dev/null || $DIR_PREVIEW_COMMAND {}) 2> /dev/null | head -500' \
 --preview-window right:50%:hidden:nowrap \
-"
-
-# 一个完备的包含 command 与 args 的完整 fzf 命令, 可以被外界直接拿来用, 与 <c-t> 的效果相同
-export FZF_WITH_COMMAND_AND_ARGS="\
-$FZF_COMMON_COMMAND \
--p 90%,80% \
-$FZF_COMMON_PREVIEW \
 "
 
 # fzf 要求的 FZF_DEFAULT_COMMAND 与 FZF_DEFAULT_OPTS
@@ -282,8 +283,6 @@ $FZF_DEFAULT_OPTS \
 --preview-window down:3:hidden:wrap \
 "
 
-export DIR_PREVIEW_COMMAND='tree -N -C -l -L 1'
-
 # fzf <alt-c>
 export FZF_ALT_C_COMMAND=$FD_COMMON_COMMAND
 export FZF_ALT_C_OPTS="--preview '$DIR_PREVIEW_COMMAND {}'"
@@ -294,7 +293,7 @@ export FZF_COMPLETION_TRIGGER='**'
 
 # fzf marks
 [[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="$HOME/.fzf-marks"
-export FZF_MARKS_COMMAND="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS -p 90%,80% --preview '$DIR_PREVIEW_COMMAND {3}' --preview-window right:50%:hidden:nowrap"
+export FZF_MARKS_COMMAND="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {3}' --preview-window right:50%:hidden:nowrap"
 export FZF_MARKS_JUMP="^[m"
 export FZF_MARKS_COLOR_LHS=39 # (default)	ANSI color code of left-hand side
 export FZF_MARKS_COLOR_RHS=36 # (cyan)	ANSI color code of right-hand side
@@ -303,7 +302,7 @@ export FZF_MARKS_NO_COLORS=0
 # export FZF_MARKS_KEEP_ORDER=1
 
 # z.lua 使用的 fzf 参数
-export _ZL_FZF="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS -p 90%,80% --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:50%:hidden:nowrap"
+export _ZL_FZF="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:50%:nowrap"
 export _ZL_FZF_HEIGHT='80%'
 export _ZL_NO_ALIASES=1
 export _ZL_DATA="$ZDOTDIR/.zlua_history"
@@ -323,3 +322,10 @@ export _ZL_NO_CHECK=0
 # export TA_INCLUDE_PATH="$(brew --prefix ta-lib)/include"
 # export TA_LIBRARY_PATH="$(brew --prefix ta-lib)/lib"
 
+# zoxide
+export _ZO_DATA_DIR=$XDG_DATA_HOME
+export _ZO_ECHO=0
+export _ZO_EXCLUDE_DIRS=""
+export _ZO_FZF_OPTS="$FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:50%:nowrap"
+export _ZO_MAXAGE=100000
+export _ZO_RESOLVE_SYMLINKS=0

@@ -173,6 +173,14 @@ autojump_fzf() {
     fi
 }
 
+# *************** zoxide *****************
+function _zi {
+    zi
+    if [[ -z "$lines" ]]; then
+        zle && zle reset-prompt
+        # zle && zle redraw-prompt
+    fi
+}
 # Go back up N directories
 up() {
     if [[ $# -eq 0 ]]; then

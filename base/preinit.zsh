@@ -59,6 +59,10 @@ function is_work() {
 function is_hanley() {
     [[ ${(L)HOST} =~ "hanley" ]]
 }
+
+function is_tmux() {
+    [[ -n "$TMUX" ]]
+}
 # source if file exists, can pass many file
 # -> Void
 function source_if_exists() {
