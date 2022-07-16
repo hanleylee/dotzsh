@@ -33,6 +33,7 @@ export HL_LANG_DART="$HL_REPO/lang/dart"
 export HL_FRAMEWORK="$HL_REPO/framework"
 export HL_FRAMEWORK_ios="$HL_REPO/framework/ios"
 export HL_FRAMEWORK_flutter="$HL_REPO/framework/flutter"
+export HL_BNC_NOTE="$HL_REPO/bnc-note"
 # }}}
 
 export HL_SECRET="$HOME/.secret"
@@ -51,6 +52,7 @@ path=(
     "$HL_LOCAL/bin/py"
     "$HL_LOCAL/bin/sh"
     "$HL_LOCAL/bin"
+    "$HL_BNC_NOTE/bin"
     "/opt/MonkeyDev/bin"
     "$HOME/flutter/bin"
     $path
@@ -63,6 +65,13 @@ path=(
 # unset _path_arr
 export PATH
 
+typeset -U fpath
+# Connected array Variables, fpath is connected with FPATH
+fpath=(
+    "$HL_BNC_NOTE/completion"
+    $fpath
+)
+export FPATH
 # 为 system 范围添加 header 路径, 会影响到 vim 的 ycm 与 ale.
 # refer to <https://gcc.gnu.org/onlinedocs/cpp/Environment-Variables.html>
 # CPATH 会对 c, c++, objc 这三种语言的搜索路径起作用
