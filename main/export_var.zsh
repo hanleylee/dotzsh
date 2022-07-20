@@ -302,7 +302,7 @@ export FZF_MARKS_NO_COLORS=0
 # export FZF_MARKS_KEEP_ORDER=1
 
 # z.lua 使用的 fzf 参数
-export _ZL_FZF="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:50%:nowrap"
+export _ZL_FZF="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:40%:nowrap"
 export _ZL_FZF_HEIGHT='80%'
 export _ZL_NO_ALIASES=1
 export _ZL_DATA="$ZDOTDIR/.zlua_history"
