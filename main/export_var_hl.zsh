@@ -54,7 +54,7 @@ path=(
     "$HL_LOCAL/bin"
     "$HL_BNC_NOTE/bin"
     "/opt/MonkeyDev/bin"
-    "$HOME/flutter/bin"
+    "$HOME/.fvm/default/bin"
     $path
     # "$HOME/.gem/bin" \
     # export PATH="$GEM_HOME/bin:$PATH"
@@ -99,9 +99,10 @@ export SHELLCHECK_OPTS="\
 "
 
 # Flutter
+export FVM_HOME="$HOME/.fvm"
+export FLUTTER_ROOT="$HOME/.fvm/default"
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
-export FLUTTER_ROOT="$HOME/flutter"
 
 # MARK: For vim
 # export VIMTEST=true
