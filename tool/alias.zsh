@@ -26,6 +26,9 @@ alias -g CA="2>&1 | cat -A"
 alias -g NE="2> /dev/null"
 alias -g NUL="> /dev/null 2>&1"
 
+# <https://github.com/kovidgoyal/kitty/issues/268>
+alias clearbuf="printf '\033[2J\033[3J\033[1;1H'"
+
 # for os X system {{{
 alias chrome="open -a \"Google Chrome\""
 # mount all connected Firewire disks
@@ -48,7 +51,6 @@ alias mv="mv -v"
 alias cp="cp -v"
 alias py='python3'
 alias :q="exit"
-alias girl=man
 alias woman=man
 alias copy="tr -d '\n' | pbcopy"
 
@@ -419,6 +421,8 @@ if command_exists dutree; then
     alias dt='dutree'
     alias ds='dutree --summary'
     alias d1='dutree --depth=1'
+    alias d2='dutree --depth=2'
+    alias d3='dutree --depth=3'
 fi
 # }}}
 
