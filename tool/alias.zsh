@@ -247,6 +247,7 @@ alias ggpull='git pull origin "$(git_current_branch)"'
 
 # MARK: git push
 alias gp='git push'
+alias gu='git push -u origin HEAD'
 alias gpd='git push --dry-run'
 alias gpf='git push --force-with-lease'
 alias gpf!='git push --force'
