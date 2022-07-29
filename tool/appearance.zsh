@@ -4,5 +4,9 @@
 # License:  MIT License
 
 if command_exists dircolors; then
-    if [[ -f "${ZDOTDIR}/.dircolors" ]]; then eval "$(dircolors -b "${ZDOTDIR}/.dircolors")"; else eval "$(dircolors -b)"; fi
+    if [[ -f "${ZDOTDIR}/.dircolors" ]]; then
+        eval "$(dircolors -b "${ZDOTDIR}/.dircolors")"
+    else
+        eval "$(dircolors -b)"
+    fi
 fi
