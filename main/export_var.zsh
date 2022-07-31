@@ -193,7 +193,7 @@ export GTAGSLABEL='native-pygments'
 [[ -f "$XDG_CONFIG_HOME/global/.globalrc" ]] && export GTAGSCONF="$XDG_CONFIG_HOME/global/.globalrc"
 
 #***************   CHEAT   *****************
-[[ -f "$XDG_CONFIG_HOME/cheat/conf.yml" ]] && export CHEAT_CONFIG_PATH="$XDG_CONFIG_HOME/cheat/conf.yml"
+[[ -f "$HOME/.cheat/conf.yml" ]] && export CHEAT_CONFIG_PATH="$HOME/.cheat/conf.yml"
 export CHEAT_USE_FZF=true
 
 #***************   SHELLCHECK   *****************
