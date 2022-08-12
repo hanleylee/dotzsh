@@ -165,7 +165,7 @@ function _zfzf {
 # *************** autojump *****************
 # use fzf to jump to history directories
 autojump_fzf() {
-    cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' | eval ${FZF_WITH_COMMAND_AND_ARGS})" 
+    cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' | eval ${FZF_WITH_COMMAND_AND_ARGS})"
 
     if [[ -z "$lines" ]]; then
         zle && zle reset-prompt
@@ -225,6 +225,18 @@ function git_main_branch() {
         fi
     done
     echo master
+}
+
+function git_current_branch () {
+    local ref
+    ref=$(__git_prompt_git symbolic-ref --quiet HEAD 2> /dev/null)
+    local ret=$?
+    if [[ $ret != 0 ]]
+    then
+        [[ $ret == 128 ]] && return
+        ref=$(__git_prompt_git rev-parse --short HEAD 2> /dev/null)  || return
+    fi
+    echo ${ref#refs/heads/}
 }
 
 # Check for develop and similarly named branches
