@@ -225,7 +225,7 @@ fd \
 "
 
 #***************   preview   *****************
-export FILE_PREVIEW_COMMAND='highlight -O ansi -l'
+export FILE_PREVIEW_COMMAND='preview_code'
 export DIR_PREVIEW_COMMAND='tree -N -C -l -L 1'
 
 #***************   fzf   *****************
