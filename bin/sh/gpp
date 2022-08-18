@@ -24,7 +24,9 @@ function fetch() {
 }
 
 function rebase() {
-    defaultBranch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') # 获得远程默认分支, master 或 main
+    # 获得远程默认分支, master 或 main
+    # defaultBranch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') # 这种方法有可能得到 `fatal: ref refs/remotes/origin/HEAD is not a symbolic ref`
+    defaultBranch=$(git branch | grep -o -m1 "\b\(master\|main\)\b") # -o: print only the match, -m1: print only the first match
 
     echo -e "\n${N_GREEN}==> Pull Rebase${NC}"
     git rebase origin/"${defaultBranch}" || (echo -e "${N_RED}Can't Rebase!!!${NC}"; exit 1)
