@@ -89,7 +89,7 @@ if command_exists brew; then
     # and display a info quickview window for the currently marked application
     brewi() {
         local token
-        token=$(brew search --casks | fzf-tmux --query="$1" +m --preview 'brew info {}')
+        token=$(brew search --casks "$1" | fzf-tmux --query="$1" +m --preview 'brew info {}')
 
         if [ "x$token" != "x" ]; then
             echo "(I)nstall or open the (h)omepage of $token"
@@ -130,7 +130,7 @@ if command_exists ag; then
         local file
         file="$(ag --nobreak --noheading "$@" | fzf -0 -1 | awk -F: '{print $1}')"
         if [[ -n $file ]]; then
-            vim "$file"
+            $EDITOR "$file"
         fi
     }
 fi
