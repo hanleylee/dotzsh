@@ -6,6 +6,9 @@ set -e
 autoload -Uz color && color
 # source "${0:a:h}/base/color"
 
+currentBranch=$(git branch --show-current)
+remoteBranch="origin/${currentBranch}"
+
 function addChanges() {
     if [[ `git status --porcelain` ]]; then  # Changes
         echo -e "\n${N_GREEN}==> Add All Changes${NC}"
@@ -26,15 +29,21 @@ function fetch() {
 function rebase() {
     # 获得远程默认分支, master 或 main
     # defaultBranch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') # 这种方法有可能得到 `fatal: ref refs/remotes/origin/HEAD is not a symbolic ref`
-    defaultBranch=$(git branch | grep -o -m1 "\b\(master\|main\)\b") # -o: print only the match, -m1: print only the first match
+    # defaultBranch=$(git branch | grep -o -m1 "\b\(master\|main\)\b") # -o: print only the match, -m1: print only the first match
 
-    echo -e "\n${N_GREEN}==> Pull Rebase${NC}"
-    git rebase origin/"${defaultBranch}" || (echo -e "${N_RED}Can't Rebase!!!${NC}"; exit 1)
+    if git branch -a --contains "${remoteBranch}" >/dev/null; then # 有远程分支
+        echo -e "\n${N_GREEN}==> Pull Rebase${NC}"
+        git rebase "${remoteBranch}" || (echo -e "${N_RED}Can't Rebase!!!${NC}"; exit 1)
+    fi
 }
 
 function push() {
     echo -e "\n${N_GREEN}==> Push${NC}"
-    git push || (echo -e "${N_RED}Can't Push!!! ${NC}"; exit 1)
+    if git branch -a --contains "${remoteBranch}" >/dev/null; then # 有远程分支
+        git push || (echo -e "${N_RED}Can't Push!!! ${NC}"; exit 1)
+    else
+        git push -u origin HEAD || (echo -e "${N_RED}Can't Push!!! ${NC}"; exit 1)
+    fi
 }
 
 addChanges && fetch && rebase && push
