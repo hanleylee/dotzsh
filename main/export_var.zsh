@@ -46,6 +46,7 @@ path=(
     "$HOME/.rbenv/shims"
     "$HOME/go/bin"
     "$HOME/.cargo/bin"
+    "$ZDOTDIR/bin/perl"
     "$ZDOTDIR/bin/osascript"
     "$ZDOTDIR/bin/py"
     "$ZDOTDIR/bin/sh"

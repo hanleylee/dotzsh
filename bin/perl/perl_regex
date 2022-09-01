@@ -1,0 +1,8 @@
+#! /usr/bin/env perl
+# while ($line = <>) {
+#     print 123;
+#     print "|> $line";
+# }
+undef $/;
+$text = <>;
+print $text;
