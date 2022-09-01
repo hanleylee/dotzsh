@@ -31,7 +31,7 @@ function rebase() {
     # defaultBranch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') # 这种方法有可能得到 `fatal: ref refs/remotes/origin/HEAD is not a symbolic ref`
     # defaultBranch=$(git branch | grep -o -m1 "\b\(master\|main\)\b") # -o: print only the match, -m1: print only the first match
 
-    if git branch -a --contains "${remoteBranch}" >/dev/null; then # 有远程分支
+    if git branch -a --contains "${remoteBranch}" &>/dev/null; then # 有远程分支
         echo -e "\n${N_GREEN}==> Pull Rebase${NC}"
         git rebase "${remoteBranch}" || (echo -e "${N_RED}Can't Rebase!!!${NC}"; exit 1)
     fi
@@ -39,7 +39,7 @@ function rebase() {
 
 function push() {
     echo -e "\n${N_GREEN}==> Push${NC}"
-    if git branch -a --contains "${remoteBranch}" >/dev/null; then # 有远程分支
+    if git branch -a --contains "${remoteBranch}" &>/dev/null; then # 有远程分支
         git push || (echo -e "${N_RED}Can't Push!!! ${NC}"; exit 1)
     else
         git push -u origin HEAD || (echo -e "${N_RED}Can't Push!!! ${NC}"; exit 1)
