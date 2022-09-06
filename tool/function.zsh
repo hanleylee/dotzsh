@@ -509,6 +509,15 @@ wait_pid () {
     done
 }
 
+uName() {
+    declare -A unameInfo
+    unameInfo=( [kernel]=-s [kernel_release]=-r [os]=-o [cpu]=-p )
+    for name com in ${(kv)unameInfo}; do
+        res=$(uname $com)
+        echo "$name -> $res"
+    done
+}
+
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"
 #     local home="$HOME"
