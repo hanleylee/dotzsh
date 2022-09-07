@@ -56,6 +56,7 @@ path=(
     "$HOMEBREW_PREFIX/opt/openssl/bin"
     "$HOMEBREW_PREFIX/opt/dart/libexec/bin"
     "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin"
     "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
     "$HOMEBREW_PREFIX/opt/ruby/bin"
     "$HOMEBREW_PREFIX/opt/openjdk/bin"
