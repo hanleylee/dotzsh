@@ -5,7 +5,7 @@ emulate -LR zsh
 
 set -e
 # source ~/.local/lib/color.zsh
-autoload -Uz color && color
+autoload -Uz hlcolor && hlcolor
 
 # MARK: Main
 

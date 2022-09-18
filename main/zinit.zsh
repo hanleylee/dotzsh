@@ -52,7 +52,8 @@ zinit light Aloxaf/fzf-tab
 
 @zi_w0
 # zinit light urbainvaes/fzf-marks
-zinit light "/Users/hanley/github/lang/sh/fzf-marks" # use for debug
+# zinit light "/Users/hanley/github/lang/sh/fzf-marks" # use for debug
+zinit light hanleylee/fzf-marks # use for debug
 
 @zi_w0
 zinit light skywind3000/z.lua
@@ -74,8 +75,8 @@ zinit snippet OMZP::last-working-dir
 @zi_w1
 zinit snippet OMZP::sudo
 
-@zi_w1
-zinit snippet OMZP::colored-man-pages
+# @zi_w1
+# zinit snippet OMZP::colored-man-pages
 
 @zi_completion has'cargo'
 zinit snippet OMZP::cargo
