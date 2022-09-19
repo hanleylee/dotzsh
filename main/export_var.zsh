@@ -86,6 +86,7 @@ typeset -U manpath
 # Connected array Variables, fpath is connected with FPATH
 manpath=(
     "$HOMEBREW_PREFIX/share/man"
+    "/usr/share/man"
     $manpath
 )
 export MANPATH
