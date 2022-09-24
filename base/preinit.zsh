@@ -30,9 +30,11 @@ if [[ $system_name == "Darwin" ]]; then
         #     export HOMEBREW_PREFIX='/usr/local'
         #     echo "Running on iPad"
     else
+        export HOMEBREW_PREFIX='/usr/local'
         ARCH_MSG="Running on ${system_name}(${arch_name})"
     fi
 else
+    export HOMEBREW_PREFIX='/usr/local'
     ARCH_MSG="Running on ${system_name}(${arch_name})"
 fi
 export ARCH_MSG
@@ -46,6 +48,10 @@ function command_exists() {
     done
     # command -v $1 &> /dev/null
     # [[ -x "$(command -v $1)" ]]
+}
+
+function is_darwin() {
+    [[ $system_name == "Darwin" ]]
 }
 
 function is_home() {
