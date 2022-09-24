@@ -48,6 +48,7 @@ typeset -U path
 path=(
     "$ANDROID_HOME/platform-tools"
     "$ANDROID_HOME/tools"
+    "$HL_LOCAL/bin/ruby"
     "$HL_LOCAL/bin/osascript"
     "$HL_LOCAL/bin/py"
     "$HL_LOCAL/bin/sh"

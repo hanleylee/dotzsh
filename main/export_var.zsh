@@ -50,6 +50,7 @@ path=(
     "$ZDOTDIR/bin/osascript"
     "$ZDOTDIR/bin/py"
     "$ZDOTDIR/bin/sh"
+    "$ZDOTDIR/bin/ruby"
     "$ZDOTDIR/bin"
     "$HOMEBREW_PREFIX/opt/sqlite/bin"
     "$HOMEBREW_PREFIX/opt/llvm/bin"
@@ -211,9 +212,11 @@ export RUBY_CONFIGURE_OPTS=--with-openssl-dir=$HOMEBREW_PREFIX/opt/openssl
 # export GEM_HOME="$HOME/.gem"
 
 #***************   GO   *****************
-export GOROOT=$(go env GOROOT)
-export GOPATH=$(go env GOPATH)
-export GOBIN=$GOPATH/bin
+if command_exists go; then
+    export GOROOT=$(go env GOROOT)
+    export GOPATH=$(go env GOPATH)
+    export GOBIN=$GOPATH/bin
+fi
 
 #***************   GTAGS   *****************
 export GTAGSLABEL='native-pygments'
