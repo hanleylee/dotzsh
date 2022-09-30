@@ -87,6 +87,7 @@ typeset -U manpath
 # Connected array Variables, fpath is connected with FPATH
 manpath=(
     "$HOMEBREW_PREFIX/share/man"
+    # "$HOMEBREW_PREFIX/opt/java/share/man"
     "/usr/share/man"
     $manpath
 )
@@ -232,6 +233,9 @@ export SHELLCHECK_OPTS="\
 -e SC2155 \
 -e SC1091 \
 "
+
+export JAVA_HOME="$HOMEBREW_PREFIX/opt/openjdk"
+export JDK_HOME="$HOMEBREW_PREFIX/opt/openjdk"
 
 #***************   fd   *****************
 # -I 不忽略 .gitignore 列表内容(fd 默认是忽略的)

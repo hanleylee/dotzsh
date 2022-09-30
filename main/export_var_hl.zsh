@@ -56,6 +56,7 @@ path=(
     "$HL_BNC_NOTE/bin"
     "/opt/MonkeyDev/bin"
     "$HOME/.fvm/default/bin"
+    "$HOME/.node_modules_global/bin"
     $path
     # "$HOME/.gem/bin" \
     # export PATH="$GEM_HOME/bin:$PATH"
