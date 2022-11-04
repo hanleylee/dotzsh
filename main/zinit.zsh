@@ -107,6 +107,11 @@ zinit snippet OMZP::git-auto-fetch
 zinit ice multisrc'*.zsh'
 zinit load "$ZDOTDIR/tool"
 
+if is_hanley && is_work; then
+    zinit ice multisrc'*.zsh'
+    zinit load "$HL_BNC_NOTE/sh/tools"
+fi
+
 zinit light HanleyLee/Handy
 # zinit light "/Users/hanley/repo/handy" # use for debug
 
