@@ -69,7 +69,6 @@ path=(
     "/usr/bin"
     "/sbin"
     "/bin"
-    "/test"
     $path
 )
 export PATH
