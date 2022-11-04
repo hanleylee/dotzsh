@@ -13,10 +13,6 @@ source "$ZDOTDIR/base/preinit.zsh"
 
 source "$ZDOTDIR/main/export_var.zsh"
 
-if is_hanley; then
-    source "$ZDOTDIR/main/export_var_hl.zsh"
-fi
-
 # MARK: Source file
 
 _path_arr=(
