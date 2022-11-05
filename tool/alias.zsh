@@ -353,6 +353,15 @@ alias gamscp='git am --show-current-patch'
 unset git_version
 # }}}
 
+# for proxy {{{
+alias set_http_proxy='export http_proxy="http://127.0.0.1:1080"'
+alias set_https_proxy='export https_proxy="http://127.0.0.1:1080"'
+alias set_all_proxy='export ALL_PROXY="http://127.0.0.1:1080"'
+alias unset_http_proxy='unset http_proxy'
+alias unset_https_proxy='unset https_proxy'
+alias unset_all_proxy='unset ALL_PROXY'
+# }}}
+
 # for pip {{{
 command_exists pip && alias update_all_pip="pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U"
 # }}}
@@ -443,12 +452,13 @@ if command_exists flutter; then
 fi
 # }}}
 
-if is_work; then
-    # for bnc {{{ #
-    # alias bnc_to_hanley="find . -type f -name '*.pbxproj' -depth -exec gsed -i -f ~/.local/share/sed/bnc_to_hanley.sed {} \;"
-    # alias bnc_to_hanley_develop="find . -type f \( -name '*.pbxproj' -o -name '*.plist' \) -maxdepth 2 -exec gsed -i -f ~/.local/share/sed/bnc_to_hanley_develop.sed {} \;"
-    # alias bnc_to_hanley_release="find . -type f \( -name '*.pbxproj' -o -name '*.plist' \) -maxdepth 2 -exec gsed -i -f ~/.local/share/sed/bnc_to_hanley_release.sed {} \;"
-    alias bnc_to_hanley_test="find . -type f \( -name '*.pbxproj' -o -name '*.plist' \) -maxdepth 2 -exec echo {} \;"
-    # }}} for bnc #
-    # [[ -z $functions[j] && -f /etc/profile.d/autojump.zsh ]] && source /etc/profile.d/autojump.zsh
+if is_darwin; then
+    # alias show_external_ip='dig +short myip.opendns.com @resolver1.opendns.com'
+    alias show_external_ip='curl -s https://api.ipify.org && echo'
+    alias show_local_ip='ipconfig getifaddr en0'
+    alias show_network_info='scutil --nwi'
+    alias remove_dsstore="find . -type f -name '.DS_Store' -ls -delete"
+    alias clipboard_convert_plain='pbpaste | textutil -convert txt -stdin -stdout -encoding 30 | pbcopy'
+    alias clipboard_expand_tab='pbpaste | expand | pbcopy'
+    alias clipboard_remove_duplicate='pbpaste | sort | uniq | pbcopy'
 fi

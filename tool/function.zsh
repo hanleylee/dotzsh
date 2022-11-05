@@ -518,6 +518,22 @@ uName() {
     done
 }
 
+if is_darwin; then
+    show_current_wifi_ssid() {
+        /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'
+    }
+
+    show_wifi_password() {
+        ssid=$1
+        security find-generic-password -D "AirPort network password" -a $ssid -gw
+    }
+
+    show_current_wifi_password() {
+        ssid=$(show_current_wifi_ssid)
+
+        show_wifi_password $ssid
+    }
+fi
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"
 #     local home="$HOME"
