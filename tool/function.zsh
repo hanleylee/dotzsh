@@ -325,7 +325,7 @@ function gstpop() {
     fi
 }
 
-function git_branch_copy() {
+function git_copy_branch() {
     git rev-parse --abbrev-ref HEAD | tr -d '\n' | pbcopy
 }
 # }}}

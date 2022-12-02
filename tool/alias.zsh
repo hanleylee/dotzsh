@@ -187,7 +187,9 @@ alias gdcw='git diff --cached --word-diff'
 alias gdct='git describe --tags $(git rev-list --tags --max-count=1)'
 alias gds='git diff --staged'
 alias gdt='git diff-tree --no-commit-id --name-only -r'
-alias gdtlk='git difftool -y -t Kaleidoscope'
+alias gdtk='git difftool -y -t Kaleidoscope'
+alias gdtv='git difftool -y -t vimdiff'
+alias gdtmv='git difftool -y -t gvimdiff'
 alias gdup='git diff @{upstream}'
 
 # MARK: git fetch
@@ -230,9 +232,10 @@ alias glp="_git_log_prettily"
 # MARK: git merge
 alias gm='git merge'
 alias gmom='git merge origin/$(git_main_branch)'
-alias gmtl='git mergetool --no-prompt'
-alias gmtlvim='git mergetool --no-prompt --tool=vimdiff'
-alias gmtlk='git mergetool -y -t Kaleidoscope'
+alias gmt='git mergetool --no-prompt'
+alias gmtv='git mergetool --no-prompt --tool=vimdiff'
+alias gmtmv='git mergetool --no-prompt --tool=gvimdiff'
+alias gmtk='git mergetool -y -t Kaleidoscope'
 alias gmum='git merge upstream/$(git_main_branch)'
 alias gma='git merge --abort'
 
