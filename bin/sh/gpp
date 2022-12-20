@@ -15,6 +15,7 @@ function addChanges() {
     if [[ "$CHANGES_NUM" -gt 0 ]]; then  # have changes
         echo -e "\n${N_GREEN}==> Add All Changes${NC}"
         CHANGES="$(git status --porcelain)"
+
         echo "$CHNAGES"
         git add -A
 
