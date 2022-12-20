@@ -10,12 +10,11 @@ currentBranch=$(git branch --show-current)
 remoteBranch="origin/${currentBranch}"
 
 function addChanges() {
-    local CHANGES_NUM="$(git status --porcelain | wc -l)"
+    local CHANGES="$(git status --porcelain)"
+    local CHANGES_NUM="$(echo $CHANGES | wc -l)"
     # if [[ `git status --porcelain` ]]; then  # have changes
     if [[ "$CHANGES_NUM" -gt 0 ]]; then  # have changes
         echo -e "\n${N_GREEN}==> Add All Changes${NC}"
-        local CHANGES="$(git status --porcelain)"
-
         echo "$CHANGES"
         git add -A
 
