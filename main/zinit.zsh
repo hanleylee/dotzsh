@@ -89,8 +89,10 @@ zinit snippet OMZP::pip/_pip
 @zi_completion has'pod'
 zinit snippet OMZP::pod/_pod
 
-zinit ice has'svn' svn silent wait'1'
-zinit snippet OMZP::macos
+if is_darwin; then
+    zinit ice has'svn' svn silent wait'1'
+    zinit snippet OMZP::macos
+fi
 
 zinit ice has'svn' svn silent wait'1'
 zinit snippet OMZP::flutter
