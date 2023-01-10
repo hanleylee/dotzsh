@@ -6,8 +6,12 @@
 export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit"
 ZINIT_GIT_ROOT="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 ### Added by Zinit's installer
-if [[ ! -d "$ZINIT_GIT_ROOT" ]]; then
-    bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+if [[ ! -f $ZINIT_GIT_ROOT/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$ZINIT_HOME"
+    command git clone https://github.com/zdharma-continuum/zinit "$ZINIT_GIT_ROOT" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
 fi
 
 source "${ZINIT_GIT_ROOT}/zinit.zsh"
