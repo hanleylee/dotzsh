@@ -15,9 +15,9 @@ smartdots() {
     fi
 }
 
-# 在 xcode 中打开当前目录下的 xcworkspace 文件
+# 在 xcode 中打开当前目录下的工程
 ofx() {
-    open ./*.xcworkspace || open ./*.xcodeproj
+    open ./*.xcworkspace || open ./*.xcodeproj || open ./Package.swift
 } 2> /dev/null
 
 # print the path of current file of MacVim's front window
