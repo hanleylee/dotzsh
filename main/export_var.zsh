@@ -183,18 +183,18 @@ if command_exists pkg-config; then
     # pkg-config --exists lzo2 && PKGS+=("sqlite3")
 
     if [[ -n ${PKGS[*]} ]]; then
-        CPPFLAGS=$(pkg-config --cflags "${PKGS[@]}")
-        export CPPFLAGS
+        # CPPFLAGS=$(pkg-config --cflags "${PKGS[@]}")
+        # export CPPFLAGS
 
-        CFLAGS=$(pkg-config --cflags "${PKGS[@]}")
-        export CFLAGS
+        # CFLAGS=$(pkg-config --cflags "${PKGS[@]}")
+        # export CFLAGS
 
-        CXXFLAGS=$(pkg-config --cflags "${PKGS[@]}")
-        export CXXFLAGS
+        # CXXFLAGS=$(pkg-config --cflags "${PKGS[@]}")
+        # export CXXFLAGS
 
-        # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
-        LDFLAGS=$(pkg-config --libs "${PKGS[@]}")
-        export LDFLAGS
+        # # LDFLAGS+="-I$HOMEBREW_PREFIX/opt/openjdk/include"
+        # LDFLAGS=$(pkg-config --libs "${PKGS[@]}")
+        # export LDFLAGS
         unset PKGS
     fi
 fi
