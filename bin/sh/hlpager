@@ -4,7 +4,7 @@ if test -t 1; then
     if test $# = 0; then
         less
     else
-        highlight -t 4 -s rdark -O xterm256 --force "$@" | less -R
+        preview_code "$@" | less -R
     fi
 else
     # Output is not a terminal, cat arguments or stdin
