@@ -1,25 +1,20 @@
 #!/usr/bin/env bash
 
 if test -t 1; then
-  if test $# = 0; then
-    if test -t 0; then
-      echo "Missing filename" 1>&2
-      exit
+    if test $# = 0; then
+        less
+    else
+        highlight -t 4 -s rdark -O xterm256 --force "$@" | less -R
     fi
-    less
-  else
-
-    highlight -t 4 -s rdark -O xterm256 "$@" | less -R
-  fi
 else
-  # Output is not a terminal, cat arguments or stdin
-  if test $# = 0; then
-    if test -t 0; then
-      echo "Missing filename" 1>&2
-      exit
+    # Output is not a terminal, cat arguments or stdin
+    if test $# = 0; then
+        if test -t 0; then
+            echo "Missing filename" 1>&2
+            exit
+        fi
+        cat
+    else
+        cat "$@"
     fi
-    cat
-  else
-    cat "$@"
-  fi
 fi

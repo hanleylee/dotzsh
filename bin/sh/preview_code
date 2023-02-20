@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 FILE=$1
 
-bat --theme=OneDark --color=always --style=numbers --pager=never --tabs=4 --wrap=auto -- "${FILE}" ||
+bat --theme=OneHalfDark --color=always --style=numbers --pager=never --tabs=4 --wrap=auto -- "${FILE}" ||
     highlight -t 4 -s rdark -O xterm256 --force "${FILE}" ||
     cat "${FILE}"
