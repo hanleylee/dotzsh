@@ -20,7 +20,7 @@ bindkey "^u" backward-kill-line
 # bindkey "\eW" zsh-backward-kill-word
 
 if command_exists lf; then
-    bindkey -s "^o" 'lfcd^M'
+    bindkey -s "^l" 'lfcd^M'
 fi
 
 if command_exists lazygit; then
