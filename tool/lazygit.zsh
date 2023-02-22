@@ -14,27 +14,12 @@
 #     bindkey -s '^o' 'lfcd\n'  # zsh
 #
 
-if ! command_exists lf; then
+if ! command_exists lazygit; then
     return
 fi
 
-function lfcd() {
-    tmp="$(mktemp)"
-    # lf -last-dir-path="$tmp" "$@"
-    lf -last-dir-path="$tmp"
-    if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        rm -f "$tmp"
-        if [ -d "$dir" ]; then
-            if [ "$dir" != "$(pwd)" ]; then
-                cd "$dir" || return
-            fi
-        fi
-    fi
-}
-
-function _lfcd() {
-    lfcd
+function _lg() {
+    lazygit
 
     if [[ -z "$lines" ]]; then
         zle && zle reset-prompt
