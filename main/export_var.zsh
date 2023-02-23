@@ -200,10 +200,10 @@ if command_exists pkg-config; then
 fi
 
 #***************   CHEZMOI   *****************
-export CHEZMOI_GITHUB_ACCESS_TOKEN=$(jq -r '.CHEZMOI_GITHUB_ACCESS_TOKEN' "$HL_SECRET/config.json")
+[[ -f "$HL_SECRET/config.json" ]] && export CHEZMOI_GITHUB_ACCESS_TOKEN=$(jq -r '.CHEZMOI_GITHUB_ACCESS_TOKEN' "$HL_SECRET/config.json")
 
 #***************   GITHUB   *****************
-export GITHUB_TOKEN=$(jq -r '.GITHUB_TOKEN' "$HL_SECRET/config.json")
+[[ -f "$HL_SECRET/config.json" ]] && export GITHUB_TOKEN=$(jq -r '.GITHUB_TOKEN' "$HL_SECRET/config.json")
 export GITHUB_USER=hanleylee
 #***************   GPG   *****************
 GPG_TTY=$(tty)
