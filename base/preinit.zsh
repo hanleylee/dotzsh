@@ -14,27 +14,21 @@ arch_name=$(uname -m)
 
 if [[ $system_name == "Darwin" ]]; then
     if [[ "${arch_name}" = "x86_64" ]]; then
-        export HOMEBREW_PREFIX='/usr/local'
         if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
             ARCH_MSG="Running on Darwin(Rosetta 2)"
         else
             ARCH_MSG="Running on Darwin(native Intel)"
         fi
     elif [[ "${arch_name}" = "arm64" ]]; then
-        export HOMEBREW_PREFIX="/opt/homebrew"
         ARCH_MSG="Running on Darwin(ARM)"
         # elif [[ $arch_name =~ "iPhone" ]]; then
-        #     export HOMEBREW_PREFIX='/usr/local'
         #     echo "Running on iPhone"
         # elif [[ $arch_name =~ "iPad" ]]; then
-        #     export HOMEBREW_PREFIX='/usr/local'
         #     echo "Running on iPad"
     else
-        export HOMEBREW_PREFIX='/usr/local'
         ARCH_MSG="Running on ${system_name}(${arch_name})"
     fi
 else
-    export HOMEBREW_PREFIX='/usr/local'
     ARCH_MSG="Running on ${system_name}(${arch_name})"
 fi
 export ARCH_MSG
@@ -108,3 +102,35 @@ function mkdir_if_not_exists() {
         [[ -d "$dir" ]] || mkdir -pv "$dir"
     done
 }
+
+# Pass the name of the array to the function and then the function can read the array by interpreting the name as a variable name.
+# https://stackoverflow.com/a/14693738/11884593
+function remove_element_if_path_not_exist() {
+    local temp_arr=$1
+    # echo "first array element is: " ${(P)${temp_arr}[1]}
+    path_arr=(${(P)${temp_arr}[*]})
+    echo "$path_arr"
+
+    echo ${(t)path_arr}
+    for dir in ${path_arr[@]}; do
+        echo $dir
+        echo "\n"
+        # if [[ -d "$dir" ]]; then
+        #     echo 123
+        # fi
+    done
+
+}
+
+#***************   Homebrew   *****************
+if command_exists brew; then
+    export HOMEBREW_NO_AUTO_UPDATE=true # 禁用 Homebrew 每次安装软件时的更新
+    eval "$(brew shellenv)" # this line will export some variable, such as below:
+    # export HOMEBREW_PREFIX="/usr/local";
+    # export HOMEBREW_CELLAR="/usr/local/Cellar";
+    # export HOMEBREW_REPOSITORY="/usr/local/Homebrew";
+    # export PATH="/usr/local/bin:/usr/local/sbin${PATH+:$PATH}";
+    # export MANPATH="/usr/local/share/man${MANPATH+:$MANPATH}:";
+    # export INFOPATH="/usr/local/share/info:${INFOPATH:-}";
+fi
+

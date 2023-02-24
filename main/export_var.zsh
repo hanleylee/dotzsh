@@ -113,7 +113,7 @@ path=(
     "/usr/bin"
     "/sbin"
     "/bin"
-    $path
+    "${path[@]}"
 )
 export PATH
 
@@ -123,7 +123,7 @@ fpath=(
     "$ZDOTDIR/lib"
     "$ZDOTDIR/completion"
     "$HL_BNC_NOTE/completion"
-    $fpath
+    "${fpath[@]}"
 )
 export FPATH
 
@@ -133,7 +133,7 @@ manpath=(
     "$HOMEBREW_PREFIX/share/man"
     # "$HOMEBREW_PREFIX/opt/java/share/man"
     "/usr/share/man"
-    $manpath
+    "${manpath[@]}"
 )
 export MANPATH
 
@@ -263,9 +263,6 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245,underline" # 提示样式, 可设
 
 #***************   BAT   *****************
 export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"
-
-#***************   Homebrew   *****************
-export HOMEBREW_NO_AUTO_UPDATE=true # 禁用 Homebrew 每次安装软件时的更新
 
 #***************   PYTHON   *****************
 export PYTHON_CONFIGURE_OPTS="--enable-framework"
