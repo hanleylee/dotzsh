@@ -245,6 +245,7 @@ fi
 #***************   GITHUB   *****************
 [[ -f "$HL_SECRET/config.json" ]] && export GITHUB_TOKEN=$(jq -r '.GITHUB_TOKEN' "$HL_SECRET/config.json")
 export GITHUB_USER=hanleylee
+
 #***************   GPG   *****************
 GPG_TTY=$(tty)
 export GPG_TTY
@@ -358,6 +359,9 @@ fd \
 --follow \
 --exclude=$FD_COMMON_EXCLUDE \
 "
+
+# shellcheck disable=2016
+export RGV_EDITOR='vv $file:$line:$col'
 
 #***************   preview   *****************
 export FILE_PREVIEW_COMMAND='preview_code'
