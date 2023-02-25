@@ -103,23 +103,22 @@ function mkdir_if_not_exists() {
     done
 }
 
+# Remove element of given array when the referenced path by element is not existed
 # Pass the name of the array to the function and then the function can read the array by interpreting the name as a variable name.
 # https://stackoverflow.com/a/14693738/11884593
 function remove_element_if_path_not_exist() {
-    local temp_arr=$1
-    # echo "first array element is: " ${(P)${temp_arr}[1]}
-    path_arr=(${(P)${temp_arr}[*]})
-    echo "$path_arr"
+    local arr_name=$1
+    # echo "first array element is: " ${(P)${arr_name}[1]}
+    path_arr=(${(P)${arr_name}[*]})
 
-    echo ${(t)path_arr}
-    for dir in ${path_arr[@]}; do
-        echo $dir
-        echo "\n"
-        # if [[ -d "$dir" ]]; then
-        #     echo 123
-        # fi
+    # echo ${(t)path_arr}
+    for ((i = $#path_arr; i >= 1; i--)); do
+        if [[ ! -d ${path_arr[i]} ]]; then
+            eval "${arr_name}[$i]=()" # array[1]=()
+        fi
     done
-
+    # for dir in ${path_arr[@]}; do
+    # done
 }
 
 #***************   Homebrew   *****************

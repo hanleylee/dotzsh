@@ -3,7 +3,7 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
-# MARK: JUST FOR PATH AND EXPORT VARIABLES
+# MARK: JUST FOR EXPORT ENVIRONMENT VARIABLES
 # NOTE:
 # 1. 多个环境变量之间如果有依赖, 那么 export 的顺序非常重要, 如果变量 a 在 export 之前就被另一个环境变量 b 使用, 那么 b 会异常
 # 2. 在 $() 中使用环境变量会导致不被展开的问题, 可以使用 eval $var 解决
@@ -68,6 +68,7 @@ export HL_BNC_NOTE="$HL_REPO/bnc-note"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 export THEMIS_HOME="$HOME/vim-themis"
 
+# MARK: PATH
 # Because the order is so important for PATH, so we can't use connected `path` to reflect its value
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
 typeset -U path
@@ -115,8 +116,10 @@ path=(
     "/bin"
     "${path[@]}"
 )
+remove_element_if_path_not_exist path
 export PATH
 
+# MARK: FPATH
 typeset -U fpath
 # Connected array Variables, fpath is connected with FPATH
 fpath=(
@@ -125,8 +128,10 @@ fpath=(
     "$HL_BNC_NOTE/completion"
     "${fpath[@]}"
 )
+remove_element_if_path_not_exist fpath
 export FPATH
 
+# MARK: MANPATH
 typeset -U manpath
 # Connected array Variables, fpath is connected with FPATH
 manpath=(
@@ -135,6 +140,7 @@ manpath=(
     "/usr/share/man"
     "${manpath[@]}"
 )
+remove_element_if_path_not_exist manpath
 export MANPATH
 
 # 为 system 范围添加 header 路径, 会影响到 vim 的 ycm 与 ale.
@@ -142,18 +148,51 @@ export MANPATH
 # CPATH 会对 c, c++, objc 这三种语言的搜索路径起作用
 # 而 C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, OBJC_INCLUDE_PATH 只对其对应语言的编译起作用
 # 其作用类似于使用 `-I path`, 在此处进行了变量的定义后方便全局都起作用
-insert_path_to_variable "C_INCLUDE_PATH" "$HL_LANG/c/foundation"
-insert_path_to_variable "CPLUS_INCLUDE_PATH" "$HL_LANG/cpp/foundation"
-insert_path_to_variable "OBJC_INCLUDE_PATH" "$HL_LANG/objc/foundation"
+
+# MARK: C_INCLUDE_PATH
+temp_arr=(
+    "$HL_LANG/c/foundation"
+)
+remove_element_if_path_not_exist temp_arr
+insert_path_to_variable "C_INCLUDE_PATH" "${temp_arr[@]}"
+unset temp_arr
+
+# MARK: CPLUS_INCLUDE_PATH
+temp_arr=(
+    "$HL_LANG/cpp/foundation"
+)
+remove_element_if_path_not_exist temp_arr
+insert_path_to_variable "CPLUS_INCLUDE_PATH" "${temp_arr[@]}"
+unset temp_arr
+
+# MARK: OBJC_INCLUDE_PATH
+temp_arr=(
+    "$HL_LANG/objc/foundation"
+)
+remove_element_if_path_not_exist temp_arr
+insert_path_to_variable "OBJC_INCLUDE_PATH" "${temp_arr[@]}"
+unset temp_arr
 # insert_path_to_variable "LD_LIBRARY_PATH" ""
 
-insert_path_to_variable "CPATH" "$C_INCLUDE_PATH"
+# MARK: CPATH
+temp_arr=(
+    "$C_INCLUDE_PATH"
+)
+remove_element_if_path_not_exist temp_arr
+insert_path_to_variable "CPATH" "${temp_arr[@]}"
+unset temp_arr
 
-insert_path_to_variable "PYTHONPATH" "$HL_LANG/python/foundation"
+# MARK: PYTHONPATH
+temp_arr=(
+    "$HL_LANG/python/foundation"
+)
+remove_element_if_path_not_exist temp_arr
+insert_path_to_variable "PYTHONPATH" "${temp_arr[@]}"
+unset temp_arr
 
 if command_exists pkg-config; then
     # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
-    _pkgconfig_path=(
+    temp_arr=(
         "$HOMEBREW_PREFIX/lib/pkgconfig"
         "$HOMEBREW_PREFIX/opt/glib/lib/pkgconfig"
         "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig"
@@ -165,8 +204,9 @@ if command_exists pkg-config; then
         "$HOMEBREW_PREFIX/opt/sqlite/lib/pkgconfig"
         "/opt/X11/lib/pkgconfig"
     )
-    insert_path_to_variable "PKG_CONFIG_PATH" "${_pkgconfig_path[@]}"
-    unset _pkgconfig_path
+    remove_element_if_path_not_exist temp_arr
+    insert_path_to_variable "PKG_CONFIG_PATH" "${temp_arr[@]}"
+    unset temp_arr
 fi
 
 #███████████████████████   FLAGS(for makefile, use pkg-config)   ██████████████████████████
@@ -212,7 +252,7 @@ export GPG_TTY
 #***************   LESS   *****************
 
 # less options
-less_opts=(
+temp_arr=(
     # Quit if entire file fits on first screen.
     -+F
     -+X
@@ -230,8 +270,8 @@ less_opts=(
     # Do not complain when we are on a dumb terminal.
     --dumb
 )
-export LESS="${less_opts[*]}"
-unset less_opts
+export LESS="${temp_arr[*]}"
+unset temp_arr
 
 autoload -Uz colors && colors
 export LESS_TERMCAP_mb="${fg_bold[red]}"
