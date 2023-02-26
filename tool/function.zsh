@@ -181,6 +181,15 @@ function _zi {
         # zle && zle redraw-prompt
     fi
 }
+
+# *************** fzf-git *****************
+_fzf_git_fzf() {
+    fzf-tmux -p80%,80% -- \
+        --layout=reverse --multi --height=80% --min-height=20 --border \
+        --color='header:italic:underline' \
+        --preview-window='right,50%,border-left' \
+        --bind='ctrl-/:change-preview-window(down,50%,border-top|hidden|)' "$@"
+    }
 # Go back up N directories
 up() {
     if [[ $# -eq 0 ]]; then
