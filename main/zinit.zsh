@@ -3,6 +3,7 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
+# Zinit instruction: https://zdharma-continuum.github.io/zinit/wiki/INTRODUCTION/
 export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit"
 ZINIT_GIT_ROOT="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 ### Added by Zinit's installer
@@ -111,7 +112,7 @@ zinit ice has'svn' svn silent wait'1'
 zinit snippet OMZP::flutter
 
 zinit ice multisrc'*.{sh,zsh}'
-zinit load "$ZDOTDIR/tool"
+zinit light "$ZDOTDIR/tool"
 
 zinit light HanleyLee/Handy
 # zinit light "/Users/hanley/repo/handy" # use for debug
