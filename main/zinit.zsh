@@ -62,12 +62,18 @@ zinit light skywind3000/z.lua
 zinit light paulirish/git-open
 # ========
 
-zinit snippet OMZL::git.zsh
-zinit snippet OMZL::functions.zsh
-zinit snippet OMZL::completion.zsh
-# zinit snippet OMZL::history.zsh
-zinit snippet OMZL::key-bindings.zsh
-zinit snippet OMZL::theme-and-appearance.zsh
+zinit for \
+    OMZL::git.zsh \
+    OMZL::functions.zsh \
+    OMZL::completion.zsh \
+    OMZL::key-bindings.zsh \
+    OMZL::theme-and-appearance.zsh
+# zinit snippet OMZL::git.zsh
+# zinit snippet OMZL::functions.zsh
+# zinit snippet OMZL::completion.zsh
+# # zinit snippet OMZL::history.zsh
+# zinit snippet OMZL::key-bindings.zsh
+# zinit snippet OMZL::theme-and-appearance.zsh
 
 # ========
 zinit snippet OMZP::last-working-dir
@@ -110,13 +116,8 @@ zinit snippet OMZP::command-not-found
 @zi_w1
 zinit snippet OMZP::git-auto-fetch
 
-zinit ice multisrc'*.zsh'
+zinit ice multisrc'*.{sh,zsh}'
 zinit load "$ZDOTDIR/tool"
-
-if is_work; then
-    zinit ice multisrc'*.zsh'
-    zinit load "$HL_BNC_NOTE/sh/tools"
-fi
 
 zinit light HanleyLee/Handy
 # zinit light "/Users/hanley/repo/handy" # use for debug

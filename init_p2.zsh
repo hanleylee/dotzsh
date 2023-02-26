@@ -20,6 +20,10 @@ if [[ $TERM_PROGRAM == "iTerm.app" ]] && [[ -d "$ZDOTDIR/.iterm2_shell_integrati
     _path_arr+=("$ZDOTDIR/.iterm2_shell_integration.zsh")
 fi
 
+if is_work; then
+    _path_arr+=("$HL_REPO/bnc-note/sh/main.zsh")
+fi
+
 source_if_exists "${_path_arr[@]}"
 
 unset _path_arr

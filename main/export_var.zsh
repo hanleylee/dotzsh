@@ -62,7 +62,6 @@ export HL_LANG_DART="$HL_REPO/lang/dart"
 export HL_FRAMEWORK="$HL_REPO/framework"
 export HL_FRAMEWORK_ios="$HL_REPO/framework/ios"
 export HL_FRAMEWORK_flutter="$HL_REPO/framework/flutter"
-export HL_BNC_NOTE="$HL_REPO/bnc-note"
 # }}}
 
 export ANDROID_HOME="$HOME/Library/Android/sdk"
@@ -80,7 +79,6 @@ path=(
     "$HL_LOCAL/bin/py"
     "$HL_LOCAL/bin/sh"
     "$HL_LOCAL/bin"
-    "$HL_BNC_NOTE/bin"
     "/opt/MonkeyDev/bin"
     "$HOME/.fvm/default/bin"
     "$HOME/.node_modules_global/bin"
@@ -125,7 +123,6 @@ typeset -U fpath
 fpath=(
     "$ZDOTDIR/lib"
     "$ZDOTDIR/completion"
-    "$HL_BNC_NOTE/completion"
     "${fpath[@]}"
 )
 remove_element_if_path_not_exist fpath

@@ -3,6 +3,6 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
-source "$ZDOTDIR/init.zsh"
+source "$ZDOTDIR/init_p1.zsh"
 
-source "$ZDOTDIR/bootstrap.zsh"
+source "$ZDOTDIR/init_p2.zsh"

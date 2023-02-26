@@ -24,12 +24,6 @@ if command_exists lf; then
     bindkey '^l' _lfcd
 fi
 
-if command_exists lazygit; then
-    # bindkey -s "^g" 'lg^M'
-    zle -N _lg
-    bindkey '^g' _lg
-fi
-
 if command_exists fzf; then
     # MARK: Use z.lua
     zle -N _zfzf
