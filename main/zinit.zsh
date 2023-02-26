@@ -50,10 +50,10 @@ zinit light zsh-users/zsh-completions
 @zi_w0 has'fzf'
 zinit light Aloxaf/fzf-tab
 
-@zi_w0
+@zi_w0 has'fzf'
+zinit light hanleylee/fzf-marks
 # zinit light urbainvaes/fzf-marks
 # zinit light "/Users/hanley/github/lang/sh/fzf-marks" # use for debug
-zinit light hanleylee/fzf-marks # use for debug
 
 @zi_w0
 zinit light skywind3000/z.lua
@@ -81,11 +81,14 @@ zinit snippet OMZP::last-working-dir
 @zi_w1
 zinit snippet OMZP::sudo
 
+@zi_w1
+zinit snippet OMZP::command-not-found
+
+@zi_w1
+zinit snippet OMZP::git-auto-fetch
+
 # @zi_w1
 # zinit snippet OMZP::colored-man-pages
-
-# @zi_completion has'cargo'
-# zinit snippet OMZP::cargo
 
 @zi_completion has'docker'
 zinit snippet OMZP::docker/_docker
@@ -106,15 +109,6 @@ fi
 
 zinit ice has'svn' svn silent wait'1'
 zinit snippet OMZP::flutter
-
-# zinit ice has'svn' has'emacs' svn silent wait'1'
-# zinit snippet OMZP::emacs
-
-@zi_w1
-zinit snippet OMZP::command-not-found
-
-@zi_w1
-zinit snippet OMZP::git-auto-fetch
 
 zinit ice multisrc'*.{sh,zsh}'
 zinit load "$ZDOTDIR/tool"
