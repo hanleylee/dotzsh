@@ -61,6 +61,9 @@ zinit light skywind3000/z.lua
 
 @zi_w0 has'git'
 zinit light paulirish/git-open
+
+@zi_w0
+zinit light scriptingosx/mac-zsh-completions
 # ========
 
 zinit for \
