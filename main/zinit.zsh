@@ -20,7 +20,7 @@ source "${ZINIT_GIT_ROOT}/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Common ICE modifiers
+# Common ICE modifiers {{{
 @zi_lucid() {
     zinit ice lucid "$@"
 }
@@ -36,35 +36,9 @@ autoload -Uz _zinit
 @zi_completion() {
     @zi_w1 as'completion' blockf "$@"
 }
+# }}}
 
-# 命令补全
-@zi_w0 atload'_zsh_autosuggest_start'
-zinit light zsh-users/zsh-autosuggestions
-
-# 语法高亮
-@zi_w0 atinit='zpcompinit'
-zinit light zdharma-continuum/fast-syntax-highlighting
-
-@zi_w0
-zinit light zsh-users/zsh-completions
-
-@zi_w0 has'fzf'
-zinit light Aloxaf/fzf-tab
-
-@zi_w0 has'fzf'
-zinit light hanleylee/fzf-marks
-# zinit light urbainvaes/fzf-marks
-# zinit light "/Users/hanley/github/lang/sh/fzf-marks" # use for debug
-
-@zi_w0
-zinit light skywind3000/z.lua
-
-@zi_w0 has'git'
-zinit light paulirish/git-open
-
-@zi_w0
-zinit light scriptingosx/mac-zsh-completions
-# ========
+# MARK: ======== zinit snippet ========= {{{
 
 zinit for \
     OMZL::git.zsh \
@@ -107,18 +81,12 @@ zinit snippet OMZP::pip/_pip
 zinit snippet OMZP::pod/_pod
 
 if is_darwin; then
-    zinit ice has'svn' svn silent wait'1'
+    @zi_w1 has'svn' svn silent
     zinit snippet OMZP::macos
 fi
 
-zinit ice has'svn' svn silent wait'1'
+@zi_w1 has'svn' svn silent
 zinit snippet OMZP::flutter
-
-zinit ice multisrc'*.{sh,zsh}'
-zinit light "$ZDOTDIR/tool"
-
-zinit light HanleyLee/Handy
-# zinit light "/Users/hanley/repo/handy" # use for debug
 
 # 为了使用 GitHub 项目的子目录作为 snippet, 需要在 URL中添加 /trunk/{path-to-dir}
 # zinit ice svn
@@ -131,3 +99,39 @@ zinit light HanleyLee/Handy
 # zinit snippet OMZP::gitfast
 #}}}
 
+
+# MARK: zinit light {{{
+# 命令补全
+@zi_w0 atload'_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions
+
+# 语法高亮
+@zi_w0 atinit='zpcompinit'
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+@zi_w0
+zinit light zsh-users/zsh-completions
+
+@zi_w0 has'fzf'
+zinit light Aloxaf/fzf-tab
+
+@zi_w0 has'fzf'
+zinit light hanleylee/fzf-marks
+# zinit light urbainvaes/fzf-marks
+# zinit light "/Users/hanley/github/lang/sh/fzf-marks" # use for debug
+
+@zi_w0
+zinit light skywind3000/z.lua
+
+@zi_w1 has'git'
+zinit light paulirish/git-open
+
+@zi_w1
+zinit light scriptingosx/mac-zsh-completions
+
+@zi_w0 multisrc'*.{sh,zsh}'
+zinit light "$ZDOTDIR/tool"
+
+# zinit light "/Users/hanley/repo/handy" # use for debug
+zinit light HanleyLee/Handy
+# }}}
