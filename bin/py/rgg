@@ -96,7 +96,7 @@ def search():
     except ImportError:
         pass
 
-    cmd = ['rg', '--hidden', '-g', '!.git', '--json'] + sys.argv[1:]
+    cmd = ['rg', '--hidden', '--smart-case', '-g', '!.git', '--json'] + sys.argv[1:]
 
     import ctypes
     try:
