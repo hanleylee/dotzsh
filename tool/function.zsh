@@ -7,7 +7,7 @@
 # set -x # 显示所有步骤
 
 # Quick change directories, Expands .... -> ../../../
-smartdots() {
+function smartdots() {
     if [[ $LBUFFER = *.. ]]; then
         LBUFFER+=/..
     else
@@ -16,12 +16,12 @@ smartdots() {
 }
 
 # 在 xcode 中打开当前目录下的工程
-ofx() {
+function ofx() {
     open ./*.xcworkspace || open ./*.xcodeproj || open ./Package.swift
 } 2> /dev/null
 
 # print the path of current file of MacVim's front window
-pfmv() {
+function pfmv() {
     osascript <<'EOF'
 tell application "MacVim"
     set window_title to name of window 1
@@ -35,7 +35,7 @@ EOF
 }
 
 # use MacVim to edit the current file of Xcode
-mvxc() {
+function mvxc() {
     # either of the below method is acceptable
     # open -a MacVim `pfxc`
     osascript <<EOF
@@ -70,13 +70,13 @@ function repeat() {
 
 if command_exists code; then
     # 在 vscode 中打开当前 finder 的文件夹
-    codef() {
+    function codef() {
         code "$(pfd)"
     }
 fi
 
 if command_exists lazygit; then
-    lgf() {
+    function lgf() {
         export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
 
         lazygit "$@"
@@ -90,10 +90,8 @@ fi
 
 if command_exists tmux; then
     # tmux attach
-    ta() {
-        if which tmux >/dev/null 2>&1; then
-            test -z "$TMUX" && (tmux attach || tmux new-session)
-        fi
+    function ta() {
+        test -z "$TMUX" && (tmux attach || tmux new-session)
     }
 fi
 
@@ -127,27 +125,27 @@ function whichd() {
 
 if command_exists apt; then
     # Update and upgrade packages
-    apt-update() {
-    sudo apt update
-    sudo apt -y upgrade
-}
+    function apt-update() {
+        sudo apt update
+        sudo apt -y upgrade
+    }
 
     # Clean packages
-    apt-clean() {
-    sudo apt -y autoremove
-    sudo apt-get -y autoclean
-    sudo apt-get -y clean
-}
+    function apt-clean() {
+        sudo apt -y autoremove
+        sudo apt-get -y autoclean
+        sudo apt-get -y clean
+    }
 
     # List intentionally installed packages
-    apt-list() {
-    (
-    zcat "$(ls -tr /var/log/apt/history.log*.gz)"
-    cat /var/log/apt/history.log
-    ) 2>/dev/null |
-        grep -E '^Commandline' |
-        sed -e 's/Commandline: \(.*\)/\1/' |
-        grep -E -v '^/usr/bin/unattended-upgrade$'
+    function apt-list() {
+        (
+        zcat "$(ls -tr /var/log/apt/history.log*.gz)"
+        cat /var/log/apt/history.log
+        ) 2>/dev/null |
+            grep -E '^Commandline' |
+            sed -e 's/Commandline: \(.*\)/\1/' |
+            grep -E -v '^/usr/bin/unattended-upgrade$'
     }
 fi
 
@@ -164,7 +162,7 @@ function _zfzf {
 
 # *************** autojump *****************
 # use fzf to jump to history directories
-autojump_fzf() {
+function autojump_fzf() {
     cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' | eval ${FZF_WITH_COMMAND_AND_ARGS})"
 
     if [[ -z "$lines" ]]; then
@@ -183,7 +181,7 @@ function _zi {
 }
 
 # *************** fzf-git *****************
-_fzf_git_fzf() {
+function _fzf_git_fzf() {
     fzf-tmux -p90%,90% -- \
         --layout=reverse --multi --height=90% --min-height=20 --border \
         --color='header:italic:underline' \
@@ -191,7 +189,7 @@ _fzf_git_fzf() {
         --bind='ctrl-/:change-preview-window(down,50%,border-top|hidden|)' "$@"
     }
 # Go back up N directories
-up() {
+function up() {
     if [[ $# -eq 0 ]]; then
         cd "../"
     elif [[ $# -eq 1 ]] && [[ $1 -gt 0 ]]; then
@@ -205,6 +203,17 @@ up() {
         return 1
     fi
 }
+
+function gfzflog() {
+    local log_fmt="%C(yellow)%h%Cred%d %Creset%s %Cgreen(%ar)%Creset"
+    local commit_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+    local view_commit="$commit_hash | xargs -I hash sh -c \"git i --color=always hash | delta\""
+
+    git log --color=always --format="$log_fmt" "$@" | fzf --no-sort --tiebreak=index --no-multi --reverse --ansi \
+        --header="enter to view, alt-y to copy hash" --preview="$view_commit" \
+        --bind="enter:execute:$view_commit | less -R" \
+        --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
+    }
 
 # MARK: git related {{{
 
@@ -234,18 +243,6 @@ function git_main_branch() {
         fi
     done
     echo master
-}
-
-function git_current_branch () {
-    local ref
-    ref=$(__git_prompt_git symbolic-ref --quiet HEAD 2> /dev/null)
-    local ret=$?
-    if [[ $ret != 0 ]]
-    then
-        [[ $ret == 128 ]] && return
-        ref=$(__git_prompt_git rev-parse --short HEAD 2> /dev/null)  || return
-    fi
-    echo ${ref#refs/heads/}
 }
 
 # Check for develop and similarly named branches
@@ -289,25 +286,7 @@ function pdiff() {
     fi
 }
 
-# Print command cheatsheet
-# cheat() {
-#     curl -s "cheat.sh/$1"
-# }
-
-# Browse git commits
-glog() {
-    local log_fmt="%C(yellow)%h%Cred%d %Creset%s %Cgreen(%ar)%Creset"
-    local commit_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-    local view_commit="$commit_hash | xargs -I hash sh -c \"git i --color=always hash | delta\""
-
-    git log --color=always --format="$log_fmt" "$@" |
-        fzf --no-sort --tiebreak=index --no-multi --reverse --ansi \
-        --header="enter to view, alt-y to copy hash" --preview="$view_commit" \
-        --bind="enter:execute:$view_commit | less -R" \
-        --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
-    }
-
-git_keep_one() {
+function git_keep_one() {
     git pull --depth 1
     git reflog expire --expire=all --all
     git tag -l | xargs git tag -d
@@ -320,10 +299,10 @@ function gstpush() {
 }
 
 function gstpop() {
-    # MARK: Method 1
+    # Method 1
     # git stash apply stash^{/"hanley_$1"}
 
-    # MARK: Method 2
+    # Method 2
     # stash_index like "stash@{0}"
     stash_index=$(git stash list | grep "hanley_$1$" | cut -d: -f1)
     if [[ -n "${stash_index}" ]]; then
@@ -334,12 +313,17 @@ function gstpop() {
     fi
 }
 
+function git_current_branch () {
+    local branch=$(git rev-parse --abbrev-ref HEAD)
+    echo $branch
+}
+
 function git_copy_branch() {
-    git rev-parse --abbrev-ref HEAD | tr -d '\n' | pbcopy
+    git_current_branch | tr -d '\n' | pbcopy
 }
 # }}}
 
-test_zsh1() {
+function test_zsh1() {
     for i in $(seq 1 20); do
         /usr/bin/time /bin/zsh --no-rcs -i -c exit
     done
@@ -354,12 +338,12 @@ function light() {
     eval "$src" | highlight -O rtf --syntax="$1" -k "Fira Code" --style=solarized-dark --font-size 24 | pbcopy
 }
 
-nocolor () {
+function nocolor () {
     sed -r 's:\x1b\[[0-9;]*[mK]::g;s:[\r\x0f]::g'
 }
 
 # 删除空文件
-rmempty () {
+function rmempty () {
     for i; do
         [[ -f $i && ! -s $i ]] && rm $i
     done
@@ -367,7 +351,7 @@ rmempty () {
 }
 
 # 断掉软链接
-breakln () {
+function breakln () {
     for f in $*; do
         tgt=$(readlink "$f")
         unlink "$f"
@@ -375,27 +359,8 @@ breakln () {
     done
 }
 
-# 设置标题
-if [[ $TERM == screen* || $TERM == tmux* ]]; then
-    # 注：不支持中文
-    title () { echo -ne "\ek$*\e\\" }
-else
-    title () { echo -ne "\e]0;$*\a" }
-fi
-if [[ $TERM == xterm* || $TERM == *rxvt* ]]; then # {{{2 设置光标颜色
-    cursorcolor () { echo -ne "\e]12;$*\007" }
-elif [[ $TERM == screen* ]]; then
-    if (( $+TMUX )); then
-        cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
-    else
-        cursorcolor () { echo -ne "\eP\e]12;$*\007\e\\" }
-    fi
-elif [[ $TERM == tmux* ]]; then
-    cursorcolor () { echo -ne "\ePtmux;\e\e]12;$*\007\e\\" }
-fi
-
 # 使用伪终端代替管道，对 ls 这种“顽固分子”有效 {{{2
-ptyrun () {
+function ptyrun () {
     local ptyname=pty-$$
     zmodload zsh/zpty
     zpty $ptyname "${(q)@}"
@@ -407,34 +372,12 @@ ptyrun () {
     zpty -d $ptyname
 }
 
-ptyless () {
+function ptyless () {
     ptyrun "$@" | tr -d $'\x0f' | less
 }
 
-# 剪贴板数据到 QR 码
-clipboard2qr () {
-    data="$(xsel)"
-    echo $data
-    echo $data | qrencode -t UTF8
-}
-
-# 截图到剪贴板
-screen2clipboard () {
-    screenshot | xclip -i -selection clipboard -t image/png
-}
-
-# 将剪贴板中的图片从 bmp 转到 png。QQ 会使用 bmp
-clipboard_bmp2png () {
-    xclip -selection clipboard -o -t image/bmp | convert - png:- | xclip -i -selection clipboard -t image/png
-}
-
-# 将剪贴板中的图片从 png 转到 bmp。QQ 会使用 bmp
-clipboard_png2bmp () {
-    xclip -selection clipboard -o -t image/png | convert - bmp:- | xclip -i -selection clipboard -t image/bmp
-}
-
-# 文件名从 GB 转码，带确认
-mvgb () {
+# 文件名从 GB 转码, 带确认
+function mvgb () {
     for i in $*; do
         new="$(echo $i|iconv -f utf8 -t latin1|iconv -f gbk)"
         echo $new
@@ -444,7 +387,7 @@ mvgb () {
     done
 }
 
-pid () { #{{{2
+function pid () {
     s=0
     for i in $*; do
         i=${i/,/}
@@ -461,31 +404,18 @@ pid () { #{{{2
 }
 
 # 快速查找当前目录下的文件
-s () {
+function s () {
     find . -name "*$1*"
 }
 
-#{{{2 query XMPP SRV records
-xmpphost () {
+# query XMPP SRV records
+function xmpphost () {
     host -t SRV _xmpp-client._tcp.$1
     host -t SRV _xmpp-server._tcp.$1
 }
 
-# 软件仓库中重复的软件包
-duppkg4repo () {
-    local repo=$1
-    [[ -z $repo ]] && { echo >&2 'which repository to examine?'; return 1 }
-    local pkgs
-    pkgs=$(comm -12 \
-        <(pacman -Sl $repo|awk '{print $2}'|sort) \
-        <(pacman -Sl|awk -vrepo=$repo '$1 != repo {print $2}'|sort) \
-    )
-        [[ -z $pkgs ]] && return 0
-        LANG=C pacman -Si ${=pkgs} | awk -vself=$repo '/^Repository/{ repo=$3; } /^Name/ && repo != self { printf("%s/%s\n", repo, $3); }'
-    }
-
-# 反复重试, 直到成功 {{{ 2
-try_until_success () {
+# 反复重试, 直到成功
+function try_until_success () {
     local i=1
     while true; do
         echo "Try $i at $(date)."
@@ -496,18 +426,7 @@ try_until_success () {
 }
 compdef try_until_success=command
 
-# autojump 快速安装
-install_autojump () {
-    mkdir -p ~/.local/bin ${_zdir}/.zsh/Completion
-    pushd ~/.local/bin > /dev/null
-    wget -N https://github.com/wting/autojump/raw/master/bin/autojump{,_{data,argparse,match,utils}.py}
-    chmod +x autojump
-    popd > /dev/null
-    wget https://github.com/wting/autojump/raw/master/bin/autojump.zsh -O ${_zdir}/.zsh/autojump.zsh
-    wget https://github.com/wting/autojump/raw/master/bin/_j -O ${_zdir}/.zsh/Completion/_j
-}
-
-wait_pid () {
+function wait_pid () {
     local pid=$1
     while true; do
         if [[ -d /proc/$pid ]]; then
@@ -518,7 +437,7 @@ wait_pid () {
     done
 }
 
-uName() {
+function uName() {
     declare -A unameInfo
     unameInfo=( [kernel]=-s [kernel_release]=-r [os]=-o [cpu]=-p )
     for name com in ${(kv)unameInfo}; do
@@ -528,16 +447,16 @@ uName() {
 }
 
 if is_darwin; then
-    show_current_wifi_ssid() {
+    function show_current_wifi_ssid() {
         /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'
     }
 
-    show_wifi_password() {
+    function show_wifi_password() {
         ssid=$1
         security find-generic-password -D "AirPort network password" -a $ssid -gw
     }
 
-    show_current_wifi_password() {
+    function show_current_wifi_password() {
         ssid=$(show_current_wifi_ssid)
 
         show_wifi_password $ssid
