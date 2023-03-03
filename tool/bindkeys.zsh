@@ -25,13 +25,13 @@ if command_exists lf; then
 fi
 
 if command_exists fzf; then
-    # MARK: Use z.lua
+    # Use z.lua
     zle -N _zfzf
     bindkey '^h' _zfzf
-    # MARK: Use autojump
+    # Use autojump
     # zle -N autojump_fzf
     # bindkey '^h' autojump_fzf
-    # MARK: Use zoxide
+    # Use zoxide
     # zle -N _zi
     # bindkey '^h' _zi
 fi

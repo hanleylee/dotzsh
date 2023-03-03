@@ -42,16 +42,17 @@ if command_exists fd; then
     # go into directory
     fdc() {
         local dir
-        dir=$(\
-            fd "${1:-.}"\
-            --hidden \
-            --follow \
-            -I \
-            --exclude={Pods,.git,.idea,.sass-cache,node_modules,build} \
-            --type d 2>/dev/null \
-            | fzf +m) \
-            && cd "$dir" \
-            || return
+        dir=$(
+            fd "${1:-.}" \
+                --hidden \
+                --follow \
+                -I \
+                --exclude={Pods,.git,.idea,.sass-cache,node_modules,build} \
+                --type d 2>/dev/null |
+                fzf +m
+        ) &&
+            cd "$dir" ||
+            return
         #dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
     }
 
@@ -123,6 +124,28 @@ if command_exists brew; then
     }
 
 fi
+
+# ***************   z.lua   *****************
+function _zfzf {
+    # _zlua -I -t .
+    cd "$(zfzf)" || return
+
+    if [[ -z "$lines" ]]; then
+        zle && zle reset-prompt
+        # zle && zle redraw-prompt
+    fi
+}
+
+# *************** autojump *****************
+# use fzf to jump to history directories
+function autojump_fzf() {
+    cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' | eval ${FZF_WITH_COMMAND_AND_ARGS})"
+
+    if [[ -z "$lines" ]]; then
+        zle && zle reset-prompt
+        # zle && zle redraw-prompt
+    fi
+}
 
 if command_exists ag; then
     # fuzzy grep open via ag

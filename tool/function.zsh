@@ -15,6 +15,22 @@ function smartdots() {
     fi
 }
 
+function whichd() {
+    if type "$1" | grep -q 'is a shell function'; then
+        type "$1"
+        which "$1"
+    elif type "$1" | grep -q 'is an alias'; then
+        PS4='+%x:%I>' zsh -i -x -c '' |& grep '>alias ' | grep "${1}="
+    else
+        type "$1"
+    fi
+}
+
+# 快速查找当前目录下的文件
+function s () {
+    find . -name "*$1*"
+}
+
 # 在 xcode 中打开当前目录下的工程
 function ofx() {
     open ./*.xcworkspace || open ./*.xcodeproj || open ./Package.swift
@@ -68,126 +84,6 @@ function repeat() {
     done
 }
 
-if command_exists code; then
-    # 在 vscode 中打开当前 finder 的文件夹
-    function codef() {
-        code "$(pfd)"
-    }
-fi
-
-if command_exists lazygit; then
-    function lgf() {
-        export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
-
-        lazygit "$@"
-
-        if [ -f "$LAZYGIT_NEW_DIR_FILE" ]; then
-            cd "$(cat "$LAZYGIT_NEW_DIR_FILE")"
-            rm -f "$LAZYGIT_NEW_DIR_FILE" >/dev/null
-        fi
-    }
-fi
-
-if command_exists tmux; then
-    # tmux attach
-    function ta() {
-        test -z "$TMUX" && (tmux attach || tmux new-session)
-    }
-fi
-
-if command_exists scmpuff; then
-    function gdf() {
-        params="$*"
-        if brew ls --versions scmpuff >/dev/null; then
-            params=$(scmpuff expand "$@" 2>/dev/null)
-        fi
-
-        if [ $# -eq 0 ]; then
-            git difftool --no-prompt --extcmd "icdiff --line-numbers --no-bold" | less
-        elif [ ${#params} -eq 0 ]; then
-            git difftool --no-prompt --extcmd "icdiff --line-numbers --no-bold" "$@" | less
-        else
-            git difftool --no-prompt --extcmd "icdiff --line-numbers --no-bold" "$params" | less
-        fi
-    }
-fi
-
-function whichd() {
-    if type "$1" | grep -q 'is a shell function'; then
-        type "$1"
-        which "$1"
-    elif type "$1" | grep -q 'is an alias'; then
-        PS4='+%x:%I>' zsh -i -x -c '' |& grep '>alias ' | grep "${1}="
-    else
-        type "$1"
-    fi
-}
-
-if command_exists apt; then
-    # Update and upgrade packages
-    function apt-update() {
-        sudo apt update
-        sudo apt -y upgrade
-    }
-
-    # Clean packages
-    function apt-clean() {
-        sudo apt -y autoremove
-        sudo apt-get -y autoclean
-        sudo apt-get -y clean
-    }
-
-    # List intentionally installed packages
-    function apt-list() {
-        (
-        zcat "$(ls -tr /var/log/apt/history.log*.gz)"
-        cat /var/log/apt/history.log
-        ) 2>/dev/null |
-            grep -E '^Commandline' |
-            sed -e 's/Commandline: \(.*\)/\1/' |
-            grep -E -v '^/usr/bin/unattended-upgrade$'
-    }
-fi
-
-# ***************   z.lua   *****************
-function _zfzf {
-    # _zlua -I -t .
-    cd "$(zfzf)"
-
-    if [[ -z "$lines" ]]; then
-        zle && zle reset-prompt
-        # zle && zle redraw-prompt
-    fi
-}
-
-# *************** autojump *****************
-# use fzf to jump to history directories
-function autojump_fzf() {
-    cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' | eval ${FZF_WITH_COMMAND_AND_ARGS})"
-
-    if [[ -z "$lines" ]]; then
-        zle && zle reset-prompt
-        # zle && zle redraw-prompt
-    fi
-}
-
-# *************** zoxide *****************
-function _zi {
-    zi
-    if [[ -z "$lines" ]]; then
-        zle && zle reset-prompt
-        # zle && zle redraw-prompt
-    fi
-}
-
-# *************** fzf-git *****************
-function _fzf_git_fzf() {
-    fzf-tmux -p90%,90% -- \
-        --layout=reverse --multi --height=90% --min-height=20 --border \
-        --color='header:italic:underline' \
-        --preview-window='right,50%,border-left' \
-        --bind='ctrl-/:change-preview-window(down,50%,border-top|hidden|)' "$@"
-    }
 # Go back up N directories
 function up() {
     if [[ $# -eq 0 ]]; then
@@ -204,74 +100,6 @@ function up() {
     fi
 }
 
-function gfzflog() {
-    local log_fmt="%C(yellow)%h%Cred%d %Creset%s %Cgreen(%ar)%Creset"
-    local commit_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-    local view_commit="$commit_hash | xargs -I hash sh -c \"git i --color=always hash | delta\""
-
-    git log --color=always --format="$log_fmt" "$@" | fzf --no-sort --tiebreak=index --no-multi --reverse --ansi \
-        --header="enter to view, alt-y to copy hash" --preview="$view_commit" \
-        --bind="enter:execute:$view_commit | less -R" \
-        --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
-    }
-
-# MARK: git related {{{
-
-# Pretty log messages
-function _git_log_prettily(){
-    if ! [ -z $1 ]; then
-        git log --pretty=$1
-    fi
-}
-compdef _git _git_log_prettily=git-log
-
-# Warn if the current branch is a WIP
-function work_in_progress() {
-    if $(git log -n 1 2>/dev/null | grep -q -c "\-\-wip\-\-"); then
-        echo "WIP!!"
-    fi
-}
-
-# Check if main exists and use instead of master
-function git_main_branch() {
-    command git rev-parse --git-dir &>/dev/null || return
-    local ref
-    for ref in refs/{heads,remotes/{origin,upstream}}/{main,trunk}; do
-        if command git show-ref -q --verify $ref; then
-            echo ${ref:t}
-            return
-        fi
-    done
-    echo master
-}
-
-# Check for develop and similarly named branches
-function git_develop_branch() {
-    command git rev-parse --git-dir &>/dev/null || return
-    local branch
-    for branch in dev devel development; do
-        if command git show-ref -q --verify refs/heads/$branch; then
-            echo $branch
-            return
-        fi
-    done
-    echo develop
-}
-
-function grename() {
-    if [[ -z "$1" || -z "$2" ]]; then
-        echo "Usage: $0 old_branch new_branch"
-        return 1
-    fi
-
-  # Rename branch locally
-  git branch -m "$1" "$2"
-  # Rename branch in origin remote
-  if git push origin :"$1"; then
-      git push --set-upstream origin "$2"
-  fi
-}
-
 # Pretty diff
 function pdiff() {
     if [[ $# -ne 2 ]]; then
@@ -286,44 +114,7 @@ function pdiff() {
     fi
 }
 
-function git_keep_one() {
-    git pull --depth 1
-    git reflog expire --expire=all --all
-    git tag -l | xargs git tag -d
-    git stash drop
-    git gc --prune=all
-}
-
-function gstpush() {
-    git stash push -m "hanley_$1"
-}
-
-function gstpop() {
-    # Method 1
-    # git stash apply stash^{/"hanley_$1"}
-
-    # Method 2
-    # stash_index like "stash@{0}"
-    stash_index=$(git stash list | grep "hanley_$1$" | cut -d: -f1)
-    if [[ -n "${stash_index}" ]]; then
-        git stash pop "${stash_index}"
-    else
-        echo "There is no stash for name \"hanley_$1\""
-        return
-    fi
-}
-
-function git_current_branch () {
-    local branch=$(git rev-parse --abbrev-ref HEAD)
-    echo $branch
-}
-
-function git_copy_branch() {
-    git_current_branch | tr -d '\n' | pbcopy
-}
-# }}}
-
-function test_zsh1() {
+function benchmark_zsh() {
     for i in $(seq 1 20); do
         /usr/bin/time /bin/zsh --no-rcs -i -c exit
     done
@@ -403,11 +194,6 @@ function pid () {
     return $s
 }
 
-# 快速查找当前目录下的文件
-function s () {
-    find . -name "*$1*"
-}
-
 # query XMPP SRV records
 function xmpphost () {
     host -t SRV _xmpp-client._tcp.$1
@@ -462,6 +248,88 @@ if is_darwin; then
         show_wifi_password $ssid
     }
 fi
+
+if command_exists code; then
+    # 在 vscode 中打开当前 finder 的文件夹
+    function codef() {
+        code "$(pfd)"
+    }
+fi
+
+if command_exists lazygit; then
+    function lgf() {
+        export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
+
+        lazygit "$@"
+
+        if [ -f "$LAZYGIT_NEW_DIR_FILE" ]; then
+            cd "$(cat "$LAZYGIT_NEW_DIR_FILE")"
+            rm -f "$LAZYGIT_NEW_DIR_FILE" >/dev/null
+        fi
+    }
+fi
+
+if command_exists tmux; then
+    # tmux attach
+    function ta() {
+        test -z "$TMUX" && (tmux attach || tmux new-session)
+    }
+fi
+
+if command_exists scmpuff; then
+    function gdf() {
+        params="$*"
+        if brew ls --versions scmpuff >/dev/null; then
+            params=$(scmpuff expand "$@" 2>/dev/null)
+        fi
+
+        if [ $# -eq 0 ]; then
+            git difftool --no-prompt --extcmd "icdiff --line-numbers --no-bold" | less
+        elif [ ${#params} -eq 0 ]; then
+            git difftool --no-prompt --extcmd "icdiff --line-numbers --no-bold" "$@" | less
+        else
+            git difftool --no-prompt --extcmd "icdiff --line-numbers --no-bold" "$params" | less
+        fi
+    }
+fi
+
+if command_exists apt; then
+    # Update and upgrade packages
+    function apt-update() {
+        sudo apt update
+        sudo apt -y upgrade
+    }
+
+    # Clean packages
+    function apt-clean() {
+        sudo apt -y autoremove
+        sudo apt-get -y autoclean
+        sudo apt-get -y clean
+    }
+
+    # List intentionally installed packages
+    function apt-list() {
+        (
+        zcat "$(ls -tr /var/log/apt/history.log*.gz)"
+        cat /var/log/apt/history.log
+        ) 2>/dev/null |
+            grep -E '^Commandline' |
+            sed -e 's/Commandline: \(.*\)/\1/' |
+            grep -E -v '^/usr/bin/unattended-upgrade$'
+    }
+fi
+
+# *************** zoxide *****************
+if command_exists zi; then
+    function _zi {
+        zi
+        if [[ -z "$lines" ]]; then
+            zle && zle reset-prompt
+            # zle && zle redraw-prompt
+        fi
+    }
+fi
+
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"
 #     local home="$HOME"
