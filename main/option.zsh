@@ -8,17 +8,7 @@ setopt GLOBDOTS # 使所有的ls显示 . 与 ..(会导致 completion 有 . 与 .
 setopt NO_CASE_GLOB # 通配符扩展不区分大小写
 setopt GLOB_COMPLETE # 列出可能的补全, 但不会直接在提示符中替换补全的结果
 
-# MARK: EDITOR
-EDITOR="$HOMEBREW_PREFIX/bin/vim" # zsh 默认的编辑器为 vi, 比较难用, 因此设置为 vim
-export EDITOR
-export VISUAL="$EDITOR"
-
 # MARK: HISTORY
-export HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
-export HISTSIZE=100000
-# [[ -f "$HOME/.sh/.zsh_history" ]] && export HISTFILE="$HOME/.sh/.zsh_history"
-export HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history # 它将使用 $ZDOTDIR 设置的值, 或者默认值 $HOME
-export SAVEHIST=$HISTSIZE
 setopt EXTENDED_HISTORY
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_IGNORE_SPACE # ignore commands that start with space

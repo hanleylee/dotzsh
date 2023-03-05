@@ -9,6 +9,18 @@
 # 2. 在 $() 中使用环境变量会导致不被展开的问题, 可以使用 eval $var 解决
 # 3. 在 $() 中如果遇到环境变量带有单引号的情况(可以通过 set -x 查看每一步的执行细节), 可以尝试先将整个命令作为变量进行构建, 然后再使用 $() 统一执行
 
+#███████████████████████   History   ██████████████████████████
+export HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
+export HISTSIZE=100000
+# [[ -f "$HOME/.sh/.zsh_history" ]] && export HISTFILE="$HOME/.sh/.zsh_history"
+export HISTFILE=${ZDOTDIR}/.zsh_history # 它将使用 $ZDOTDIR 设置的值, 或者默认值 $HOME
+export SAVEHIST=$HISTSIZE
+
+# MARK: EDITOR
+EDITOR="$HOMEBREW_PREFIX/bin/vim" # zsh 默认的编辑器为 vi, 比较难用, 因此设置为 vim
+export EDITOR
+export VISUAL="$EDITOR"
+
 #███████████████████████   PATH Variables   ██████████████████████████
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -136,6 +148,7 @@ typeset -g -U manpath MANPATH
 # Connected array Variables, manpath is connected with MANPATH
 manpath=(
     "$HOMEBREW_PREFIX/share/man"
+    "$ZDOTDIR/man"
     # "$HOMEBREW_PREFIX/opt/java/share/man"
     "/usr/share/man"
     "${manpath[@]}"
