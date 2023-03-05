@@ -9,11 +9,11 @@ setopt NO_CASE_GLOB # 通配符扩展不区分大小写
 setopt GLOB_COMPLETE # 列出可能的补全, 但不会直接在提示符中替换补全的结果
 
 # MARK: HISTORY
-setopt EXTENDED_HISTORY
+setopt EXTENDED_HISTORY # Save each command’s beginning timestamp (in seconds since the epoch) and the duration (in seconds) to the history file.
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_IGNORE_SPACE # ignore commands that start with space
-setopt HIST_EXPIRE_DUPS_FIRST # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt HIST_IGNORE_DUPS # do not store duplications, 去除重复记录
+setopt HIST_EXPIRE_DUPS_FIRST # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt HIST_FIND_NO_DUPS # ignore duplicates when searching, 浏览时跳过重复记录
 setopt HIST_REDUCE_BLANKS # remove blank lines from history, 去除空白记录
 setopt APPEND_HISTORY   # 以追加方式而不是覆盖

@@ -3,6 +3,9 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
+bindkey -e # 使用 Emacs 键位
+# bindkey -v # 使用 Vim 键位
+
 zle -N smartdots
 bindkey . smartdots
 
@@ -11,7 +14,6 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^X^E' edit-command-line
 
-bindkey -e # 使用 Emacs 键位
 bindkey ',' autosuggest-accept
 bindkey "^u" backward-kill-line
 

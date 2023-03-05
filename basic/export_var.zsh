@@ -10,16 +10,18 @@
 # 3. 在 $() 中如果遇到环境变量带有单引号的情况(可以通过 set -x 查看每一步的执行细节), 可以尝试先将整个命令作为变量进行构建, 然后再使用 $() 统一执行
 
 #███████████████████████   History   ██████████████████████████
-export HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
-export HISTSIZE=100000
-# [[ -f "$HOME/.sh/.zsh_history" ]] && export HISTFILE="$HOME/.sh/.zsh_history"
 export HISTFILE=${ZDOTDIR}/.zsh_history # 它将使用 $ZDOTDIR 设置的值, 或者默认值 $HOME
-export SAVEHIST=$HISTSIZE
+export HISTSIZE=100000 # shell 可以记忆的最大历史命令数量
+export SAVEHIST=$HISTSIZE # HISTFILE 文件能保存的最大行数
+export HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
 
 # MARK: EDITOR
 EDITOR="$HOMEBREW_PREFIX/bin/vim" # zsh 默认的编辑器为 vi, 比较难用, 因此设置为 vim
 export EDITOR
 export VISUAL="$EDITOR"
+
+# MARK: Tab-Completion
+export FIGNORE='*DS_Store:.test'
 
 #███████████████████████   PATH Variables   ██████████████████████████
 export XDG_CACHE_HOME="$HOME/.cache"
