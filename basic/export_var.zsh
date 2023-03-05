@@ -70,7 +70,7 @@ export THEMIS_HOME="$HOME/vim-themis"
 # MARK: PATH
 # Because the order is so important for PATH, so we can't use connected `path` to reflect its value
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
-typeset -U path
+typeset -U path PATH
 path=(
     "$ANDROID_HOME/platform-tools"
     "$ANDROID_HOME/tools"
@@ -118,7 +118,7 @@ remove_element_if_path_not_exist path
 export PATH
 
 # MARK: FPATH
-typeset -U fpath
+typeset -U fpath FPATH
 # Connected array Variables, fpath is connected with FPATH
 fpath=(
     "$ZDOTDIR/lib"
@@ -129,8 +129,8 @@ remove_element_if_path_not_exist fpath
 export FPATH
 
 # MARK: MANPATH
-typeset -U manpath
-# Connected array Variables, fpath is connected with FPATH
+typeset -U manpath MANPATH
+# Connected array Variables, manpath is connected with MANPATH
 manpath=(
     "$HOMEBREW_PREFIX/share/man"
     # "$HOMEBREW_PREFIX/opt/java/share/man"
@@ -472,10 +472,6 @@ export RGV_EDITOR='vv $file:$line:$col'
 # # uses 'vim'
 # export RGV_EDITOR='vim +$line $file'
 
-#***************   MonkeyDev   *****************
-[[ -d "/opt/MonkeyDev" ]] && export MonkeyDevPath="/opt/MonkeyDev"
-export MonkeyDevDeviceIP=
-
 #***************   SHELLCHECK   *****************
 export SHELLCHECK_OPTS="\
 -e SC1071 \
@@ -489,9 +485,6 @@ export FVM_HOME="$HOME/.fvm"
 export FLUTTER_ROOT="$HOME/.fvm/default"
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
-
-# Theos
-export THEOS="$HOME/theos"
 
 # MARK: For vim
 # export VIMTEST=true

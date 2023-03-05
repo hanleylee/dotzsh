@@ -4,7 +4,7 @@
 
 set -e
 autoload -Uz hlcolor && hlcolor
-# source "${0:a:h}/base/color"
+# source "${0:a:h}/basic/color"
 
 currentBranch=$(git branch --show-current)
 remoteBranch="origin/${currentBranch}"

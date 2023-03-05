@@ -9,16 +9,17 @@ else
     return
 fi
 
-source "$ZDOTDIR/base/preinit.zsh"
-
-source "$ZDOTDIR/main/export_var.zsh"
+source "$ZDOTDIR/basic/preinit.zsh"
+# source "$ZDOTDIR/basic/export_var.zsh"
 
 # MARK: Source file
-
 _path_arr=(
-    "$ZDOTDIR/base/lficons.zsh"
+    "$ZDOTDIR/basic/export_var.zsh"
+    "$ZDOTDIR/basic/lficons.zsh"
 )
 
-source_if_exists "${_path_arr[@]}"
+for file in "${_path_arr[@]}"; do
+    [[ -f "$file" ]] && source "$file"
+done
 
 unset _path_arr

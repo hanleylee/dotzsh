@@ -7,11 +7,11 @@
 
 # Auto-completion↩
 # ---------------↩
-[[ $- == *i* ]] && source_if_exists "$HOME/.fzf/shell/completion.zsh" 2>/dev/null
+[[ $- == *i* ]] && ( [[ -f "$HOME/.fzf/shell/completion.zsh" ]] && source "$HOME/.fzf/shell/completion.zsh" ) 2>/dev/null
 
 # Key bindings↩
 # ------------↩
-source_if_exists "$HOME/.fzf/shell/key-bindings.zsh"
+[[ -f "$HOME/.fzf/shell/key-bindings.zsh" ]] && source "$HOME/.fzf/shell/key-bindings.zsh"
 
 fzf-history-widget-accept() {
     fzf-history-widget

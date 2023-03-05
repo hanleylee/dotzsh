@@ -4,9 +4,14 @@
 # License:  MIT License
 
 _path_arr=(
+    "$ZDOTDIR/main/config-dir.zsh"
     "$ZDOTDIR/main/option.zsh"
     "$ZDOTDIR/main/completion.zsh"
+    "$ZDOTDIR/main/appearance.zsh"
     "$ZDOTDIR/main/zinit.zsh"
+    "$ZDOTDIR/main/bindkeys.zsh"
+    "$ZDOTDIR/main/function.zsh"
+    "$ZDOTDIR/main/alias.zsh"
     "$ZDOTDIR/main/eval_tools.zsh"
 )
 
@@ -24,6 +29,8 @@ if is_work; then
     _path_arr+=("$HL_REPO/bnc-note/sh/main.zsh")
 fi
 
-source_if_exists "${_path_arr[@]}"
+for file in "${_path_arr[@]}"; do
+    [[ -f "$file" ]] && source "$file"
+done
 
 unset _path_arr

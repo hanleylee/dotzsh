@@ -3,7 +3,14 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
-# Useful alias and function for apple reverse engineering
+# Useful variables, aliases and functions for apple reverse engineering
+
+#***************   MonkeyDev   *****************
+[[ -d "/opt/MonkeyDev" ]] && export MonkeyDevPath="/opt/MonkeyDev"
+export MonkeyDevDeviceIP=
+
+# Theos
+export THEOS="$HOME/theos"
 
 # for iproxy {{{
 if command_exists iproxy; then

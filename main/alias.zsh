@@ -41,6 +41,8 @@ alias stfu="osascript -e 'set volume output muted true'"
 # alias Z='z -I .'
 # Show $PATH in readable view
 alias path='echo -e ${PATH//:/\\n}'
+alias fpath='echo -e ${FPATH//:/\\n}'
+alias manpath='echo -e ${MANPATH//:/\\n}'
 # Go to the /home/$USER (~) directory and clears window of your terminal
 alias q="~ && clear"
 

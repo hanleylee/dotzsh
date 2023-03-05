@@ -130,7 +130,7 @@ zinit light paulirish/git-open
 zinit light scriptingosx/mac-zsh-completions
 
 @zi_w0 multisrc'*.{sh,zsh}'
-zinit light "$ZDOTDIR/tool"
+zinit light "$ZDOTDIR/modules"
 
 # zinit light "/Users/hanley/repo/handy" # use for debug
 zinit light HanleyLee/Handy
