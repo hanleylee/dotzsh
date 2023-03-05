@@ -63,14 +63,13 @@ function is_hanley() {
 function is_tmux() {
     [[ -n "$TMUX" ]]
 }
-# source if file exists, can pass many file
-# BUG: This function is deprecated! It will cause the following problem
-# - if use typeset -U arr inside sourced file, the arr content will be erased!
-# function source_if_exists() {
-#     for file in "$@"; do
-#         [[ -f "$file" ]] && source "$file"
-#     done
-# }
+
+# source if file exists, can pass many files
+function source_if_exists() {
+    for file in "$@"; do
+        [[ -f "$file" ]] && source "$file"
+    done
+}
 
 # Extend $PATH without duplicates
 function insert_path_if_exists() {

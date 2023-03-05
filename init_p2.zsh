@@ -29,8 +29,6 @@ if is_work; then
     _path_arr+=("$HL_REPO/bnc-note/sh/main.zsh")
 fi
 
-for file in "${_path_arr[@]}"; do
-    [[ -f "$file" ]] && source "$file"
-done
+source_if_exists "${_path_arr[@]}"
 
 unset _path_arr

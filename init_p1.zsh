@@ -18,8 +18,6 @@ _path_arr=(
     "$ZDOTDIR/basic/lficons.zsh"
 )
 
-for file in "${_path_arr[@]}"; do
-    [[ -f "$file" ]] && source "$file"
-done
+source_if_exists "${_path_arr[@]}"
 
 unset _path_arr

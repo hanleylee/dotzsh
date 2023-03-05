@@ -70,7 +70,7 @@ export THEMIS_HOME="$HOME/vim-themis"
 # MARK: PATH
 # Because the order is so important for PATH, so we can't use connected `path` to reflect its value
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
-typeset -U path PATH
+typeset -g -U path PATH
 path=(
     "$ANDROID_HOME/platform-tools"
     "$ANDROID_HOME/tools"
@@ -118,7 +118,10 @@ remove_element_if_path_not_exist path
 export PATH
 
 # MARK: FPATH
-typeset -U fpath FPATH
+
+# we must use -g option here, otherwise fpath will be empty after typeset -U if this file is sourced in a function, because zsh will *create a new
+# local variable* in this case 
+typeset -g -U fpath FPATH
 # Connected array Variables, fpath is connected with FPATH
 fpath=(
     "$ZDOTDIR/lib"
@@ -129,7 +132,7 @@ remove_element_if_path_not_exist fpath
 export FPATH
 
 # MARK: MANPATH
-typeset -U manpath MANPATH
+typeset -g -U manpath MANPATH
 # Connected array Variables, manpath is connected with MANPATH
 manpath=(
     "$HOMEBREW_PREFIX/share/man"
