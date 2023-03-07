@@ -3,6 +3,12 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
+if [ -z "$_INIT_ZSH_PHASE2" ]; then
+    _INIT_ZSH_PHASE2=1
+else
+    return
+fi
+
 _path_arr=(
     "$ZDOTDIR/main/config-dir.zsh"
     "$ZDOTDIR/main/option.zsh"

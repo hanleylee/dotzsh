@@ -3,8 +3,8 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
-if [ -z "$_INIT_ZSH_LOADED" ]; then
-    _INIT_ZSH_LOADED=1
+if [ -z "$_INIT_ZSH_PHASE1" ]; then
+    _INIT_ZSH_PHASE1=1
 else
     return
 fi

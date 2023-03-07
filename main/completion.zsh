@@ -60,3 +60,6 @@ autoload -Uz compinit && compinit   # load + start completion
 # Show hidden files in the menu
 _comp_options+=(globdots)
 
+# MARK: Completion for specific tool
+compdef vman="man"
+

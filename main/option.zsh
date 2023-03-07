@@ -10,12 +10,13 @@ setopt GLOB_COMPLETE # 列出可能的补全, 但不会直接在提示符中替�
 
 # MARK: HISTORY
 setopt EXTENDED_HISTORY # Save each command’s beginning timestamp (in seconds since the epoch) and the duration (in seconds) to the history file.
-setopt HIST_SAVE_NO_DUPS
 setopt HIST_IGNORE_SPACE # ignore commands that start with space
-setopt HIST_IGNORE_DUPS # do not store duplications, 去除重复记录
+setopt HIST_IGNORE_DUPS # Do not enter command lines into the history list if they are duplicates of the previous event.
+# setopt HIST_IGNORE_ALL_DUPS # If a new command line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event)
+setopt HIST_SAVE_NO_DUPS # When writing out to the history file, older commands that duplicate newer ones are omitted.
 setopt HIST_EXPIRE_DUPS_FIRST # delete duplicates first when HISTFILE size exceeds HISTSIZE
-setopt HIST_FIND_NO_DUPS # ignore duplicates when searching, 浏览时跳过重复记录
-setopt HIST_REDUCE_BLANKS # remove blank lines from history, 去除空白记录
+setopt HIST_FIND_NO_DUPS # ignore duplicates when searching 浏览时跳过重复记录
+setopt HIST_REDUCE_BLANKS # remove blank lines from history 去除空白记录
 setopt APPEND_HISTORY   # 以追加方式而不是覆盖
 setopt SHARE_HISTORY    # 共享历史记录(read the history file everytime history is called upon as well as the functionality from `inc_append_history`)
 # setopt INC_APPEND_HISTORY # 立即更新历史记录(save every command before it is executed), SHARE_HISTORY 已经包含了此功能
