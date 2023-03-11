@@ -35,6 +35,8 @@ if is_work; then
     _path_arr+=("$HL_REPO/bnc-note/sh/main.zsh")
 fi
 
+_path_arr+=("$HL_REPO/reverse/sh/main.zsh")
+
 source_if_exists "${_path_arr[@]}"
 
 unset _path_arr
