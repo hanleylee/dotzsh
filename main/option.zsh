@@ -45,7 +45,7 @@ setopt CDABLE_VARS                 # expand the expression (allows 'cd -2/tmp')
 unsetopt BEEP
 setopt RM_STAR_SILENT # rm * 时不要提示
 setopt INTERACTIVE_COMMENTS # 允许在交互模式中使用注释
-# setopt EXTENDED_GLOB
+setopt EXTENDED_GLOB
 setopt RC_QUOTES # 单引号中的 '' 表示一个 ' (如同 Vimscript 中者)
 setopt LISTPACKED # 补全列表不同列可以使用不同的列宽
 setopt MAGIC_EQUAL_SUBST # 补全 identifier=path 形式的参数
