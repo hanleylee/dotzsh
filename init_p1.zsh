@@ -10,7 +10,6 @@ else
 fi
 
 source "$ZDOTDIR/basic/preinit.zsh"
-# source "$ZDOTDIR/basic/export_var.zsh"
 
 # MARK: Source file
 _path_arr=(
