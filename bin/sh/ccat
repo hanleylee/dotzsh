@@ -1,4 +1,8 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
+
+emulate -LR zsh
+set -e
+# set -x
 
 _colorize_via_pygmentize() {
     if [ ! -x "$(which pygmentize)" ]; then

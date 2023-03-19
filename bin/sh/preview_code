@@ -1,4 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
+
+emulate -LR zsh
+set -e
+# set -x
+
 FILE=$1
 
 bat --theme=OneHalfDark --color=always --style=numbers --pager=never --tabs=4 --wrap=auto -- "${FILE}" ||

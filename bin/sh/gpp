@@ -1,8 +1,11 @@
 #!/usr/bin/env zsh
 
-# 用于简化 commit -> git push
+# NOTE: 用于简化 commit -> git push
 
+emulate -LR zsh
 set -e
+# set -x
+
 autoload -Uz hlcolor && hlcolor
 # source "${0:a:h}/basic/color"
 

@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+emulate -LR zsh
+set -e
+# set -x
+
 ZLUA_SCRIPT="$ZINIT_HOME/plugins/skywind3000---z.lua/z.lua"
 
 if [[ -f "$ZLUA_SCRIPT" ]]; then

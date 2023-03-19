@@ -3,27 +3,28 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
  
+# shellcheck disable=2034
 # This file ia all about zsh option, it must be sourced after zshrc
 
 # MARK: GLOB
 setopt GLOBDOTS # 使所有的ls显示 . 与 ..(会导致 completion 有 . 与 ..)
-setopt NO_CASE_GLOB # 通配符扩展不区分大小写
+setopt NO_CASE_GLOB # we want globbing to be case-insensitive
 setopt GLOB_COMPLETE # 列出可能的补全, 但不会直接在提示符中替换补全的结果
 
 #███████████████████████   History   ██████████████████████████
 # History related variable must sourced after zshrc
-export HISTFILE=${ZDOTDIR}/.zsh_history # 它将使用 $ZDOTDIR 设置的值, 或者默认值 $HOME
-export HISTSIZE=100000 # shell 可以记忆的最大历史命令数量
-export SAVEHIST=$HISTSIZE # HISTFILE 文件能保存的最大行数
-export HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
+HISTFILE=${ZDOTDIR}/.zsh_history # 它将使用 $ZDOTDIR 设置的值, 或者默认值 $HOME
+HISTSIZE=100000 # lines remembered per session
+SAVEHIST=$HISTSIZE # lines stored in history file
+HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
 
 # MARK: HISTORY
 setopt EXTENDED_HISTORY # Save each command’s beginning timestamp (in seconds since the epoch) and the duration (in seconds) to the history file.
-setopt HIST_IGNORE_SPACE # ignore commands that start with space
-setopt HIST_IGNORE_DUPS # Do not enter command lines into the history list if they are duplicates of the previous event.
-# setopt HIST_IGNORE_ALL_DUPS # If a new command line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event)
+setopt HIST_IGNORE_SPACE # ignore lines starting with space
+setopt HIST_IGNORE_DUPS # do not store duplications
+# setopt HIST_IGNORE_ALL_DUPS # If a new line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event)
 setopt HIST_SAVE_NO_DUPS # When writing out to the history file, older commands that duplicate newer ones are omitted.
-setopt HIST_EXPIRE_DUPS_FIRST # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt HIST_EXPIRE_DUPS_FIRST # expire duplicates first
 setopt HIST_FIND_NO_DUPS # ignore duplicates when searching 浏览时跳过重复记录
 setopt HIST_REDUCE_BLANKS # remove blank lines from history 去除空白记录
 setopt APPEND_HISTORY   # 以追加方式而不是覆盖

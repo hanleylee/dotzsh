@@ -1,6 +1,9 @@
 #!/usr/bin/env zsh
 
+emulate -LR zsh
 set -e
+# set -x
+
 if [ -n "$DISPLAY" ]; then
     export FIFO_UEBERZUG="${TMPDIR:-/tmp}/lf-ueberzug-$$"
 

@@ -1,4 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
+
+emulate -LR zsh
+set -e
+# set -x
 
 # Print current working root
 

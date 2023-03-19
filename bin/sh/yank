@@ -1,4 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env zsh
+
+emulate -LR zsh
+set -e
+# set -x
 
 # copy via OSC 52
 buf=$( cat "$@" )

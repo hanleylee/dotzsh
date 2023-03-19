@@ -1,4 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
+
+emulate -LR zsh
+set -e
+# set -x
 
 if test -t 1; then
     if test $# = 0; then

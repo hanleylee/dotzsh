@@ -1,9 +1,11 @@
 #!/usr/bin/env zsh
+
+# NOTE: Generate leetcode file with order number
+
 emulate -LR zsh
-
-# generate leetcode file with order number
-
 set -e
+# set -x
+
 # source ~/.local/lib/color.zsh
 autoload -Uz hlcolor && hlcolor
 

@@ -1,4 +1,8 @@
-#!/bin/sh -e
+#!/bin/env/zsh
+
+emulate -LR zsh
+set -e
+# set -x
 
 pull() {
   for d in `cheat -d | awk '{print $2}'`;
