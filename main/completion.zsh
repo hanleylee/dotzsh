@@ -55,7 +55,7 @@ zmodload zsh/complist
 #}}}
 
 # the zstyle command must added before enable the compinit system
-autoload -Uz compinit && compinit   # load + start completion
+compinit   # load + start completion
 
 # Show hidden files in the menu
 _comp_options+=(globdots)

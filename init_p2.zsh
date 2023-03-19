@@ -10,6 +10,7 @@ else
 fi
 
 _path_arr=(
+    "$ZDOTDIR/main/autoload.zsh"
     "$ZDOTDIR/main/config-dir.zsh"
     "$ZDOTDIR/main/option.zsh"
     "$ZDOTDIR/main/completion.zsh"
@@ -26,6 +27,7 @@ _path_arr+=(
     "$HOME/.cargo/env"
     "$XDG_CONFIG_HOME/broot/launcher/bash/br"
     "$HOMEBREW_PREFIX/etc/profile.d/autojump.sh"
+    "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 )
 if [[ $TERM_PROGRAM == "iTerm.app" ]] && [[ -d "$ZDOTDIR/.iterm2_shell_integration.zsh" ]]; then
     _path_arr+=("$ZDOTDIR/.iterm2_shell_integration.zsh")

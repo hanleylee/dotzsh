@@ -10,7 +10,6 @@ zle -N smartdots
 bindkey . smartdots
 
 # ^Xe 用 $EDITOR 编辑命令
-autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^X^E' edit-command-line
 

@@ -6,8 +6,8 @@
 #███████████████████████   ALIAS   ██████████████████████████
 # setopt aliases
 
-alias -g ND='*(/om[1])'           # newest directory
-alias -g NF='*(.om[1])'           # newest file
+alias -g ND='*(/om[1])' # newest directory
+alias -g NF='*(.om[1])' # newest file
 #alias -g NE='2>|/dev/null'
 alias -g NO='&>|/dev/null'
 alias -g VV='| vim -R -'
@@ -36,6 +36,12 @@ alias unmountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" |
 alias myip='ifconfig | sed -En "s/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p"'
 # mute the system volume
 alias stfu="osascript -e 'set volume output muted true'"
+
+if is-at-least 10.15 "$(sw_vers -productBuild)"; then
+    alias displays='open /System/Library/PreferencePanes/Displays.prefPane'
+else
+    alias displays='open /Library/PreferencePanes/Displays.prefPane'
+fi
 # }}}
 
 # alias Z='z -I .'
@@ -52,7 +58,6 @@ alias py='python3'
 alias :q="exit"
 alias woman=man
 alias copy="tr -d '\n' | pbcopy"
-
 
 # for time {{{
 alias d='date +%F'
@@ -180,13 +185,13 @@ fi
 # }}}
 
 # grc aliases
-if (( $+aliases[colourify] )); then
-  # default is better
-  unalias gcc g++ 2>/dev/null || true
-  # bug: https://github.com/garabik/grc/issues/72
-  unalias mtr     2>/dev/null || true
-  # buffering issues: https://github.com/garabik/grc/issues/25
-  unalias ping    2>/dev/null || true
+if (($ + aliases[colourify])); then
+    # default is better
+    unalias gcc g++ 2>/dev/null || true
+    # bug: https://github.com/garabik/grc/issues/72
+    unalias mtr 2>/dev/null || true
+    # buffering issues: https://github.com/garabik/grc/issues/25
+    unalias ping 2>/dev/null || true
 fi
 
 # for flutter {{{
