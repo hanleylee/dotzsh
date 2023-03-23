@@ -6,3 +6,4 @@
 autoload -Uz is-at-least
 autoload -Uz edit-command-line
 autoload -Uz compinit
+autoload zmv

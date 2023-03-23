@@ -9,13 +9,14 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''
 # Case insensitive auto-completion
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-# 使用缓存。某些命令的补全很耗时的(如 aptitude)
+# 使用缓存. 某些命令的补全很耗时的(如 aptitude)
 zstyle ':completion:*' use-cache on
 _cache_dir=${XDG_CACHE_HOME:-$HOME/.cache}/zsh
-zstyle ':completion:*' cache-path $_cache_dir
+zstyle ':completion:*' cache-path "$_cache_dir"
 unset _cache_dir
 # partial completion suggestions
-#  zstyle ':completion:*' list-suffixes zstyle ':completion:*' expand prefix suffix 
+zstyle ':completion:*' list-suffixes
+zstyle ':completion:*' expand prefix suffix 
 # If the line has sudo or doas in it, then it tries to gain more access while completing command options (-/--)
 zstyle ':completion::complete:*' gain-privileges 1 # double esc to put 'sudo'
 zstyle ':completion:*' special-dirs false # Don't show . and .. in completion menu

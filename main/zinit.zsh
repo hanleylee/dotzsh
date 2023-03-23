@@ -133,5 +133,5 @@ zinit light scriptingosx/mac-zsh-completions
 zinit light "$ZDOTDIR/modules"
 
 # zinit light "/Users/hanley/repo/handy" # use for debug
-zinit light HanleyLee/Handy
+zinit light hanleylee/handy
 # }}}

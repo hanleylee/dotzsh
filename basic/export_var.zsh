@@ -311,6 +311,7 @@ export MANWIDTH=150
 
 #***************   autosuggest   *****************
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245,underline" # 提示样式, 可设置前景, 背景, 加粗, 下划线
+export ZSH_AUTOSUGGEST_STRATEGY=( history completion ) # the auto suggestion will only use the command history for suggestions by default
 
 #***************   BAT   *****************
 export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"

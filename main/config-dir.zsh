@@ -16,6 +16,7 @@ _dir_path_array=(
     "$XDG_CACHE_HOME/vim/swp"
     "$XDG_CACHE_HOME/vim/undo"
     "$XDG_CACHE_HOME/emacs/backup"
+    "$XDG_CACHE_HOME/zsh"
 )
 mkdir_if_not_exists  "${_dir_path_array[@]}"
 unset _dir_path_array
