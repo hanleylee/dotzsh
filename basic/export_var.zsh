@@ -43,12 +43,12 @@ export ROOTMARKERS=(
 # export str for macvim usage
 export ROOTMARKERS_STR=${ROOTMARKERS[*]}
 
-export HKMS="$HL_REPO/hkms"
 export HL_REPO="$HOME/repo"
 export HL_TODO="$HOME/Library/Mobile Documents/com~apple~CloudDocs/iCloud_HL/todo"
 export HL_SECRET="$HOME/.secret"
 export HL_LOCAL="$HOME/.local"
 export HL_SNIPPETS="$HL_REPO/snippets"
+export HKMS="$HL_REPO/hkms"
 
 # export HL_TODO="$HL_REPO/todo"
 

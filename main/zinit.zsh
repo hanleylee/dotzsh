@@ -41,11 +41,8 @@ autoload -Uz _zinit
 # MARK: ======== zinit snippet ========= {{{
 
 zinit for \
-    OMZL::git.zsh \
-    OMZL::functions.zsh \
-    OMZL::completion.zsh \
-    OMZL::key-bindings.zsh \
-    OMZL::theme-and-appearance.zsh
+    OMZL::git.zsh
+    # OMZL::theme-and-appearance.zsh
 # zinit snippet OMZL::git.zsh
 # zinit snippet OMZL::functions.zsh
 # zinit snippet OMZL::completion.zsh

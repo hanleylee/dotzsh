@@ -4,7 +4,6 @@
 # License:  MIT License
 
 #███████████████████████   ALIAS   ██████████████████████████
-# setopt aliases
 
 alias -g ND='*(/om[1])' # newest directory
 alias -g NF='*(.om[1])' # newest file
@@ -25,24 +24,6 @@ alias -g NUL="> /dev/null 2>&1"
 
 # <https://github.com/kovidgoyal/kitty/issues/268>
 alias clearbuf="printf '\033[2J\033[3J\033[1;1H'"
-
-# for os X system {{{
-alias chrome="open -a \"Google Chrome\""
-# mount all connected Firewire disks
-alias mountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil mountDisk $i; done)'
-# unmount them all
-alias unmountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil unmountDisk $i; done)'
-# My IP
-alias myip='ifconfig | sed -En "s/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p"'
-# mute the system volume
-alias stfu="osascript -e 'set volume output muted true'"
-
-if is-at-least 10.15 "$(sw_vers -productBuild)"; then
-    alias displays='open /System/Library/PreferencePanes/Displays.prefPane'
-else
-    alias displays='open /Library/PreferencePanes/Displays.prefPane'
-fi
-# }}}
 
 # alias Z='z -I .'
 # Show $PATH in readable view
@@ -202,11 +183,26 @@ fi
 
 if is_darwin; then
     # alias show_external_ip='dig +short myip.opendns.com @resolver1.opendns.com'
+
     alias show_external_ip='curl -s https://api.ipify.org && echo'
     alias show_local_ip='ipconfig getifaddr en0'
+    alias myip='ifconfig | sed -En "s/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p"'
     alias show_network_info='scutil --nwi'
     alias remove_dsstore="find . -type f -name '.DS_Store' -ls -delete"
     alias clipboard_convert_plain='pbpaste | textutil -convert txt -stdin -stdout -encoding 30 | pbcopy'
     alias clipboard_expand_tab='pbpaste | expand | pbcopy'
     alias clipboard_remove_duplicate='pbpaste | sort | uniq | pbcopy'
+    alias chrome="open -a \"Google Chrome\""
+    # mount all connected Firewire disks
+    alias mountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil mountDisk $i; done)'
+    # unmount them all
+    alias unmountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil unmountDisk $i; done)'
+    # mute the system volume
+    alias stfu="osascript -e 'set volume output muted true'"
+
+    if is-at-least 10.15 "$(sw_vers -productBuild)"; then
+        alias displays='open /System/Library/PreferencePanes/Displays.prefPane'
+    else
+        alias displays='open /Library/PreferencePanes/Displays.prefPane'
+    fi
 fi

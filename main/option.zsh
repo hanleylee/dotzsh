@@ -54,3 +54,12 @@ setopt TRANSIENT_RPROMPT # 为方便复制, 右边的提示符只在最新的提
 setopt KSH_OPTION_PRINT # setopt 的输出显示选项的开关状态
 setopt NO_BG_NICE
 setopt NOFLOWCONTROL
+
+unsetopt menu_complete   # do not autoselect the first completion entry
+unsetopt flowcontrol
+setopt auto_menu         # show completion menu on successive tab press
+setopt complete_in_word
+setopt always_to_end
+
+# Expand variables and commands in PROMPT variables
+setopt prompt_subst
