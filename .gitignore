@@ -4,5 +4,6 @@ backup/
 .z
 .zcompdump*
 .zlua_history
+.zcompcache/
 
 .DS_Store
