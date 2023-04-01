@@ -28,6 +28,7 @@ _path_arr+=(
     "$XDG_CONFIG_HOME/broot/launcher/bash/br"
     "$HOMEBREW_PREFIX/etc/profile.d/autojump.sh"
     "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+    "$HOME/.orbstack/shell/init.zsh"
 )
 if [[ $TERM_PROGRAM == "iTerm.app" ]] && [[ -d "$ZDOTDIR/.iterm2_shell_integration.zsh" ]]; then
     _path_arr+=("$ZDOTDIR/.iterm2_shell_integration.zsh")
