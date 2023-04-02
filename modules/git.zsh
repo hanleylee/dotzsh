@@ -24,7 +24,7 @@ alias gav='git add --verbose'
 
 # git apply
 alias gap='git apply'
-alias gapt='git apply --3way'
+alias gap3='git apply --3way'
 
 # git branch
 alias gb='git branch'
@@ -34,11 +34,12 @@ alias gbda='git branch --no-color --merged | command grep -vE "^([+*]|\s*($(git_
 alias gbD='git branch -D'
 alias gbnm='git branch --no-merged'
 alias gbr='git branch --remote'
+alias gbl="git branch -a --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]'"
 alias ggsup='git branch --set-upstream-to=origin/$(git_current_branch)'
 
 
 # git blame
-alias gbl='git blame -b -w'
+# alias gbl='git blame -b -w'
 
 # git bisect
 alias gbs='git bisect'
@@ -117,10 +118,16 @@ alias gignore='git update-index --assume-unchanged'
 alias gunignore='git update-index --no-assume-unchanged'
 
 # git log
-alias glg="git log --pretty=format:'%C(bold red)%h%Creset -%C(bold green)%d %C(bold yellow)%s %Creset- %C(red)%cd %Creset- %C(dim green)%an' --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit --graph --all"
-alias glb="git branch -a --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 alias glo='git log --oneline --decorate'
 alias glol="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'"
+alias glg="git log --graph --all --abbrev-commit --pretty=format:'%C(bold red)%h%Creset -%C(bold green)%d %C(bold yellow)%s %Creset- %C(red)%cd %Creset- %C(dim green)%an' --date=format:'%Y-%m-%d %H:%M:%S'"
+# `glg -- stat`: 显示每次提交具体改动的文件
+# `glg -p`: 显示每个文件的具体改动
+# `glg -2`: 显示前两个提交
+# `glg HEAD~3..HEAD`: 显示三次提交的记录(左开右闭, 且较早的提交写在左边)
+# `glg -p -S networksetup`: 查找所有提交内容中包含 networksetup 的提交
+# `glg -p --grep highlight`: 查找所有提交记录中包含 highlight 的提交
+# `glg file_name`: 查看某个文件或者文件夹的改动历史
 
 # git merge
 alias gm='git merge'
