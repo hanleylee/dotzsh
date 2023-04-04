@@ -14,6 +14,9 @@ EDITOR="$HOMEBREW_PREFIX/bin/vim" # zsh 默认的编辑器为 vi, 比较难用, 
 export EDITOR
 export VISUAL="$EDITOR"
 
+# PS4 is used as prefix of set -x
+export PS4='+{$LINENO:${FUNCNAME[0]}} '
+
 # MARK: Tab-Completion
 export FIGNORE='*DS_Store:.test'
 
