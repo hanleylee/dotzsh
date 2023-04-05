@@ -3,19 +3,19 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
+# shellcheck disable=2034,2086
+#
 # Zinit instruction: https://zdharma-continuum.github.io/zinit/wiki/INTRODUCTION/
-export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit"
-ZINIT_GIT_ROOT="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-### Added by Zinit's installer
-if [[ ! -f $ZINIT_GIT_ROOT/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$ZINIT_HOME"
-    command git clone https://github.com/zdharma-continuum/zinit "$ZINIT_GIT_ROOT" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
+typeset -gAH ZINIT
+export ZINIT_HOME="${ZDOTDIR:-${HOME}}/zinit" # 这里需要 export, 因为 zfzf 文件中使用到了 ZINIT_HOME, zfzf 是在 subshell 中执行的
+ZINIT_GIT_DIR="${ZINIT_HOME}/zinit.git"
+ZINIT[HOME_DIR]="${ZINIT_HOME}"
+ZINIT[BIN_DIR]="${ZINIT_GIT_DIR}"
+# ZINIT[PLUGINS_DIR]="${ZINIT_GIT_DIR}"
+[ ! -d $ZINIT_GIT_DIR ] && mkdir -p "$ZINIT_GIT_DIR"
+[ ! -d $ZINIT_GIT_DIR/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_GIT_DIR"
 
-source "${ZINIT_GIT_ROOT}/zinit.zsh"
+source "${ZINIT_GIT_DIR}/zinit.zsh"
 
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit

@@ -1,9 +1,12 @@
-.zsh_sessions/
-backup/
+_backup/
+
 .zsh_history
+.zlua_history
 .z
 .zcompdump*
-.zlua_history
+
+.zsh_sessions/
 .zcompcache/
+zinit/
 
 .DS_Store
