@@ -131,8 +131,8 @@ function _zfzf {
     cd "$(zfzf)" || return
 
     if [[ -z "$lines" ]]; then
-        zle && zle reset-prompt
-        # zle && zle redraw-prompt
+        # zle && zle reset-prompt
+        zle && zle redraw-prompt
     fi
 }
 
