@@ -59,8 +59,10 @@ zinit snippet OMZP::sudo
 @zi_w1
 zinit snippet OMZP::command-not-found
 
-@zi_w1
-zinit snippet OMZP::git-auto-fetch
+if ! is_ios; then
+    @zi_w1
+    zinit snippet OMZP::git-auto-fetch
+fi
 
 # @zi_w1
 # zinit snippet OMZP::colored-man-pages
