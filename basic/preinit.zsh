@@ -3,6 +3,7 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
+#shellcheck disable=2034
 # check first, or the script will end wherever it fails
 # zmodload zsh/regex 2>/dev/null && _has_re=1 || _has_re=0
 

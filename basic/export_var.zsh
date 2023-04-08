@@ -132,7 +132,7 @@ export PATH
 # MARK: FPATH
 
 # we must use -g option here, otherwise fpath will be empty after typeset -U if this file is sourced in a function, because zsh will *create a new
-# local variable* in this case 
+# local variable* in this case
 typeset -g -U fpath FPATH
 # Connected array Variables, fpath is connected with FPATH
 fpath=(
@@ -265,6 +265,11 @@ export GPG_TTY
 
 #***************   LESS   *****************
 
+# output of less -V is following
+# less 530 (POSIX regular expressions)
+# Copyright (C) 1984-2017  Mark Nudelman
+export LESS_VERSION=$(less -V | head -n1 | cut -d" " -f2)
+
 # less options
 temp_arr=(
     # Quit if entire file fits on first screen.
@@ -273,8 +278,6 @@ temp_arr=(
     -M
     # show number
     -N
-    # increasely search
-    --incsearch
     # Ignore case in searches that do not contain uppercase.
     --ignore-case
     # Allow ANSI colour escapes, but no other escapes.
@@ -284,7 +287,15 @@ temp_arr=(
     # Do not complain when we are on a dumb terminal.
     --dumb
 )
+autoload -Uz is-at-least
+if is-at-least 598 "$LESS_VERSION"; then
+    temp_arr+=(
+        # increasely search
+        --incsearch
+    )
+fi
 export LESS="${temp_arr[*]}"
+unset less_version
 unset temp_arr
 
 autoload -Uz colors && colors
@@ -314,7 +325,7 @@ export MANWIDTH=150
 
 #***************   autosuggest   *****************
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245,underline" # 提示样式, 可设置前景, 背景, 加粗, 下划线
-export ZSH_AUTOSUGGEST_STRATEGY=( history completion ) # the auto suggestion will only use the command history for suggestions by default
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)      # the auto suggestion will only use the command history for suggestions by default
 
 #***************   BAT   *****************
 export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"
@@ -448,8 +459,8 @@ export FZF_COMPLETION_TRIGGER='**'
 [[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="$HOME/.fzf-marks"
 export FZF_MARKS_COMMAND="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {3}' --preview-window right:50%:hidden:nowrap"
 export FZF_MARKS_JUMP="^[m"
-export FZF_MARKS_COLOR_LHS=39 # (default)	ANSI color code of left-hand side
-export FZF_MARKS_COLOR_RHS=36 # (cyan)	ANSI color code of right-hand side
+export FZF_MARKS_COLOR_LHS=39   # (default)	ANSI color code of left-hand side
+export FZF_MARKS_COLOR_RHS=36   # (cyan)	ANSI color code of right-hand side
 export FZF_MARKS_COLOR_COLON=33 # (yellow)	ANSI color code of separator
 export FZF_MARKS_NO_COLORS=0
 # export FZF_MARKS_KEEP_ORDER=1
