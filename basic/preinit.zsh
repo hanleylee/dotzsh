@@ -3,19 +3,19 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
-#shellcheck disable=2034
+# shellcheck disable=2034
 # check first, or the script will end wherever it fails
 # zmodload zsh/regex 2>/dev/null && _has_re=1 || _has_re=0
 
 # MARK: 仅用于添加一些需要在初始化开始时就需要的公共变量或方法
 
 # System name
-system_name=$(uname)
-arch_name=$(uname -m)
+SYSTEM_NAME=$(uname)
+ARCH_NAME=$(uname -m)
 
-case "$system_name" in
+case "$SYSTEM_NAME" in
     Darwin)
-        case "$arch_name" in
+        case "$ARCH_NAME" in
             x86_64)
                 if [[ "$(sysctl -in sysctl.proc_translated)" == "1" ]]; then
                     ARCH_MSG="Running on Darwin(Rosetta 2)"
@@ -27,15 +27,15 @@ case "$system_name" in
                 ARCH_MSG="Running on Darwin(ARM)"
                 ;;
             *)
-                ARCH_MSG="Running on ${system_name}(${arch_name})"
+                ARCH_MSG="Running on ${SYSTEM_NAME}(${ARCH_NAME})"
                 ;;
         esac
         ;;
     Linux)
-        ARCH_MSG="Running on ${system_name}(${arch_name})"
+        ARCH_MSG="Running on ${SYSTEM_NAME}(${ARCH_NAME})"
         ;;
     *)
-        ARCH_MSG="Running on ${system_name}(${arch_name})"
+        ARCH_MSG="Running on ${SYSTEM_NAME}(${ARCH_NAME})"
         ;;
 esac
 
@@ -52,20 +52,37 @@ function command_exists() {
     # [[ -x "$(command -v $1)" ]]
 }
 
+function is_ios() {
+    [[ -d "/Applications/Cydia.app" ]]
+}
+
+# contains(string, substring)
+#
+# Returns 0 if the specified string contains the specified substring, otherwise returns 1.
+contains() {
+    string="$1"
+    substring="$2"
+    if is_ios; then # inside iPhone
+        [[ "${string#*"$substring"}" != "$string" ]]
+    else
+        [[ "$string" =~ $substring ]]
+    fi
+}
+
 function is_darwin() {
-    [[ $system_name == "Darwin" ]]
+    contains "$SYSTEM_NAME" "Darwin"
 }
 
 function is_home() {
-    [[ ${(L)HOST} =~ "home" ]]
+    contains "${(L)HOST}" "home"
 }
 
 function is_work() {
-    [[ ${(L)HOST} =~ "work" ]]
+    contains "${(L)HOST}" "work"
 }
 
 function is_hanley() {
-    [[ ${(L)HOST} =~ "hanley" ]]
+    contains "${(L)HOST}" "hanley"
 }
 
 function is_tmux() {
