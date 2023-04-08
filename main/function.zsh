@@ -580,8 +580,8 @@ if command_exists zi; then
     function _zi {
         zi
         if [[ -z "$lines" ]]; then
-            zle && zle reset-prompt
-            # zle && zle redraw-prompt
+            # zle && zle reset-prompt
+            zle && zle redraw-prompt
         fi
     }
 fi

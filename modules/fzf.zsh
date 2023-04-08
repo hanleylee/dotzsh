@@ -142,8 +142,8 @@ function autojump_fzf() {
     cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' | eval ${FZF_WITH_COMMAND_AND_ARGS})"
 
     if [[ -z "$lines" ]]; then
-        zle && zle reset-prompt
-        # zle && zle redraw-prompt
+        # zle && zle reset-prompt
+        zle && zle redraw-prompt
     fi
 }
 

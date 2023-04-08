@@ -93,10 +93,10 @@ alias lg='lazygit'
 # for proxy {{{
 alias set_http_proxy='export http_proxy="http://127.0.0.1:1080"'
 alias set_https_proxy='export https_proxy="http://127.0.0.1:1080"'
-alias set_all_proxy='export ALL_PROXY="http://127.0.0.1:1080"'
+alias set_all_proxy='export all_proxy="http://127.0.0.1:1080"'
 alias unset_http_proxy='unset http_proxy'
 alias unset_https_proxy='unset https_proxy'
-alias unset_all_proxy='unset ALL_PROXY'
+alias unset_all_proxy='unset all_proxy'
 # }}}
 
 # for pip {{{
@@ -200,7 +200,7 @@ if is_darwin; then
     # mute the system volume
     alias stfu="osascript -e 'set volume output muted true'"
 
-    if is-at-least 10.15 "$(sw_vers -productBuild)"; then
+    if is-at-least 10.15 "$(sw_vers -productVersion)"; then
         alias displays='open /System/Library/PreferencePanes/Displays.prefPane'
     else
         alias displays='open /Library/PreferencePanes/Displays.prefPane'

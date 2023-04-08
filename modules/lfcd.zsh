@@ -37,6 +37,7 @@ function _lfcd() {
     lfcd
 
     if [[ -z "$lines" ]]; then
-        zle && zle reset-prompt
+        # zle && zle reset-prompt
+        zle && zle redraw-prompt
     fi
 }
