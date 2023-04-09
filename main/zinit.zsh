@@ -111,8 +111,10 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 @zi_w0
 zinit light zsh-users/zsh-completions
 
-@zi_w0 has'fzf'
-zinit light Aloxaf/fzf-tab
+if ! is_ios; then
+    @zi_w0 has'fzf'
+    zinit light Aloxaf/fzf-tab
+fi
 
 @zi_w0 has'fzf'
 zinit light hanleylee/fzf-marks
