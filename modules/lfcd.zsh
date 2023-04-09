@@ -14,10 +14,6 @@
 #     bindkey -s '^o' 'lfcd\n'  # zsh
 #
 
-if ! command_exists lf; then
-    return
-fi
-
 function lfcd() {
     tmp="$(mktemp)"
     # lf -last-dir-path="$tmp" "$@"
@@ -33,11 +29,15 @@ function lfcd() {
     fi
 }
 
-function _lfcd() {
-    lfcd
+function _lfcd_keymap() {
+    if command_exists lf; then
+        lfcd
 
-    if [[ -z "$lines" ]]; then
-        # zle && zle reset-prompt
-        zle && zle redraw-prompt
+        if [[ -z "$lines" ]]; then
+            # zle && zle reset-prompt
+            zle && zle redraw-prompt
+        fi
+    else
+        echo "lf is not installed!"
     fi
 }

@@ -29,22 +29,18 @@ bindkey ' ' magic-space                               # [Space] - don't do histo
 bindkey "^[m" copy-prev-shell-word # file rename magick
 bindkey -M menuselect '^o' accept-and-infer-next-history
 
-if command_exists lf; then
-    zle -N _lfcd
-    bindkey '^l' _lfcd
-fi
+zle -N _lfcd_keymap
+bindkey '^l' _lfcd_keymap
 
-if command_exists fzf; then
-    # Use z.lua
-    zle -N _zfzf
-    bindkey '^h' _zfzf
-    # Use autojump
-    # zle -N autojump_fzf
-    # bindkey '^h' autojump_fzf
-    # Use zoxide
-    # zle -N _zi
-    # bindkey '^h' _zi
-fi
+# Use z.lua
+zle -N _zfzf_keymap
+bindkey '^h' _zfzf_keymap
+# Use autojump
+# zle -N autojump_fzf_keymap
+# bindkey '^h' autojump_fzf_keymap
+# Use zoxide
+# zle -N _zi_keymap
+# bindkey '^h' _zi_keymap
 
 # Make sure that the terminal is in application mode when zle is active, since
 # only then values from $terminfo are valid
