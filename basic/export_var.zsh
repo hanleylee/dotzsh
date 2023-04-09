@@ -111,12 +111,16 @@ path=(
     "$HOMEBREW_PREFIX/opt/llvm/bin"
     "$HOMEBREW_PREFIX/opt/openssl/bin"
     "$HOMEBREW_PREFIX/opt/dart/libexec/bin"
-    # "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
-    # "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin"
-    # "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
+    "$HOMEBREW_PREFIX/opt/file-formula/bin"
+    "$HOMEBREW_PREFIX/opt/ncurses/bin"
     "$HOMEBREW_PREFIX/opt/ruby/bin"
     "$HOMEBREW_PREFIX/opt/openjdk/bin"
-    "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
     "$HOMEBREW_PREFIX/sbin"
     "$HOMEBREW_PREFIX/bin"
     "/usr/sbin"
@@ -364,6 +368,7 @@ export SHELLCHECK_OPTS="\
 export JAVA_HOME="$HOMEBREW_PREFIX/opt/openjdk"
 export JDK_HOME="$HOMEBREW_PREFIX/opt/openjdk"
 
+export XML_CATALOG_FILES="$HOMEBREW_PREFIX/etc/xml/catalog"
 #***************   fd   *****************
 # -I 不忽略 .gitignore 列表内容(fd 默认是忽略的)
 export FD_COMMON_EXCLUDE="\
