@@ -184,10 +184,10 @@ fi
 if is_darwin; then
     # alias show_external_ip='dig +short myip.opendns.com @resolver1.opendns.com'
 
+    alias show_network_info='scutil --nwi'
+    alias myip='ifconfig | sed -En "s/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p"'
     alias show_external_ip='curl -s https://api.ipify.org && echo'
     alias show_local_ip='ipconfig getifaddr en0'
-    alias myip='ifconfig | sed -En "s/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p"'
-    alias show_network_info='scutil --nwi'
     alias remove_dsstore="find . -type f -name '.DS_Store' -ls -delete"
     alias clipboard_convert_plain='pbpaste | textutil -convert txt -stdin -stdout -encoding 30 | pbcopy'
     alias clipboard_expand_tab='pbpaste | expand | pbcopy'
