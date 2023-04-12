@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 
+# Print current working root
+
 emulate -LR zsh
 set -e
 # set -x
-
-# Print current working root
 
 _dir="$PWD"
 

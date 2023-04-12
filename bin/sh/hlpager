@@ -4,14 +4,13 @@ emulate -LR zsh
 set -e
 # set -x
 
-if test -t 1; then
-    if test $# = 0; then
+if test -t 1; then       # 输出为 stdout
+    if test $# = 0; then # 输入为 stdin
         less
     else
-        preview_code "$@" | less -R
+        preview_code "$@" | less -+N -n -R
     fi
-else
-    # Output is not a terminal, cat arguments or stdin
+else # Output is not a terminal, cat arguments or stdin
     if test $# = 0; then
         if test -t 0; then
             echo "Missing filename" 1>&2

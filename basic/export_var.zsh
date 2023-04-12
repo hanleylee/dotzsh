@@ -277,11 +277,12 @@ export LESS_VERSION=$(less -V | head -n1 | cut -d" " -f2)
 # less options
 temp_arr=(
     # Quit if entire file fits on first screen.
-    -+F
-    -+X
-    -M
-    # show number
-    -N
+    -+F # forbidden less automatically exit if the entire file can be displayed on the first screen
+    -+X # forbidden sending the termcap initialization and deintialization strings to the terminal
+    -M # or --LONG-PROMPT prompt even more verbosely than more
+    -N # or --line-numbers show number
+    # -n # supress the line number
+    # -+N # hide number
     # Ignore case in searches that do not contain uppercase.
     --ignore-case
     # Allow ANSI colour escapes, but no other escapes.

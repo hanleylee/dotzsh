@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# MARK: preview code, with line number
+
 emulate -LR zsh
 set -e
 # set -x
@@ -7,5 +9,5 @@ set -e
 FILE=$1
 
 bat --theme=OneHalfDark --color=always --style=numbers --pager=never --tabs=4 --wrap=auto -- "${FILE}" ||
-    highlight -t 4 -s rdark -O xterm256 --force "${FILE}" ||
-    cat "${FILE}"
+    highlight -t 4 --line-numbers -s rdark -O xterm256 --force "${FILE}" ||
+    cat --number "${FILE}"

@@ -13,6 +13,6 @@ else
     return
 fi
 
-_zlua -l -t \
-    | eval "${_ZL_FZF} --tac" \
-    | sed 's/^-[0-9,.]* *//'
+_zlua -l -t |
+    eval "${_ZL_FZF} --tac" |
+    sed 's/^-[0-9,.]* *//'
