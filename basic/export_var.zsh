@@ -460,16 +460,6 @@ export FZF_ALT_C_OPTS="--preview '$DIR_PREVIEW_COMMAND {}'"
 export FZF_TMUX_OPTS="-p 90%,80%" # 控制着fzf的window 是 popup 的还是 split panel 的
 export FZF_COMPLETION_TRIGGER='**'
 
-# fzf marks
-[[ -f "$HOME/.fzf-marks" ]] && export FZF_MARKS_FILE="$HOME/.fzf-marks"
-export FZF_MARKS_COMMAND="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {3}' --preview-window right:50%:hidden:nowrap"
-export FZF_MARKS_JUMP="^[m"
-export FZF_MARKS_COLOR_LHS=39   # (default)	ANSI color code of left-hand side
-export FZF_MARKS_COLOR_RHS=36   # (cyan)	ANSI color code of right-hand side
-export FZF_MARKS_COLOR_COLON=33 # (yellow)	ANSI color code of separator
-export FZF_MARKS_NO_COLORS=0
-# export FZF_MARKS_KEEP_ORDER=1
-
 # z.lua 使用的 fzf 参数
 export _ZL_FZF="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:40%:nowrap"
 export _ZL_FZF_HEIGHT='80%'
