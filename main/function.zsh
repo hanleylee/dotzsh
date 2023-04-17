@@ -133,6 +133,16 @@ function env_default() {
 }
 
 
+# Ensure precmds are run after cd
+function redraw-prompt {
+    local precmd
+    for precmd in $precmd_functions; do
+        $precmd
+    done
+    zle reset-prompt
+}
+zle -N redraw-prompt
+
 # Required for $langinfo
 zmodload zsh/langinfo
 
