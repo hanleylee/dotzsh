@@ -382,7 +382,7 @@ function light() {
     else
         src="cat $2"
     fi
-    eval "$src" | highlight -O rtf --syntax="$1" -k "Fira Code" --style=solarized-dark --font-size 24 | pbcopy
+    eval "$src" | highlight -O rtf --syntax="$1" -k "Fira Code" --style=base16/onedark --font-size 32 | pbcopy
 }
 
 function nocolor () {

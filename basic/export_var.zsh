@@ -482,12 +482,12 @@ export _ZL_NO_CHECK=0
 # export TA_LIBRARY_PATH="$(brew --prefix ta-lib)/lib"
 
 # zoxide
-export _ZO_DATA_DIR=$XDG_DATA_HOME
-export _ZO_ECHO=0
-export _ZO_EXCLUDE_DIRS=""
-export _ZO_FZF_OPTS="$FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:50%:nowrap"
-export _ZO_MAXAGE=100000
-export _ZO_RESOLVE_SYMLINKS=0
+# export _ZO_DATA_DIR=$XDG_DATA_HOME
+# export _ZO_ECHO=0
+# export _ZO_EXCLUDE_DIRS=""
+# export _ZO_FZF_OPTS="$FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:50%:nowrap"
+# export _ZO_MAXAGE=100000
+# export _ZO_RESOLVE_SYMLINKS=0
 
 # search-and-view
 # uses 'vv'
