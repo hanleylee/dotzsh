@@ -337,6 +337,9 @@ export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"
 #***************   PYTHON   *****************
 export PYTHON_CONFIGURE_OPTS="--enable-framework"
 export PYTHONUNBUFFERED=1
+# Allow users to specify a different certificate store/bundle for pip to use
+export SSL_CERT_FILE="$HOME/.secret/cert/cacert.pem"
+export REQUESTS_CA_BUNDLE="$HOME/.secret/cert/cacert.pem" # it is also possible to use `CURL_CA_BUNDLE` environment variables
 [[ -d "$HOME/.pyenv" ]] && export PYENV_ROOT="$HOME/.pyenv"
 
 #***************   RUBY   *****************
