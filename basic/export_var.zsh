@@ -85,10 +85,7 @@ typeset -g -U path PATH
 path=(
     "$ANDROID_HOME/platform-tools"
     "$ANDROID_HOME/tools"
-    "$HL_LOCAL/bin/ruby"
-    "$HL_LOCAL/bin/osascript"
-    "$HL_LOCAL/bin/py"
-    "$HL_LOCAL/bin/sh"
+    "$HL_LOCAL/bin"/*(/)
     "$HL_LOCAL/bin"
     "$HOME/.fvm/default/bin"
     "$HOME/.node_modules_global/bin"
@@ -100,11 +97,7 @@ path=(
     "$HOME/.rbenv/shims"
     "$HOME/go/bin"
     "$HOME/.cargo/bin"
-    "$ZDOTDIR/bin/perl"
-    "$ZDOTDIR/bin/osascript"
-    "$ZDOTDIR/bin/py"
-    "$ZDOTDIR/bin/sh"
-    "$ZDOTDIR/bin/ruby"
+    "$ZDOTDIR/bin"/*(/)
     "$ZDOTDIR/bin"
     "$HOMEBREW_PREFIX/opt/sqlite/bin"
     # "$HOMEBREW_PREFIX/opt/llvm/bin"

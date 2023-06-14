@@ -349,7 +349,8 @@ function copy_ios_screenshot() {
     temp_png="${TMPDIR}screenshot_${RANDOM}.png"
 
     tidevice screenshot "${temp_png}"
-    file-to-clipboard "${temp_png}"
+    img_copy "${temp_png}"
+    # file-to-clipboard "${temp_png}"
 }
 
 function repeat() {
