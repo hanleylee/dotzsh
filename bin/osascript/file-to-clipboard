@@ -1,0 +1,15 @@
+#!/usr/bin/env osascript
+
+on run args
+  set the clipboard to POSIX file (first item of args)
+end
+
+-- /path/to/where/ever/you/put/file-to-clipboard ~/Desktop/ded.html
+-- function file-to-clipboard_s() {
+--     osascript \
+--         -e 'on run args' \
+--         -e 'set the clipboard to POSIX file (first item of args)' \
+--         -e end \
+--         "$@"
+-- }
+

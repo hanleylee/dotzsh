@@ -341,6 +341,17 @@ function cdmv() {
 #   cd "$(pfit)"
 # }
 
+function copy_ios_screenshot() {
+    # temp_png="/tmp/screenshot/${RANDOM}.png"
+    # temp_png="$(mktemp /tmp/ios_screen_shot_XXXXXX.png)"
+    # temp_png="$(mktemp /tmp/screenshot/XXXXXX.png)"
+    # temp_png="$(gmktemp --suffix=.png)"
+    temp_png="${TMPDIR}screenshot_${RANDOM}.png"
+
+    tidevice screenshot "${temp_png}"
+    file-to-clipboard "${temp_png}"
+}
+
 function repeat() {
     local i max
     max=$1
