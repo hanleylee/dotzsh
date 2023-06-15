@@ -26,10 +26,10 @@ if args.count < 2 {
     Usage:
 
     Copy file to clipboard:
-        ./imgcopy path/to/file
+        img_copy path/to/file
 
     Copy stdin to clipboard:
-        cat /path/to/file | ./imgcopy -
+        cat /path/to/file | ./img_copy -
     """
     print(usageDesc)
     exit(EXIT_FAILURE)
