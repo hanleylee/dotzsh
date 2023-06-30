@@ -8,7 +8,7 @@
 echo "$ARCH_MSG"
 
 if [[ -n $SSH_CLIENT ]] || [[ -n $SSH_TTY ]]; then
-    neofetch
+    command_exists neofetch && neofetch
 fi
 
 # 如果是 kitty, 直接运行 nvim

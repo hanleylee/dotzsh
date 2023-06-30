@@ -4,6 +4,7 @@
 # License:  MIT License
 
 _dir_path_array=(
+    "$HL_LOCAL/bin"
     "$XDG_DATA_HOME"
     "$XDG_CONFIG_HOME"
     "$XDG_CACHE_HOME"
