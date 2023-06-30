@@ -5,6 +5,7 @@
 
 _dir_path_array=(
     "$HL_LOCAL/bin"
+    "$HL_LOCAL/bin/sh"
     "$XDG_DATA_HOME"
     "$XDG_CONFIG_HOME"
     "$XDG_CACHE_HOME"

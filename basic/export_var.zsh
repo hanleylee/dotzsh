@@ -82,10 +82,34 @@ export THEMIS_HOME="$HOME/vim-themis"
 # Because the order is so important for PATH, so we can't use connected `path` to reflect its value
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
 typeset -g -U path PATH
+declare -a local_bin_paths=($(ls -d "$HL_LOCAL/bin"/*)) 2> /dev/null
+declare -a homebrew_paths
+if [[ -n $HOMEBREW_PREFIX ]]; then
+    homebrew_paths=(
+        "$HOMEBREW_PREFIX/opt/sqlite/bin"
+        # "$HOMEBREW_PREFIX/opt/llvm/bin"
+        "$HOMEBREW_PREFIX/opt/openssl/bin"
+        "$HOMEBREW_PREFIX/opt/dart/libexec/bin"
+        "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
+        "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin"
+        "$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin"
+        "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
+        "$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin"
+        "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
+        "$HOMEBREW_PREFIX/opt/file-formula/bin"
+        "$HOMEBREW_PREFIX/opt/ncurses/bin"
+        # "$HOMEBREW_PREFIX/opt/ruby/bin"
+        "$HOMEBREW_PREFIX/opt/openjdk/bin"
+        "$HOMEBREW_PREFIX/sbin"
+        "$HOMEBREW_PREFIX/bin"
+    )
+fi
 path=(
     "$ANDROID_HOME/platform-tools"
     "$ANDROID_HOME/tools"
-    "$HL_LOCAL/bin"/*(/)
+    "$ZDOTDIR/bin"/*(/)
+    "$ZDOTDIR/bin"
+    ${local_bin_paths[*]}
     "$HL_LOCAL/bin"
     "$HOME/.fvm/default/bin"
     "$HOME/.node_modules_global/bin"
@@ -97,26 +121,9 @@ path=(
     "$HOME/.rbenv/shims"
     "$HOME/go/bin"
     "$HOME/.cargo/bin"
-    "$ZDOTDIR/bin"/*(/)
-    "$ZDOTDIR/bin"
-    "$HOMEBREW_PREFIX/opt/sqlite/bin"
-    # "$HOMEBREW_PREFIX/opt/llvm/bin"
-    "$HOMEBREW_PREFIX/opt/openssl/bin"
-    "$HOMEBREW_PREFIX/opt/dart/libexec/bin"
-    "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
-    "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin"
-    "$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin"
-    "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
-    "$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin"
-    "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
-    "$HOMEBREW_PREFIX/opt/file-formula/bin"
-    "$HOMEBREW_PREFIX/opt/ncurses/bin"
-    # "$HOMEBREW_PREFIX/opt/ruby/bin"
-    "$HOMEBREW_PREFIX/opt/openjdk/bin"
-    "$HOMEBREW_PREFIX/sbin"
-    "$HOMEBREW_PREFIX/bin"
     "/opt/sbin"
     "/opt/bin"
+    ${homebrew_paths[*]}
     "/usr/sbin"
     "/usr/libexec"
     "/usr/bin"
@@ -126,6 +133,8 @@ path=(
 )
 remove_element_if_path_not_exist path
 export PATH
+unset local_bin_paths
+unset homebrew_paths
 
 # MARK: FPATH
 
