@@ -115,6 +115,8 @@ path=(
     "$HOMEBREW_PREFIX/opt/openjdk/bin"
     "$HOMEBREW_PREFIX/sbin"
     "$HOMEBREW_PREFIX/bin"
+    "/opt/sbin"
+    "/opt/bin"
     "/usr/sbin"
     "/usr/libexec"
     "/usr/bin"
