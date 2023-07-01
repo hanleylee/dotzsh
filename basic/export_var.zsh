@@ -10,7 +10,7 @@
 # 3. 在 $() 中如果遇到环境变量带有单引号的情况(可以通过 set -x 查看每一步的执行细节), 可以尝试先将整个命令作为变量进行构建, 然后再使用 $() 统一执行
 
 # MARK: EDITOR
-EDITOR="$HOMEBREW_PREFIX/bin/vim" # zsh 默认的编辑器为 vi, 比较难用, 因此设置为 vim
+EDITOR="vim" # zsh 默认的编辑器为 vi, 比较难用, 因此设置为 vim
 export EDITOR
 export VISUAL="$EDITOR"
 
