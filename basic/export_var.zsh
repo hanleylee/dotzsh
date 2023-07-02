@@ -342,12 +342,12 @@ export BAT_CONFIG_PATH="$XDG_CONFIG_HOME/bat/config"
 export PYTHON_CONFIGURE_OPTS="--enable-framework"
 export PYTHONUNBUFFERED=1
 # Allow users to specify a different certificate store/bundle for pip to use
-export SSL_CERT_FILE="$HOME/.secret/cert/cacert.pem"
-export REQUESTS_CA_BUNDLE="$HOME/.secret/cert/cacert.pem" # it is also possible to use `CURL_CA_BUNDLE` environment variables
+[[ -f "$HOME/.secret/cert/cacert.pem" ]] && export SSL_CERT_FILE="$HOME/.secret/cert/cacert.pem"
+[[ -f "$HOME/.secret/cert/cacert.pem" ]] && export REQUESTS_CA_BUNDLE="$HOME/.secret/cert/cacert.pem" # it is also possible to use `CURL_CA_BUNDLE` environment variables
 [[ -d "$HOME/.pyenv" ]] && export PYENV_ROOT="$HOME/.pyenv"
 
 #***************   RUBY   *****************
-export RUBY_CONFIGURE_OPTS=--with-openssl-dir=$HOMEBREW_PREFIX/opt/openssl
+[[ -n $HOMEBREW_PREFIX ]] && export RUBY_CONFIGURE_OPTS=--with-openssl-dir=$HOMEBREW_PREFIX/opt/openssl
 # export GEM_HOME="$HOME/.gem"
 
 #***************   GO   *****************
@@ -372,10 +372,10 @@ export SHELLCHECK_OPTS="\
 -e SC1091 \
 "
 
-export JAVA_HOME="$HOMEBREW_PREFIX/opt/openjdk"
-export JDK_HOME="$HOMEBREW_PREFIX/opt/openjdk"
+[[ -n $HOMEBREW_PREFIX ]] && export JAVA_HOME="$HOMEBREW_PREFIX/opt/openjdk"
+[[ -n $HOMEBREW_PREFIX ]] && export JDK_HOME="$HOMEBREW_PREFIX/opt/openjdk"
 
-export XML_CATALOG_FILES="$HOMEBREW_PREFIX/etc/xml/catalog"
+[[ -n $HOMEBREW_PREFIX ]] && export XML_CATALOG_FILES="$HOMEBREW_PREFIX/etc/xml/catalog"
 #***************   fd   *****************
 # -I 不忽略 .gitignore 列表内容(fd 默认是忽略的)
 export FD_COMMON_EXCLUDE="\
