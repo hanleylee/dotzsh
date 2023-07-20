@@ -125,7 +125,7 @@ zinit light paulirish/git-open
 @zi_w1
 zinit light scriptingosx/mac-zsh-completions
 
-@zi_w0 multisrc'*.{*sh,*rc}'
+zinit ice multisrc'*.{*sh,*rc}'
 zinit light "$ZDOTDIR/modules"
 
 # zinit light "/Users/hanley/repo/handy" # use for debug
