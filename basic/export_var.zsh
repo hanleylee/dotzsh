@@ -38,7 +38,7 @@ export ROOTMARKERS=(
     ".hg"
     "_darcs"
     "build.xml"
-    "CMakeLists.txt"
+    # "CMakeLists.txt"
     ".idea"
 )
 
