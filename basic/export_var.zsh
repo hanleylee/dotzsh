@@ -516,5 +516,8 @@ export FLUTTER_ROOT="$HOME/.fvm/default"
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 
+# SCCACHE
+export SCCACHE_CACHE_SIZE="50G"
+
 # MARK: For vim
 # export VIMTEST=true
