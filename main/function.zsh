@@ -297,62 +297,6 @@ function s () {
     find . -name "*$1*"
 }
 
-# 在 xcode 中打开当前目录下的工程
-function ofx() {
-    open ./*.xcworkspace || open ./*.xcodeproj || open ./Package.swift
-} 2> /dev/null
-
-# print the path of current file of MacVim's front window
-function pfmv() {
-    osascript <<'EOF'
-tell application "MacVim"
-    set window_title to name of window 1
-    set is_empty to offset of "[NO NAME]" in window_title
-    if is_empty is 0 then
-        set cwd to do shell script "echo '" & window_title & "' |sed 's/.* (\\(.*\\)).*/\\1/'" & " |sed \"s,^~,$HOME,\""
-        return cwd
-    end if
-end tell
-EOF
-}
-
-# use MacVim to edit the current file of Xcode
-function mvxc() {
-    # either of the below method is acceptable
-    # open -a MacVim `pfxc`
-    osascript <<EOF
-tell application "MacVim"
-    activate
-    set current_document_path to "$(pfxc)"
-    if (current_document_path is not "") then
-        open current_document_path
-        return
-    end if
-end tell
-EOF
-}
-
-# cd to the path of MacVim's current working directory
-function cdmv() {
-    cd "$(pfmv)"
-}
-
-# function cdit() {
-#   cd "$(pfit)"
-# }
-
-function copy_ios_screenshot() {
-    # temp_png="/tmp/screenshot/${RANDOM}.png"
-    # temp_png="$(mktemp /tmp/ios_screen_shot_XXXXXX.png)"
-    # temp_png="$(mktemp /tmp/screenshot/XXXXXX.png)"
-    # temp_png="$(gmktemp --suffix=.png)"
-    temp_png="${TMPDIR}screenshot_${RANDOM}.png"
-
-    tidevice screenshot "${temp_png}"
-    img_copy "${temp_png}"
-    # file-to-clipboard "${temp_png}"
-}
-
 function repeat() {
     local i max
     max=$1
@@ -428,7 +372,7 @@ function breakln () {
     done
 }
 
-# 使用伪终端代替管道，对 ls 这种“顽固分子”有效 {{{2
+# 使用伪终端代替管道, 对 ls 这种“顽固分子”有效 {{{2
 function ptyrun () {
     local ptyname=pty-$$
     zmodload zsh/zpty
@@ -509,23 +453,6 @@ function uName() {
         echo "$name -> $res"
     done
 }
-
-if is_darwin; then
-    function show_current_wifi_ssid() {
-        /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'
-    }
-
-    function show_wifi_password() {
-        ssid=$1
-        security find-generic-password -D "AirPort network password" -a $ssid -gw
-    }
-
-    function show_current_wifi_password() {
-        ssid=$(show_current_wifi_ssid)
-
-        show_wifi_password $ssid
-    }
-fi
 
 if command_exists code; then
     # 在 vscode 中打开当前 finder 的文件夹

@@ -79,10 +79,10 @@ zinit snippet OMZP::pip/_pip
 @zi_completion has'pod'
 zinit snippet OMZP::pod/_pod
 
-if is_darwin; then
-    @zi_w1 has'svn' svn silent
-    zinit snippet OMZP::macos
-fi
+# if is_darwin; then
+#     @zi_w1 has'svn' svn silent
+#     zinit snippet OMZP::macos
+# fi
 
 @zi_w1 has'svn' svn silent
 zinit snippet OMZP::flutter
