@@ -1,9 +1,48 @@
+# Author: Hanley Lee
+# Website: https://www.hanleylee.com
+# GitHub: https://github.com/hanleylee
+# License:  MIT License
 # Open the current directory in a Finder window
+
+if ! is_darwin; then
+    return
+fi
+
+#################
+# MARK:  ALIAS  #
+#################
+
+# alias show_external_ip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias show_network_info='scutil --nwi'
+alias myip='ifconfig | sed -En "s/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p"'
+alias show_external_ip='curl -s https://api.ipify.org && echo'
+alias show_local_ip='ipconfig getifaddr en0'
+alias remove_dsstore="find . -type f -name '.DS_Store' -ls -delete"
+alias clipboard_convert_plain='pbpaste | textutil -convert txt -stdin -stdout -encoding 30 | pbcopy'
+alias clipboard_expand_tab='pbpaste | expand | pbcopy'
+alias clipboard_remove_duplicate='pbpaste | sort | uniq | pbcopy'
+alias chrome="open -a \"Google Chrome\""
+# mount all connected Firewire disks
+alias mountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil mountDisk $i; done)'
+# unmount them all
+alias unmountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil unmountDisk $i; done)'
+# mute the system volume
+alias stfu="osascript -e 'set volume output muted true'"
+
+if is-at-least 10.15 "$(sw_vers -productVersion)"; then
+    alias displays='open /System/Library/PreferencePanes/Displays.prefPane'
+else
+    alias displays='open /Library/PreferencePanes/Displays.prefPane'
+fi
 alias ofd='open_command $PWD'
 
 # Show/hide hidden files in the Finder
 alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
 alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+
+#####################
+#  MARK: FUNCTIONS  #
+#####################
 
 # Bluetooth restart
 function btrestart() {
@@ -19,48 +58,22 @@ function _omz_macos_get_frontmost_app() {
 EOF
 }
 
-function pfs() {
-    osascript 2>/dev/null <<EOF
-    set output to ""
-    tell application "Finder" to set the_selection to selection
-    set item_count to count the_selection
-    repeat with item_index from 1 to count the_selection
-        if item_index is less than item_count then set the_delimiter to "\n"
-        if item_index is item_count then set the_delimiter to ""
-        set output to output & ( (item item_index of the_selection as alias)'s POSIX path) & the_delimiter
-    end repeat
-EOF
-}
-
-function pfd() {
-    osascript 2>/dev/null <<EOF
-    tell application "Finder"
-        return POSIX path of (insertion location as alias)
-    end tell
-EOF
-}
-
+# cd to current directory of Finder
 function cdf() {
-    cd "$(pfd)"
+    cd "$(pfd)" || return
 }
 
 function pushdf() {
-    pushd "$(pfd)"
+    pushd "$(pfd)" || return
 }
 
+# return directory of the active frontmost Xcode workspace
 function pxd() {
-    dirname $(osascript 2>/dev/null <<EOF
-    if application "Xcode" is running then
-        tell application "Xcode"
-            return path of active workspace document
-        end tell
-    end if
-EOF
-)
+    dirname "$(pfxc_workspace)"
 }
 
 function cdx() {
-    cd "$(pxd)" || exit
+    cd "$(pxd)" || return
 }
 
 # 在 xcode 中打开当前目录下的工程
@@ -72,11 +85,11 @@ function ofx() {
 # use MacVim to edit the current file of Xcode
 function mvxc() {
     # either of the below method is acceptable
-    # open -a MacVim `pfxc`
+    # open -a MacVim `pfxc_file`
     osascript <<EOF
     tell application "MacVim"
         activate
-        set current_document_path to "$(pfxc)"
+        set current_document_path to "$(pfxc_file)"
         if (current_document_path is not "") then
             open current_document_path
             return
@@ -85,25 +98,12 @@ function mvxc() {
 EOF
 }
 
-# print the path of current file of MacVim's front window
-function pfmv() {
-    osascript <<'EOF'
-    tell application "MacVim"
-        set window_title to name of window 1
-        set is_empty to offset of "[NO NAME]" in window_title
-        if is_empty is 0 then
-            set cwd to do shell script "echo '" & window_title & "' |sed 's/.* (\\(.*\\)).*/\\1/'" & " |sed \"s,^~,$HOME,\""
-            return cwd
-        end if
-    end tell
-EOF
-}
-
 # cd to the path of MacVim's current working directory
 function cdmv() {
-    cd "$(pfmv)"
+    cd "$(pfmv)" || return
 }
 
+# cd to the path of iTerm2's current working directory
 # function cdit() {
 #   cd "$(pfit)"
 # }

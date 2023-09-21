@@ -1,0 +1,5 @@
+#!/usr/bin/env osascript
+
+tell application "Finder"
+    return POSIX path of (insertion location as alias)
+end tell
