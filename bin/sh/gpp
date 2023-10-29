@@ -13,6 +13,7 @@ currentBranch=$(git branch --show-current)
 remoteBranch="origin/${currentBranch}"
 
 function addChanges() {
+    # use 'local' to avoid exit from error code
     local CHANGES="$(git status --porcelain)"
     local CHANGES_NUM="$(echo -n $CHANGES | grep -c '^')"
     # if [[ `git status --porcelain` ]]; then  # have changes
@@ -24,7 +25,8 @@ function addChanges() {
         echo -e "\n${N_GREEN}==> Commit${NC}"
         git commit -m "daily $(date "+%Y-%m-%d")"
     else # No changes
-
+        echo -e "${N_RED}No Changes!!!${NC}"
+        exit 1
     fi
 }
 
