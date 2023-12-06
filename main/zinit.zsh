@@ -68,7 +68,7 @@ fi
 # zinit snippet OMZP::colored-man-pages
 
 @zi_completion has'docker'
-zinit snippet OMZP::docker/_docker
+zinit snippet OMZP::docker
 
 @zi_completion has'fd'
 zinit snippet OMZP::fd/_fd
