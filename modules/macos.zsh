@@ -22,6 +22,7 @@ alias clipboard_convert_plain='pbpaste | textutil -convert txt -stdin -stdout -e
 alias clipboard_expand_tab='pbpaste | expand | pbcopy'
 alias clipboard_remove_duplicate='pbpaste | sort | uniq | pbcopy'
 alias chrome="open -a \"Google Chrome\""
+alias safari="open -a \"Safari\""
 # mount all connected Firewire disks
 alias mountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil mountDisk $i; done)'
 # unmount them all
@@ -34,7 +35,8 @@ if is-at-least 10.15 "$(sw_vers -productVersion)"; then
 else
     alias displays='open /Library/PreferencePanes/Displays.prefPane'
 fi
-alias ofd='open_command $PWD'
+alias ofd='open -b com.apple.finder $PWD'
+alias rfd='open -R $PWD'
 
 # Show/hide hidden files in the Finder
 alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
