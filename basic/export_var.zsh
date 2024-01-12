@@ -119,6 +119,7 @@ path=(
     "$HOME/.pyenv/bin"
     "$HOME/.pyenv/shims"
     "$HOME/.rbenv/shims"
+    "$HOME/.nodenv/shims"
     "$HOME/go/bin"
     "$HOME/.cargo/bin"
     "/opt/sbin"

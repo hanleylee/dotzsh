@@ -23,6 +23,11 @@ if command_exists rbenv; then
     eval "$(rbenv init - zsh)"
 fi
 
+#***************   nodeenv   *****************
+if command_exists nodeenv; then
+    eval "$(nodenv init -)"
+fi
+
 #***************   zoxide   *****************
 if command_exists zoxide; then
     eval "$(zoxide init zsh)"
