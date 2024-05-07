@@ -13,33 +13,33 @@ function zsh_stats() {
 function open_command() {
     local open_cmd
 
-  # define the open command
-  case "$OSTYPE" in
-      darwin*)
-          open_cmd='open'
-          ;;
-      cygwin*)
-          open_cmd='cygstart'
-          ;;
-      linux*)
-          open_cmd='nohup xdg-open'
-          ;;
-      msys*)
-          open_cmd='start ""' ;;
-      *)
-          echo "Platform $OSTYPE not supported"
-          return 1
-          ;;
-  esac
+    # define the open command
+    case "$OSTYPE" in
+        darwin*)
+            open_cmd='open'
+            ;;
+        cygwin*)
+            open_cmd='cygstart'
+            ;;
+        linux*)
+            open_cmd='nohup xdg-open'
+            ;;
+        msys*)
+            open_cmd='start ""' ;;
+        *)
+            echo "Platform $OSTYPE not supported"
+            return 1
+            ;;
+    esac
 
-  # If a URL is passed, $BROWSER might be set to a local browser within SSH.
-  # See https://github.com/ohmyzsh/ohmyzsh/issues/11098
-  if [[ -n "$BROWSER" && "$1" = (http|https)://* ]]; then
-      "$BROWSER" "$@"
-      return
-  fi
+    # If a URL is passed, $BROWSER might be set to a local browser within SSH.
+    # See https://github.com/ohmyzsh/ohmyzsh/issues/11098
+    if [[ -n "$BROWSER" && "$1" = (http|https)://* ]]; then
+        "$BROWSER" "$@"
+        return
+    fi
 
-  ${=open_cmd} "$@" &>/dev/null
+    ${=open_cmd} "$@" &>/dev/null
 }
 
 # take functions
@@ -192,38 +192,38 @@ function omz_urlencode() {
         fi
     fi
 
-  # Use LC_CTYPE=C to process text byte-by-byte
-  local i byte ord LC_ALL=C
-  export LC_ALL
-  local reserved=';/?:@&=+$,'
-  local mark='_.!~*''()-'
-  local dont_escape="[A-Za-z0-9"
-  if [[ -z $opts[(r)-r] ]]; then
-      dont_escape+=$reserved
-  fi
-  # $mark must be last because of the "-"
-  if [[ -z $opts[(r)-m] ]]; then
-      dont_escape+=$mark
-  fi
-  dont_escape+="]"
+    # Use LC_CTYPE=C to process text byte-by-byte
+    local i byte ord LC_ALL=C
+    export LC_ALL
+    local reserved=';/?:@&=+$,'
+    local mark='_.!~*''()-'
+    local dont_escape="[A-Za-z0-9"
+    if [[ -z $opts[(r)-r] ]]; then
+        dont_escape+=$reserved
+    fi
+    # $mark must be last because of the "-"
+    if [[ -z $opts[(r)-m] ]]; then
+        dont_escape+=$mark
+    fi
+    dont_escape+="]"
 
-  # Implemented to use a single printf call and avoid subshells in the loop,
-  # for performance (primarily on Windows).
-  local url_str=""
-  for (( i = 1; i <= ${#str}; ++i )); do
-      byte="$str[i]"
-      if [[ "$byte" =~ "$dont_escape" ]]; then
-          url_str+="$byte"
-      else
-          if [[ "$byte" == " " && -n $spaces_as_plus ]]; then
-              url_str+="+"
-          else
-              ord=$(( [##16] #byte ))
-              url_str+="%$ord"
-          fi
-      fi
-  done
-  echo -E "$url_str"
+    # Implemented to use a single printf call and avoid subshells in the loop,
+    # for performance (primarily on Windows).
+    local url_str=""
+    for (( i = 1; i <= ${#str}; ++i )); do
+        byte="$str[i]"
+        if [[ "$byte" =~ "$dont_escape" ]]; then
+            url_str+="$byte"
+        else
+            if [[ "$byte" == " " && -n $spaces_as_plus ]]; then
+                url_str+="+"
+            else
+                ord=$(( [##16] #byte ))
+                url_str+="%$ord"
+            fi
+        fi
+    done
+    echo -E "$url_str"
 }
 
 # URL-decode a string
@@ -244,32 +244,32 @@ function omz_urldecode {
     emulate -L zsh
     local encoded_url=$1
 
-  # Work bytewise, since URLs escape UTF-8 octets
-  local caller_encoding=$langinfo[CODESET]
-  local LC_ALL=C
-  export LC_ALL
+    # Work bytewise, since URLs escape UTF-8 octets
+    local caller_encoding=$langinfo[CODESET]
+    local LC_ALL=C
+    export LC_ALL
 
-  # Change + back to ' '
-  local tmp=${encoded_url:gs/+/ /}
-  # Protect other escapes to pass through the printf unchanged
-  tmp=${tmp:gs/\\/\\\\/}
-  # Handle %-escapes by turning them into `\xXX` printf escapes
-  tmp=${tmp:gs/%/\\x/}
-  local decoded="$(printf -- "$tmp")"
+    # Change + back to ' '
+    local tmp=${encoded_url:gs/+/ /}
+    # Protect other escapes to pass through the printf unchanged
+    tmp=${tmp:gs/\\/\\\\/}
+    # Handle %-escapes by turning them into `\xXX` printf escapes
+    tmp=${tmp:gs/%/\\x/}
+    local decoded="$(printf -- "$tmp")"
 
-  # Now we have a UTF-8 encoded string in the variable. We need to re-encode
-  # it if caller is in a non-UTF-8 locale.
-  local -a safe_encodings
-  safe_encodings=(UTF-8 utf8 US-ASCII)
-  if [[ -z ${safe_encodings[(r)$caller_encoding]} ]]; then
-      decoded=$(echo -E "$decoded" | iconv -f UTF-8 -t $caller_encoding)
-      if [[ $? != 0 ]]; then
-          echo "Error converting string from UTF-8 to $caller_encoding" >&2
-          return 1
-      fi
-  fi
+    # Now we have a UTF-8 encoded string in the variable. We need to re-encode
+    # it if caller is in a non-UTF-8 locale.
+    local -a safe_encodings
+    safe_encodings=(UTF-8 utf8 US-ASCII)
+    if [[ -z ${safe_encodings[(r)$caller_encoding]} ]]; then
+        decoded=$(echo -E "$decoded" | iconv -f UTF-8 -t $caller_encoding)
+        if [[ $? != 0 ]]; then
+            echo "Error converting string from UTF-8 to $caller_encoding" >&2
+            return 1
+        fi
+    fi
 
-  echo -E "$decoded"
+    echo -E "$decoded"
 }
 
 # Quick change directories, Expands .... -> ../../../
@@ -334,6 +334,24 @@ function pdiff() {
     else
         diff -s -u --color=always "$1" "$2"
     fi
+}
+
+# gfw
+function fuck-gfw() {
+    export https_proxy=http://127.0.0.1:7890
+    export http_proxy=http://127.0.0.1:7890
+    export ALL_PROXY=socks5://127.0.0.1:7890
+    git config --global http.proxy $ALL_PROXY
+    echo "Proxy: $ALL_PROXY"
+    echo "$(curl -sSL ipinfo.io)"
+}
+
+function unfuck-gfw() {
+    unset ALL_PROXY
+    unset http_proxy
+    unset https_proxy
+    git config --global --unset http.proxy
+    echo "$(curl -sSL ipinfo.io)"
 }
 
 function benchmark_zsh() {
@@ -501,9 +519,9 @@ fi
 if command_exists apt; then
     # Update and upgrade packages
     function apt-update() {
-    sudo apt update
-    sudo apt -y upgrade
-}
+        sudo apt update
+        sudo apt -y upgrade
+    }
 
     # Clean packages
     function apt-clean() {
@@ -534,7 +552,6 @@ function _zi_keymap {
         fi
     else
         echo "zoxide is not installed!"
-
     fi
 }
 
