@@ -13,7 +13,7 @@ setopt GLOB_COMPLETE # 列出可能的补全, 但不会直接在提示符中替�
 
 #███████████████████████   History   ██████████████████████████
 # History related variable must sourced after zshrc
-HISTFILE=${ZDOTDIR}/.zsh_history # 它将使用 $ZDOTDIR 设置的值, 或者默认值 $HOME
+HISTFILE=${PRE_HISTFILE:-"${ZDOTDIR}/.zsh_history"} # 它将使用 $ZDOTDIR 设置的值, 或者默认值 $HOME
 HISTSIZE=100000 # lines remembered per session
 SAVEHIST=$HISTSIZE # lines stored in history file
 HIST_STAMPS="yyyy-mm-dd" # history 时间格式更改
