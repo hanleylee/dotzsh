@@ -542,19 +542,6 @@ if command_exists apt; then
     }
 fi
 
-# *************** zoxide *****************
-function _zi_keymap {
-    if command_exists zi; then
-        zi
-        if [[ -z "$lines" ]]; then
-            # zle && zle reset-prompt
-            zle && zle redraw-prompt
-        fi
-    else
-        echo "zoxide is not installed!"
-    fi
-}
-
 # function _fish_collapsed_pwd() {
 #     local pwd="$1"
 #     local home="$HOME"

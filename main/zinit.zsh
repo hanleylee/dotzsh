@@ -116,9 +116,6 @@ if ! is_ios; then
     zinit light Aloxaf/fzf-tab
 fi
 
-@zi_w0
-zinit light skywind3000/z.lua
-
 @zi_w1 has'git'
 zinit light paulirish/git-open
 

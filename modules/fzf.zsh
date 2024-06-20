@@ -127,23 +127,40 @@ fi
 
 # ***************   z.lua   *****************
 function _zfzf_keymap {
-    if command_exists fzf; then
+    if command_exists _zlua; then
+        local dir=$(eval "_zlua -l -t | sed 's/^-[0-9,.]* *//' | ${_ZL_FZF} --tac")
         # _zlua -I -t .
-        cd "$(zfzf)" || return
+        cd "${dir}" || return
 
         if [[ -z "$lines" ]]; then
             # zle && zle reset-prompt
             zle && zle redraw-prompt
         fi
     else
-        echo "fzf is not installed!"
+        echo "z.lua is not installed!"
+    fi
+}
+
+# *************** zoxide *****************
+function _zi_keymap {
+    if command_exists zoxide; then
+        local dir=$(zoxide query -i)
+        # _zlua -I -t .
+        cd "${dir}" || return
+
+        if [[ -z "$lines" ]]; then
+            # zle && zle reset-prompt
+            zle && zle redraw-prompt
+        fi
+    else
+        echo "zoxide is not installed!"
     fi
 }
 
 # *************** autojump *****************
-# use fzf to jump to history directories
+# jump to history directories
 function _autojump_fzf_keymap() {
-    if command_exists fzf; then
+    if command_exists autojump; then
         cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' | eval ${FZF_WITH_COMMAND_AND_ARGS})"
 
         if [[ -z "$lines" ]]; then
@@ -151,7 +168,7 @@ function _autojump_fzf_keymap() {
             zle && zle redraw-prompt
         fi
     else
-        echo "fzf is not installed!"
+        echo "autojump is not installed!"
     fi
 }
 

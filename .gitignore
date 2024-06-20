@@ -9,4 +9,7 @@ _backup/
 .zcompcache/
 zinit/
 
+# database for zoxide
+db.zo
+
 .DS_Store

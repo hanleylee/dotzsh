@@ -437,8 +437,8 @@ $FD_COMMON_COMMAND \
 export FZF_DEFAULT_OPTS="\
 --history-size=50000 \
 --color=dark \
---color=fg:#707a8c,bg:-1,hl:#3e9831,fg+:#cbccc6,bg+:#434c5e,hl+:#5fff87 \
---color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7 \
+--color=fg:'#707a8c',bg:-1,hl:'#3e9831',fg+:'#cbccc6',bg+:'#434c5e',hl+:'#5fff87' \
+--color=info:'#af87ff',prompt:'#5fff87',pointer:'#ff87d7',marker:'#ff87d7',spinner:'#ff87d7' \
 --layout=reverse \
 --no-sort \
 --exact \
@@ -469,33 +469,33 @@ export FZF_TMUX_OPTS="-p 90%,80%" # 控制着fzf的window 是 popup 的还是 sp
 export FZF_COMPLETION_TRIGGER='**'
 
 # z.lua 使用的 fzf 参数
-export _ZL_FZF="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:40%:nowrap"
-export _ZL_FZF_HEIGHT='80%'
-export _ZL_NO_ALIASES=1
-export _ZL_DATA="$ZDOTDIR/.zlua_history"
-export _ZL_MAXAGE=100000
-# export _ZL_CMD='z'
-export _ZL_NO_PROMPT_COMMAND
-# export _ZL_EXCLUDE_DIRS="$HOME,$VIM_CONFIG"
-export _ZL_ADD_ONCE=1
-export _ZL_CD='cd'
-export _ZL_ECHO=0
-export _ZL_MATCH_MODE=1
-export _ZL_NO_CHECK=0
-# export _ZL_HYPHEN=0
-# export _ZL_CLINK_PROMPT_PRIORITY
+# export _ZL_FZF="$FZF_COMMON_COMMAND $FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {}' --preview-window right:40%:nowrap"
+# export _ZL_FZF_HEIGHT='80%'
+# export _ZL_NO_ALIASES=1
+# export _ZL_DATA="$ZDOTDIR/.zlua_history"
+# export _ZL_MAXAGE=100000
+# # export _ZL_CMD='z'
+# export _ZL_NO_PROMPT_COMMAND
+# # export _ZL_EXCLUDE_DIRS="$HOME,$VIM_CONFIG"
+# export _ZL_ADD_ONCE=1
+# export _ZL_CD='cd'
+# export _ZL_ECHO=0
+# export _ZL_MATCH_MODE=1
+# export _ZL_NO_CHECK=1 # disable path validation
+# # export _ZL_HYPHEN=0
+# # export _ZL_CLINK_PROMPT_PRIORITY
 
 # for ta-lib
 # export TA_INCLUDE_PATH="$(brew --prefix ta-lib)/include"
 # export TA_LIBRARY_PATH="$(brew --prefix ta-lib)/lib"
 
 # zoxide
-# export _ZO_DATA_DIR=$XDG_DATA_HOME
-# export _ZO_ECHO=0
-# export _ZO_EXCLUDE_DIRS=""
-# export _ZO_FZF_OPTS="$FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:50%:nowrap"
-# export _ZO_MAXAGE=100000
-# export _ZO_RESOLVE_SYMLINKS=0
+export _ZO_DATA_DIR=$ZDOTDIR
+export _ZO_ECHO=0
+export _ZO_EXCLUDE_DIRS=""
+export _ZO_FZF_OPTS="$FZF_DEFAULT_OPTS --preview '$DIR_PREVIEW_COMMAND {2}' --preview-window right:40%:nowrap"
+export _ZO_MAXAGE=100000
+export _ZO_RESOLVE_SYMLINKS=0
 
 # search-and-view
 # uses 'vv'

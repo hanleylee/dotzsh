@@ -37,3 +37,16 @@ fi
 if command_exists mise; then
     eval "$(mise activate zsh)"
 fi
+
+
+#***************   z.lua   *****************
+# if command_exists lua; then
+#     ZLUA_SCRIPT="$ZINIT_HOME/plugins/skywind3000---z.lua/z.lua"
+
+#     if [[ -f "$ZLUA_SCRIPT" ]]; then
+#         eval "$(lua $ZLUA_SCRIPT --init zsh once enhanced)"
+#     else
+#         echo 'Not found z.lua'
+#         return
+#     fi
+# fi
