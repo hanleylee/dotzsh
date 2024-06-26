@@ -100,9 +100,19 @@ function mvxc() {
 EOF
 }
 
+function pf_mvfile() {
+    mvim --remote-expr "execute('echo hl#buffer#frontmostFilePath()')" | tr -d "\n"
+}
+
+function pf_mvdir() {
+    current_file_path=$(pf_mvfile)
+    dirname "$current_file_path"
+}
+
 # cd to the path of MacVim's current working directory
 function cdmv() {
-    cd "$(pfmv)" || return
+    current_dir_path=$(pf_mvdir)
+    cd "$current_dir_path" || return
 }
 
 # cd to the path of iTerm2's current working directory
