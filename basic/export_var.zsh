@@ -517,6 +517,10 @@ export FLUTTER_ROOT="$HOME/.fvm/default"
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 
+# Fastlane
+export FASTLANE_SKIP_UPDATE_CHECK=1
+export FASTLANE_HIDE_CHANGELOG=1
+
 # SCCACHE
 export SCCACHE_CACHE_SIZE="50G"
 
