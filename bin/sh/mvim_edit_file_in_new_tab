@@ -1,4 +1,0 @@
-#!/usr/bin/env zsh
-
-mvim_close_term
-mvim --remote-expr "hl#buffer#openFileInNewTab('$1')"
