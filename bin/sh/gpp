@@ -18,22 +18,22 @@ function addChanges() {
     local CHANGES_NUM="$(echo -n $CHANGES | grep -c '^')"
     # if [[ `git status --porcelain` ]]; then  # have changes
     if [[ "$CHANGES_NUM" -gt 0 ]]; then # have changes
-        echo -e "\n${N_GREEN}==> Add All Changes${NC}"
+        info "Add All Changes"
         echo "$CHANGES"
         git add -A
 
-        echo -e "\n${N_GREEN}==> Commit${NC}"
+        info "Commit"
         git commit -m "daily $(date "+%Y-%m-%d")"
     else # No changes
-        echo -e "${N_RED}No Changes!!!${NC}"
+        error "No Changes!!!"
         exit 1
     fi
 }
 
 function fetch() {
-    echo -e "\n${N_GREEN}==> Fetch${NC}"
+    info "Fetch"
     git fetch --all --prune || (
-        echo -e "${N_RED}Can't Fetch!!!${NC}"
+        error "Can't Fetch!!!"
         exit 1
     )
 }
@@ -44,27 +44,29 @@ function rebase() {
     # defaultBranch=$(git branch | grep -o -m1 "\b\(master\|main\)\b") # -o: print only the match, -m1: print only the first match
 
     if git branch -a --contains "${remoteBranch}" &>/dev/null; then # 有远程分支
-        echo -e "\n${N_GREEN}==> Pull Rebase${NC}"
+        info "Pull Rebase"
         git rebase "${remoteBranch}" || (
-            echo -e "${N_RED}Can't Rebase!!!${NC}"
+            error "Can't Rebase!!!"
             exit 1
         )
     fi
 }
 
 function push() {
-    echo -e "\n${N_GREEN}==> Push${NC}"
+    info "Push"
     if git branch -a --contains "${remoteBranch}" &>/dev/null; then # 有远程分支
         git push || (
-            echo -e "${N_RED}Can't Push!!! ${NC}"
+            error "Can't Push!!!"
             exit 1
         )
     else
         git push -u origin HEAD || (
-            echo -e "${N_RED}Can't Push!!! ${NC}"
+            error "Can't Push!!!"
             exit 1
         )
     fi
 }
 
 addChanges && fetch && rebase && push
+
+success "Done"
