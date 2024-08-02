@@ -406,6 +406,7 @@ export FILE_PREVIEW_COMMAND='preview_code'
 export DIR_PREVIEW_COMMAND='tree -N -C -l -L 1'
 
 #***************   fzf   *****************
+# guide: <https://thevaluable.dev/practical-guide-fzf-example/>
 if is_tmux; then
     export FZF_COMMON_COMMAND="fzf-tmux -p 90%,80%"
 else
@@ -445,8 +446,12 @@ export FZF_DEFAULT_OPTS="\
 --bind '?:toggle-preview' \
 --border \
 --cycle \
+--pointer='→' \
+--marker='♡' \
+--info=inline \
 --height=80% \
 "
+# --header='CTRL-c or ESC to quit'
 # fzf <c-t>
 export FZF_CTRL_T_COMMAND=$FD_COMMON_COMMAND
 export FZF_CTRL_T_OPTS="\
