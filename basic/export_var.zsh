@@ -111,6 +111,7 @@ path=(
     "$ZDOTDIR/bin"
     ${local_bin_paths[*]}
     "$HL_LOCAL/bin"
+    "$HOME/.pub-cache/bin"
     "$HOME/.fvm/default/bin"
     "$HOME/.node_modules_global/bin"
     "$HOME/.vim/bin"
