@@ -65,7 +65,7 @@ alias get="curl -O -L"
 command_exists trash && alias rm='trash'
 command_exists gkill && alias kill='gkill'
 command_exists gls && alias ls='gls --color=tty'
-if command_exists exa; then alias l='exa -laghHimU --git --group-directories-first --icons -F'; else alias l='ls -lhia'; fi
+if command_exists eza; then alias l='eza -laghHimU --git --group-directories-first --icons -F'; else alias l='ls -lhia'; fi
 # [[ -d "$HOME/.hlconfig.git" ]] && alias hlconfig='git --git-dir=$HOME/.hlconfig.git/ --work-tree=$HOME'
 
 # for homebrew {{{
