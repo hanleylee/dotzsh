@@ -69,9 +69,31 @@ function pushdf() {
     pushd "$(pfd)" || return
 }
 
-# return directory of the active frontmost Xcode workspace
+function is_xcode_project() {
+    [[ "$1" == *.xcworkspace || "$1" == *.xcodeproj ]]
+}
+
+function is_spm_project() {
+    [[ -f "$1/Package.swift" ]]
+}
+
 function pxd() {
-    dirname "$(pfxc_workspace)"
+    project_workspace="$(pfxc_workspace)"
+
+    # 检查 project_workspace 是否为空
+    if [[ -z "$project_workspace" ]]; then
+        echo "Error: No workspace or project directory found."
+        return 1
+    fi
+
+    # 根据项目类型返回结果
+    if is_xcode_project "$project_workspace"; then
+        dirname "$project_workspace"
+    elif is_spm_project "$project_workspace"; then
+        echo "$project_workspace"
+    else
+        echo "No valid project found in: $project_workspace"
+    fi
 }
 
 function cdx() {
