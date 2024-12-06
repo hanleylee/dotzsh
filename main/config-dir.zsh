@@ -13,6 +13,7 @@ _dir_path_array=(
     "$XDG_CACHE_HOME/build/cpp"
     "$XDG_CACHE_HOME/build/objc"
     "$XDG_CACHE_HOME/build/swift"
+    "$XDG_CACHE_HOME/build/rust"
     "$XDG_CACHE_HOME/tags"
     "$XDG_CACHE_HOME/vim/backup"
     "$XDG_CACHE_HOME/vim/swp"
