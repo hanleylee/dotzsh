@@ -532,3 +532,8 @@ export SCCACHE_CACHE_SIZE="50G"
 
 # MARK: For vim
 # export VIMTEST=true
+
+# Poetry
+export POETRY_CONFIG_DIR="$HOME/Library/Application Support/pypoetry" # config file is located in '$HOME/Library/Application Support/pypoetry/config.toml'
+export POETRY_HOME="$HOME/Library/Application Support/pypoetry" # same with POETRY_DATA_DIR
+export POETRY_CACHE_DIR="$HOME/Library/Caches/pypoetry"
