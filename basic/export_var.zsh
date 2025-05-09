@@ -100,6 +100,7 @@ if [[ -n $HOMEBREW_PREFIX ]]; then
         "$HOMEBREW_PREFIX/opt/ncurses/bin"
         # "$HOMEBREW_PREFIX/opt/ruby/bin"
         "$HOMEBREW_PREFIX/opt/openjdk/bin"
+        "$HOMEBREW_PREFIX/anaconda3/bin"
         "$HOMEBREW_PREFIX/sbin"
         "$HOMEBREW_PREFIX/bin"
     )
