@@ -3,6 +3,36 @@
 # GitHub: https://github.com/hanleylee
 # License:  MIT License
 
+#***************   Homebrew   *****************
+if command_exists brew; then
+    export HOMEBREW_NO_AUTO_UPDATE=true # 禁用 Homebrew 每次安装软件时的更新
+    export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=true
+    # export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
+    # export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+    # export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+    eval "$(brew shellenv)" # this line will export some variable, such as below:
+    # export HOMEBREW_PREFIX="/usr/local";
+    # export HOMEBREW_CELLAR="/usr/local/Cellar";
+    # export HOMEBREW_REPOSITORY="/usr/local/Homebrew";
+    # export PATH="/usr/local/bin:/usr/local/sbin${PATH+:$PATH}";
+    # export MANPATH="/usr/local/share/man${MANPATH+:$MANPATH}:";
+    # export INFOPATH="/usr/local/share/info:${INFOPATH:-}";
+
+    # MARK: 恢复仓库上游
+    # unset HOMEBREW_BREW_GIT_REMOTE
+    # git -C "$(brew --repo)" remote set-url origin https://github.com/Homebrew/brew
+
+    # unset HOMEBREW_API_DOMAIN
+    # unset HOMEBREW_CORE_GIT_REMOTE
+    # BREW_TAPS="$(BREW_TAPS="$(brew tap 2>/dev/null)"; echo -n "${BREW_TAPS//$'\n'/:}")"
+    # for tap in core cask{,-fonts,-drivers,-versions} command-not-found; do
+        # if [[ ":${BREW_TAPS}:" == *":homebrew/${tap}:"* ]]; then  # 只复原已安装的 Tap
+            # brew tap --custom-remote "homebrew/${tap}" "https://github.com/Homebrew/homebrew-${tap}"
+        # fi
+    # done
+    # brew update
+fi
+
 #***************   scmpuff   *****************
 command_exists scmpuff && eval "$(scmpuff init -s)"
 #}}}
