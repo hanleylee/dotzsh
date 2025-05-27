@@ -146,6 +146,15 @@ function remove_element_if_path_not_exist() {
     # done
 }
 
+#***************   init primitive path   *****************
+path=(
+    "/opt/homebrew/bin"
+    "/usr/local/bin"
+    "${path[@]}"
+)
+remove_element_if_path_not_exist path
+export PATH
+
 #***************   Homebrew   *****************
 if command_exists brew; then
     export HOMEBREW_NO_AUTO_UPDATE=true # 禁用 Homebrew 每次安装软件时的更新

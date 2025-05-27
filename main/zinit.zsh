@@ -70,8 +70,8 @@ fi
 @zi_completion has'docker'
 zinit snippet OMZP::docker
 
-@zi_completion has'fd'
-zinit snippet OMZP::fd/_fd
+#@zi_completion has'fd'
+#zinit snippet OMZP::fd/_fd
 
 @zi_completion has'pip'
 zinit snippet OMZP::pip/_pip
