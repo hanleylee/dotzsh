@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+
+
+import argparse
+from pydantic import BaseModel
+import requests
+
+PRODUCT_INFO_DICT: dict[str, tuple[str, int]] = {
+    "IU": ("IntelliJ IDEA Ultimate", 39511),
+    "IC": ("IntelliJ IDEA Community", 39511),
+    "PY": ("PyCharm", 39512),
+    "PC": ("PyCharm Community", 39512),
+    "GO": ("GoLang", 39513),
+    "RR": ("RustRover", 39514),
+    "WS": ("WebStorm", 39515),
+    "PS": ("PhpStorm", 39516),
+    "RM": ("RubyMine", 39517),
+    "CL": ("Clion", 39518),
+}
+
+
+class CurrentEditing(BaseModel):
+    file: str = ''
+    project: str = ''
+
+
+def current_editing(product: str) -> CurrentEditing:
+
+    _, port = PRODUCT_INFO_DICT[product]
+    url = f"http://localhost:{port}/current-editing"
+    headers = {'Content-Type': 'application/json'}
+
+    try:
+        response = requests.post(url, json={}, headers=headers)
+        if response.status_code == 200:
+            editing = CurrentEditing(**response.json())
+            return editing
+        else:
+            raise ValueError(f"Request failed with status code: {response.status_code}, Response body: {response.text}")
+    except Exception as e:
+        raise ValueError(f"An error occurred: {e}")
+
+
+def main(args):
+    if args.subparser_name == 'cur_file':
+        editing = current_editing(args.product)
+        print(editing.file)
+    elif args.subparser_name == 'cur_project':
+        editing = current_editing(args.product)
+        print(editing.project)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+
+    subparsers = parser.add_subparsers(dest="subparser_name", help='sub-command help')
+
+    parent_parser = argparse.ArgumentParser(add_help=False)  # used for adding common argument
+    parent_parser.add_argument('-p', '--product', type=str, default='PY')
+
+    cur_file_parser = subparsers.add_parser('cur_file', parents=[parent_parser], help='get the path of current working file')
+    # cur_file_parser.add_argument('-b', '--branch', type=str)
+    # cur_file_parser.add_argument('-c', '--configuration', type=str, default='Debug')
+    # cur_file_parser.add_argument('-p', '--platform', type=str, default='pgy')
+    # cur_file_parser.add_argument('-o', '--obfuscation', action='store_true')
+    # cur_file_parser.add_argument('-u', '--upload_app_store', action='store_true')
+    # cur_file_parser.add_argument('-d', '--description', type=str, default=None)
+
+    cur_project_parser = subparsers.add_parser('cur_project', parents=[parent_parser], help='get the path of current working project')
+    # cur_project_parser.add_argument('-c', '--count', type=int, default=5)
+
+    # argcomplete.autocomplete(parser)
+    args = parser.parse_args()
+
+    main(args)
