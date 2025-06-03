@@ -1,6 +1,0 @@
-setproctitle
-tidevice
-mdict-utils
-pydantic
-argparse
-requests

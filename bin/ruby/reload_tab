@@ -49,3 +49,5 @@ ENDGAME
 
   sleep 1
 end
+
+# vim:set ft=ruby sw=2 ts=2 tw=150:
