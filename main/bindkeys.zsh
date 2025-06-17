@@ -29,8 +29,10 @@ bindkey ' ' magic-space                               # [Space] - don't do histo
 bindkey "^[m" copy-prev-shell-word # file rename magick
 bindkey -M menuselect '^o' accept-and-infer-next-history
 
-zle -N _lfcd_keymap
-bindkey '^l' _lfcd_keymap
+# zle -N _lfcd_keymap
+# bindkey '^l' _lfcd_keymap
+zle -N _yazicd_keymap
+bindkey '^l' _yazicd_keymap
 
 # Use z.lua
 # zle -N _zfzf_keymap
