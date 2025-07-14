@@ -33,6 +33,7 @@ bindkey -M menuselect '^o' accept-and-infer-next-history
 # bindkey '^l' _lfcd_keymap
 zle -N _yazicd_keymap
 bindkey '^l' _yazicd_keymap
+# bindkey -s '^l' '_yazicd_keymap \n'
 
 # Use z.lua
 # zle -N _zfzf_keymap

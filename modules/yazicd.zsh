@@ -13,6 +13,8 @@ function _yazicd_keymap() {
         if [[ -z "$lines" ]]; then
             # zle && zle reset-prompt
             zle && zle redraw-prompt
+            # zle -I
+            # zle redisplay
         fi
     else
         echo "yazi is not installed!"
