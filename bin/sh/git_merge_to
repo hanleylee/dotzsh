@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+# NOTE: 用于简化 commit -> git push
+
+emulate -LR zsh
+set -e # exit when if any error occurs
+# set -x
+
+autoload -Uz hlcolor && hlcolor
+# source "${0:a:h}/basic/color"
+
+originBranch=$(git branch --show-current)
+targetBranch=$1
+remoteBranch="origin/${currentBranch}"
+
+git checkout "$targetBranch"
+git pull
+git merge "$originBranch"
+git checkout "$originBranch"
+
+success "Done"
