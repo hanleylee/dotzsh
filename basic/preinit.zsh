@@ -159,6 +159,7 @@ export PATH
 if command_exists brew; then
     export HOMEBREW_NO_AUTO_UPDATE=true # 禁用 Homebrew 每次安装软件时的更新
     export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=true
+    export HOMEBREW_DOWNLOAD_CONCURRENCY=auto # 并发下载, upgrade 时非常有用
     # export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
     # export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
     # export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
