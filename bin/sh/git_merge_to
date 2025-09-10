@@ -14,7 +14,7 @@ targetBranch=$1
 remoteBranch="origin/${currentBranch}"
 
 git checkout "$targetBranch"
-git pull
+git pull || true
 git merge "$originBranch"
 git checkout "$originBranch"
 
