@@ -156,12 +156,12 @@ fi
 # }}}
 
 # for dutree {{{
-if command_exists dutree; then
-    alias dt='dutree'
-    alias ds='dutree --summary'
-    alias d1='dutree --depth=1'
-    alias d2='dutree --depth=2'
-    alias d3='dutree --depth=3'
+if command_exists dust; then
+    alias ds='dust'
+    alias du='dust -r -n 99999999'
+    alias d1='dust --depth=1 --reverse'
+    alias d2='dust --depth=2 --reverse'
+    alias d3='dust --depth=3 --reverse'
 fi
 # }}}
 

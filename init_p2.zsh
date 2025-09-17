@@ -36,7 +36,7 @@ if [[ $TERM_PROGRAM == "iTerm.app" ]] && [[ -d "$ZDOTDIR/.iterm2_shell_integrati
 fi
 
 if is_work; then
-    _path_arr+=("$HL_REPO/bnc-note/sh/main.zsh")
+    _path_arr+=("$HL_REPO/ak-note/sh/main.zsh")
 fi
 
 _path_arr+=("$HL_REPO/reverse/sh/main.zsh")
