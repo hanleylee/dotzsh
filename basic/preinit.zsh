@@ -46,10 +46,10 @@ export ARCH_MSG
 function command_exists() {
     for cmd in "$@"; do
         # command -v "$cmd" &>/dev/null || return 1             # path 中的工具, alias 与 function 都会返回 true
-        (( $+commands[$cmd] )) # 只会在 path 中找到真正可用的命令, alias 与 function 都不算
+        (( $+commands[$cmd] )) && [[ -x "$(command -v "$cmd")" ]] # 只会在 path 中找到真正可用的命令(且可执行), alias 与 function 都不算
     done
     # command -v $1 &> /dev/null
-    # [[ -x "$(command -v $1)" ]]
+    # 
 }
 
 function is_ios() {
