@@ -538,3 +538,10 @@ export SCCACHE_CACHE_SIZE="50G"
 export POETRY_CONFIG_DIR="$HOME/Library/Application Support/pypoetry" # config file is located in '$HOME/Library/Application Support/pypoetry/config.toml'
 export POETRY_HOME="$HOME/Library/Application Support/pypoetry" # same with POETRY_DATA_DIR
 export POETRY_CACHE_DIR="$HOME/Library/Caches/pypoetry"
+
+# Rust
+# 字节跳动源
+# RUSTUP_DIST_SERVER (用于更新 toolchain)
+export RUSTUP_DIST_SERVER="https://rsproxy.cn"
+# RUSTUP_UPDATE_ROOT (用于更新 rustup)
+export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
