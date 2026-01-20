@@ -53,7 +53,7 @@ function command_exists() {
 }
 
 function is_ios() {
-    [[ -d "/Applications/Cydia.app" ]]
+    [[ -d "/Applications" && -d "/var/mobile" ]]
 }
 
 # contains(string, substring)
@@ -94,32 +94,6 @@ function source_if_exists() {
     for file in "$@"; do
         [[ -f "$file" ]] && source "$file"
     done
-}
-
-# Extend $PATH without duplicates
-function insert_path_if_exists() {
-    [[ -d "$1" ]] || return # detect if it is a directory, return if not
-    # if ! $( echo "$PATH" | tr ":" "\n" | grep -qx "$1" ) ; then
-    export PATH="$1:$PATH"
-    # fi
-}
-
-# insert path to variable, the first arg is variable name, the remain variable is path list
-# -> Void
-function insert_path_to_variable() {
-    env_var_name="$1" # just the variable name, such as 'PATH'
-    # env_var_content="${!env_var_name}" # real content under the variable name, such as '/Users/hanley/.pyenv/shims'
-    eval "env_var_content=\"\${$env_var_name}\"" # zsh doesn't support indirect expansion, so we have to use eval!
-    for local_path in "${@:2}"; do
-        [ -d "$local_path" ] || continue   # exit if path isn't exist
-        if [ -z "$env_var_content" ]; then # don't add ':' if this variable is empty
-            env_var_content="$local_path"
-        else
-            env_var_content="${local_path}:${env_var_content}"
-        fi
-        eval "${env_var_name}=$env_var_content" # use eval to set value for variable, such as 'PATH=/Users/hanley/...'
-    done
-    export "${env_var_name?}" # export, such as 'export PATH'
 }
 
 function mkdir_if_not_exists() {

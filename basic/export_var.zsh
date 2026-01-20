@@ -173,49 +173,54 @@ export MANPATH
 # 其作用类似于使用 `-I path`, 在此处进行了变量的定义后方便全局都起作用
 
 # MARK: C_INCLUDE_PATH
-temp_arr=(
+temp_arr=(${(s.:.)C_INCLUDE_PATH})
+temp_arr+=(
     "$HL_LANG/c/foundation"
 )
 remove_element_if_path_not_exist temp_arr
-insert_path_to_variable "C_INCLUDE_PATH" "${temp_arr[@]}"
+export C_INCLUDE_PATH="${(j.:.)temp_arr}"
 unset temp_arr
 
 # MARK: CPLUS_INCLUDE_PATH
-temp_arr=(
+temp_arr=(${(s.:.)CPLUS_INCLUDE_PATH})
+temp_arr+=(
     "$HL_LANG/cpp/foundation"
 )
 remove_element_if_path_not_exist temp_arr
-insert_path_to_variable "CPLUS_INCLUDE_PATH" "${temp_arr[@]}"
+export CPLUS_INCLUDE_PATH="${(j.:.)temp_arr}"
 unset temp_arr
 
 # MARK: OBJC_INCLUDE_PATH
-temp_arr=(
+temp_arr=(${(s.:.)OBJC_INCLUDE_PATH})
+temp_arr+=(
     "$HL_LANG/objc/foundation"
 )
 remove_element_if_path_not_exist temp_arr
-insert_path_to_variable "OBJC_INCLUDE_PATH" "${temp_arr[@]}"
+export OBJC_INCLUDE_PATH="${(j.:.)temp_arr}"
 unset temp_arr
-# insert_path_to_variable "LD_LIBRARY_PATH" ""
 
 # MARK: CPATH
-temp_arr=(
+temp_arr=(${(s.:.)CPATH})
+temp_arr+=(
     "$C_INCLUDE_PATH"
 )
 remove_element_if_path_not_exist temp_arr
-insert_path_to_variable "CPATH" "${temp_arr[@]}"
+export CPATH="${(j.:.)temp_arr}"
 unset temp_arr
 
 # MARK: PYTHONPATH
-temp_arr=(
+temp_arr=(${(s.:.)PYTHONPATH})
+temp_arr+=(
     "$HL_LANG/python/foundation"
 )
 remove_element_if_path_not_exist temp_arr
-insert_path_to_variable "PYTHONPATH" "${temp_arr[@]}"
+export PYTHONPATH="${(j.:.)temp_arr}"
 unset temp_arr
 
 if command_exists pkg-config; then
     # 添加自定义的 pkg-config 路径, 默认的路径为 /usr/local/lib/pkgconfig
-    temp_arr=(
+    temp_arr=(${(s.:.)PKG_CONFIG_PATH})
+    temp_arr+=(
         "$HOMEBREW_PREFIX/lib/pkgconfig"
         "$HOMEBREW_PREFIX/opt/glib/lib/pkgconfig"
         "$HOMEBREW_PREFIX/opt/zlib/lib/pkgconfig"
@@ -228,7 +233,7 @@ if command_exists pkg-config; then
         "/opt/X11/lib/pkgconfig"
     )
     remove_element_if_path_not_exist temp_arr
-    insert_path_to_variable "PKG_CONFIG_PATH" "${temp_arr[@]}"
+    export PKG_CONFIG_PATH="${(j.:.)temp_arr}"
     unset temp_arr
 fi
 
