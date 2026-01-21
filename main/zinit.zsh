@@ -41,7 +41,8 @@ autoload -Uz _zinit
 # MARK: ======== zinit snippet ========= {{{
 
 zinit for \
-    OMZL::git.zsh
+    OMZL::git.zsh \
+    OMZL::async_prompt.zsh
     # OMZL::theme-and-appearance.zsh
 # zinit snippet OMZL::git.zsh
 # zinit snippet OMZL::functions.zsh
@@ -84,8 +85,8 @@ zinit snippet OMZP::pod/_pod
 #     zinit snippet OMZP::macos
 # fi
 
-@zi_w1 has'svn' svn silent
-zinit snippet OMZP::flutter
+# @zi_w1 has'svn' svn silent
+# zinit snippet OMZP::flutter
 
 # 为了使用 GitHub 项目的子目录作为 snippet, 需要在 URL中添加 /trunk/{path-to-dir}
 # zinit ice svn
