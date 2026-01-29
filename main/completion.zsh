@@ -11,7 +11,7 @@ WORDCHARS=''
 # ... unless we really want to.
 zstyle '*' single-ignored show
 # Enables you to go through the list and select one option
-zstyle ':completion:*' menu select
+# zstyle ':completion:*' menu select
 # zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' group-name '' # 分组显示
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*' # Case insensitive auto-completion
@@ -24,8 +24,8 @@ zstyle ':completion:*' expand prefix suffix 
 # If the line has sudo or doas in it, then it tries to gain more access while completing command options (-/--)
 zstyle ':completion::complete:*' gain-privileges 1 # double esc to put 'sudo'
 zstyle ':completion:*' special-dirs false # Don't show . and .. in completion menu
-# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# zstyle ':completion:*' list-colors ''
 
 # 用本用户的所有进程补全
 zstyle ':completion:*:processes' command 'ps -afu$USER'
@@ -50,15 +50,25 @@ zstyle ':completion:*:exa' sort false
 # zstyle ':completion:*:directory-stack' list-colors '=(#b) #([0-9]#)*( *)==95=38;5;12'
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
-zstyle ':fzf-tab:complete:_zlua:*' query-string input
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-# zstyle ':fzf-tab:*' fzf-preview 'exa -1 --color=always $realpath'
-zstyle ':fzf-tab:*' popup-pad 30 10 # 宽内缩值, 高内缩值, 也可认为是扩展区域值
-zstyle ':fzf-tab:*' fzf-flags --preview-window=down:3:hidden:wrap
-zstyle ':fzf-tab:*' fzf-pad 4
-
+# disable sort when completing `git checkout`
+# set descriptions format to enable group support
+# NOTE: don't use escape sequences (like '%F{red}%d%f') here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':completion:*' menu no
+# preview directory's content with eza when completing cd
 # zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-# zstyle ':fzf-tab:complete:cd:*' popup-pad 80 0
+zstyle ':fzf-tab:complete:cd:*' popup-pad 80 0
+# custom fzf flags
+# NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
+# zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
+# zstyle ':fzf-tab:*' fzf-flags --preview-window=down:3:hidden:wrap
+# To make fzf-tab follow FZF_DEFAULT_OPTS.
+# NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+# switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # Don't complete uninteresting users
 zstyle ':completion:*:*:*:users' ignored-patterns \
