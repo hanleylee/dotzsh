@@ -40,7 +40,7 @@ fi
 
 #***************   tirith   *****************
 if command_exists tirith; then
-    eval "$(tirith init)"
+    eval "$(tirith init --shell zsh)"
 fi
 # >>> conda initialize >>>
 if command_exists conda; then
