@@ -53,7 +53,7 @@ function command_exists() {
 }
 
 function is_ios() {
-    [[ -d "/Applications" && -d "/var/mobile" ]]
+    [[ -d "/Applications" && -f "/System/Library/CoreServices/SpringBoard.app/Info.plist" ]]
 }
 
 # contains(string, substring)
