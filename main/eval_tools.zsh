@@ -39,9 +39,9 @@ if command_exists mise; then
 fi
 
 #***************   tirith   *****************
-if command_exists tirith; then
-    eval "$(tirith init --shell zsh)"
-fi
+# if command_exists tirith; then
+#     eval "$(tirith init --shell zsh)"
+# fi
 # >>> conda initialize >>>
 if command_exists conda; then
     # !! Contents within this block are managed by 'conda init' !!
