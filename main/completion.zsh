@@ -67,6 +67,9 @@ zstyle ':fzf-tab:complete:cd:*' popup-pad 80 0
 # To make fzf-tab follow FZF_DEFAULT_OPTS.
 # NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
+# FZF_DEFAULT_OPTS 含 --border 时，fzf-tab 默认 fzf-pad=2 会低估边框占用行数，列表区会被压成 1 行。
+# 见 https://github.com/Aloxaf/fzf-tab/wiki/Configuration#fzf-pad
+zstyle ':fzf-tab:*' fzf-pad 4
 # switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
 

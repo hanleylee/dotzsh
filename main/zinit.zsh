@@ -105,10 +105,6 @@ zinit snippet OMZP::pod/_pod
 @zi_w0 atload'_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
 
-# 语法高亮
-@zi_w0 atinit='zpcompinit'
-zinit light zdharma-continuum/fast-syntax-highlighting
-
 @zi_w0
 zinit light zsh-users/zsh-completions
 
@@ -116,6 +112,11 @@ if ! is_ios; then
     @zi_w0 has'fzf'
     zinit light Aloxaf/fzf-tab
 fi
+
+# 语法高亮必须在 fzf-tab / 其它会注册 ZLE 补全 widget 的插件之后加载，否则会包不到补全链路，
+# Tab 补全插入路径后仍显示默认前景色（白），需再按一键才变成路径色（如紫）。
+@zi_w1 atinit='zpcompinit'
+zinit light zdharma-continuum/fast-syntax-highlighting
 
 @zi_w1 has'git'
 zinit light paulirish/git-open
