@@ -1,0 +1,75 @@
+#!/usr/bin/env zsh
+
+set -u
+zmodload zsh/datetime 2>/dev/null || true
+
+if [[ -n "${ZDOTDIR:-}" ]]; then
+    ZSH_ROOT="$ZDOTDIR"
+else
+    ZSH_ROOT="$HOME/.zsh"
+fi
+
+if [[ ! -d "$ZSH_ROOT" ]]; then
+    echo "ERROR: ZDOTDIR not found: $ZSH_ROOT"
+    exit 1
+fi
+
+check_files=(
+    "$ZSH_ROOT/.zprofile"
+    "$ZSH_ROOT/.zshrc"
+    "$ZSH_ROOT/init_p1.zsh"
+    "$ZSH_ROOT/init_p2.zsh"
+)
+
+echo "== zsh syntax check =="
+syntax_failed=0
+for file in "${check_files[@]}"; do
+    if [[ ! -f "$file" ]]; then
+        echo "MISSING: $file"
+        syntax_failed=1
+        continue
+    fi
+    if zsh -n "$file"; then
+        echo "OK: $file"
+    else
+        echo "FAIL: $file"
+        syntax_failed=1
+    fi
+done
+
+echo
+echo "== interactive startup smoke test =="
+smoke_output="$(zsh -i -c exit 2>&1 >/dev/null)"
+if [[ -n "$smoke_output" ]]; then
+    echo "$smoke_output"
+else
+    echo "No startup stderr output."
+fi
+
+echo
+echo "== startup benchmark (3 runs) =="
+typeset -a run_costs
+for _ in 1 2 3; do
+    if [[ -n "${EPOCHREALTIME:-}" ]]; then
+        start="$EPOCHREALTIME"
+        zsh -i -c exit >/dev/null 2>&1
+        end="$EPOCHREALTIME"
+        run_cost="$(awk "BEGIN {printf \"%.3f\", $end - $start}")"
+    else
+        run_cost="$(/usr/bin/time zsh -i -c exit >/dev/null 2>&1 2>&1 | awk '/real/ {print $1}')"
+    fi
+    run_costs+=("$run_cost")
+    echo "${run_cost}s"
+done
+
+avg_cost="$(printf "%s\n" "${run_costs[@]}" | awk '{sum+=$1} END { if (NR > 0) printf "%.3f", sum/NR; else print "0.000" }')"
+echo "average: ${avg_cost}s"
+
+if (( syntax_failed )); then
+    echo
+    echo "doctor_zsh: FAILED"
+    exit 1
+fi
+
+echo
+echo "doctor_zsh: OK"

@@ -373,13 +373,7 @@ export GTAGSLABEL='native-pygments'
 [[ -f "$HOME/.cheat/conf.yml" ]] && export CHEAT_CONFIG_PATH="$HOME/.cheat/conf.yml"
 export CHEAT_USE_FZF=true
 
-#***************   SHELLCHECK   *****************
-export SHELLCHECK_OPTS="\
--e SC1071 \
--e SC2155 \
--e SC1091 \
-"
-
+#***************   JAVA   *****************
 [[ -n $HOMEBREW_PREFIX ]] && export JAVA_HOME="$HOMEBREW_PREFIX/opt/openjdk"
 [[ -n $HOMEBREW_PREFIX ]] && export JDK_HOME="$HOMEBREW_PREFIX/opt/openjdk"
 

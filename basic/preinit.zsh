@@ -44,10 +44,12 @@ export ARCH_MSG
 # all command passed exist or not
 # -> Bool
 function command_exists() {
+    local cmd
     for cmd in "$@"; do
         # command -v "$cmd" &>/dev/null || return 1             # path 中的工具, alias 与 function 都会返回 true
-        (( $+commands[$cmd] )) && [[ -x "$(command -v "$cmd")" ]] # 只会在 path 中找到真正可用的命令(且可执行), alias 与 function 都不算
+        (( $+commands[$cmd] )) && [[ -x "$(command -v "$cmd")" ]] || return 1 # 只会在 path 中找到真正可用的命令(且可执行), alias 与 function 都不算
     done
+    return 0
     # command -v $1 &> /dev/null
     # 
 }
