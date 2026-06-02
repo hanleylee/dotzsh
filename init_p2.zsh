@@ -19,7 +19,7 @@ _path_arr=(
     "$ZDOTDIR/main/bindkeys.zsh"
     "$ZDOTDIR/main/function.zsh"
     "$ZDOTDIR/main/alias.zsh"
-    "$ZDOTDIR/main/eval_tools.zsh"
+    # "$ZDOTDIR/main/eval_tools.zsh"
 )
 
 # MARK: Tools

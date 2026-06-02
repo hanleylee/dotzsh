@@ -47,7 +47,7 @@ function command_exists() {
     local cmd
     for cmd in "$@"; do
         # command -v "$cmd" &>/dev/null || return 1             # path 中的工具, alias 与 function 都会返回 true
-        (( $+commands[$cmd] )) && [[ -x "$(command -v "$cmd")" ]] || return 1 # 只会在 path 中找到真正可用的命令(且可执行), alias 与 function 都不算
+        (( $+commands[$cmd] )) && [[ -x $commands[$cmd] ]] || return 1 # 只会在 path 中找到真正可用的命令(且可执行), alias 与 function 都不算
     done
     return 0
     # command -v $1 &> /dev/null
@@ -139,7 +139,27 @@ if command_exists brew; then
     # export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
     # export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
     # export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
-    eval "$(brew shellenv)" # this line will export some variable, such as below:
+    case $commands[brew] in
+        /opt/homebrew/bin/brew)
+            export HOMEBREW_PREFIX="/opt/homebrew"
+            export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+            export HOMEBREW_REPOSITORY="/opt/homebrew"
+            ;;
+        /usr/local/bin/brew)
+            export HOMEBREW_PREFIX="/usr/local"
+            export HOMEBREW_CELLAR="/usr/local/Cellar"
+            export HOMEBREW_REPOSITORY="/usr/local/Homebrew"
+            ;;
+        *)
+            eval "$(brew shellenv)"
+            ;;
+    esac
+
+    path=("$HOMEBREW_PREFIX/bin" "$HOMEBREW_PREFIX/sbin" "${path[@]}")
+    manpath=("$HOMEBREW_PREFIX/share/man" "${manpath[@]}")
+    export PATH MANPATH
+    export INFOPATH="$HOMEBREW_PREFIX/share/info:${INFOPATH:-}"
+    # this line will export some variable, such as below:
     # export HOMEBREW_PREFIX="/usr/local";
     # export HOMEBREW_CELLAR="/usr/local/Cellar";
     # export HOMEBREW_REPOSITORY="/usr/local/Homebrew";
@@ -161,4 +181,3 @@ if command_exists brew; then
     # done
     # brew update
 fi
-

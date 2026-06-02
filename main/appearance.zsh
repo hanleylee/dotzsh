@@ -51,7 +51,10 @@ case "$OSTYPE" in
         test-ls-args gls --color && alias ls='gls --color=tty'
         test-ls-args colorls -G && alias ls='colorls -G'
         ;;
-    (darwin|freebsd)*)
+    darwin*)
+        alias ls='ls -G'
+        ;;
+    freebsd*)
         # This alias works by default just using $LSCOLORS
         test-ls-args ls -G && alias ls='ls -G'
         # Only use GNU ls if installed and there are user defaults for $LS_COLORS, as the default coloring scheme is not very pretty

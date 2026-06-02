@@ -24,6 +24,7 @@ export FIGNORE='*DS_Store:.test'
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
+export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 
 export LANG="en_US.UTF-8"
 export LANGUAGE="en_US.UTF-8"
@@ -82,7 +83,7 @@ export THEMIS_HOME="$HOME/vim-themis"
 # Because the order is so important for PATH, so we can't use connected `path` to reflect its value
 # "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin" \
 typeset -g -U path PATH
-declare -a local_bin_paths=($(ls -d "$HL_LOCAL/bin"/*)) 2> /dev/null
+declare -a local_bin_paths=("$HL_LOCAL/bin"/*(/N))
 declare -a homebrew_paths
 if [[ -n $HOMEBREW_PREFIX ]]; then
     homebrew_paths=(
@@ -280,11 +281,6 @@ export GPG_TTY
 
 #***************   LESS   *****************
 
-# output of less -V is following
-# less 530 (POSIX regular expressions)
-# Copyright (C) 1984-2017  Mark Nudelman
-export LESS_VERSION=$(less -V | head -n1 | cut -d" " -f2)
-
 # less options
 temp_arr=(
     # Quit if entire file fits on first screen.
@@ -303,8 +299,7 @@ temp_arr=(
     # Do not complain when we are on a dumb terminal.
     --dumb
 )
-autoload -Uz is-at-least
-if is-at-least 598 "$LESS_VERSION"; then
+if [[ $SYSTEM_NAME == Darwin ]]; then
     temp_arr+=(
         # increasely search
         --incsearch
@@ -360,8 +355,7 @@ export PYTHONUNBUFFERED=1
 
 #***************   GO   *****************
 if command_exists go; then
-    export GOROOT=$(go env GOROOT)
-    export GOPATH=$(go env GOPATH)
+    export GOPATH="${GOPATH:-$HOME/go}"
     export GOBIN=$GOPATH/bin
 fi
 

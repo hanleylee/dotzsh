@@ -87,7 +87,20 @@ zstyle ':completion:*:*:*:users' ignored-patterns \
 #}}}
 
 # the zstyle command must added before enable the compinit system
-compinit   # load + start completion
+zmodload zsh/datetime
+zmodload zsh/stat
+_zcompdump="$ZSH_CACHE_DIR/.zcompdump-$ZSH_VERSION"
+if [[ -f "$_zcompdump" ]]; then
+    zstat -H _zcompdump_stat +mtime "$_zcompdump"
+    if (( EPOCHSECONDS - _zcompdump_stat[mtime] < 86400 )); then
+        compinit -C -d "$_zcompdump" # load + start completion
+    else
+        compinit -d "$_zcompdump" # load + start completion
+    fi
+else
+    compinit -d "$_zcompdump" # load + start completion
+fi
+unset _zcompdump _zcompdump_stat
 bashcompinit
 
 # Show hidden files in the menu
