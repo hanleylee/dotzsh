@@ -5,7 +5,9 @@
 
 # macOS considers every new shell to be a login shell(even though there it presents no login) and an interactive shell.
 
-echo "$ARCH_MSG"
+if [[ -o interactive ]]; then
+    echo "$ARCH_MSG"
+fi
 
 if [[ -n $SSH_CLIENT ]] || [[ -n $SSH_TTY ]]; then
     command_exists neofetch && neofetch
